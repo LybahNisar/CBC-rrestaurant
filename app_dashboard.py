@@ -11,7 +11,7 @@ Generate Excel:  python app_dashboard.py --report
 
 import sys
 import os
-import re
+import re as _re
 import json
 import pandas as pd
 import plotly.express as px
@@ -21,20 +21,22 @@ import datetime as dt_module
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
-from pathlib import Path   # needed for Tab 12 invoice upload
-import re as _re
+from pathlib import Path   
 import sqlite3
 import streamlit as st
 from dotenv import load_dotenv
-load_dotenv()  # Load variables from .env
+load_dotenv()
 
 # ══════════════════════════════════════════════════════════════════════════════
 # ██  AUTHENTICATION SYSTEM
 # ══════════════════════════════════════════════════════════════════════════════
 
 def check_password():
-    """Returns `True` if the user had the correct password."""
+    """Returns True if the user had the correct password."""
     import base64
+
+    if st.session_state.get("password_correct", False):
+        return True
 
     def get_base64_bin_file(bin_file):
         with open(bin_file, 'rb') as f:
@@ -45,15 +47,14 @@ def check_password():
         """Checks whether a password entered by the user is correct."""
         valid_pass = None
         
-        # 1. Try to get password from Streamlit Cloud Secrets (Production)
+        # 1. Try to get password from Streamlit Cloud Secrets
         try:
             if "DASHBOARD_PASSWORD" in st.secrets:
                 valid_pass = st.secrets["DASHBOARD_PASSWORD"]
         except Exception:
-            # Secrets not configured yet
             pass
 
-        # 2. Try to get password from Environment Variables (Local .env)
+        # 2. Try to get password from Environment Variables (Local)
         if not valid_pass:
             valid_pass = os.environ.get("DASHBOARD_PASSWORD")
 
@@ -64,110 +65,89 @@ def check_password():
         else:
             st.session_state["password_correct"] = False
 
-    if "password_correct" not in st.session_state:
-        # Load background image
-        bg_img = ""
-        if os.path.exists("login_banner.png"):
-            bg_img = get_base64_bin_file("login_banner.png")
+    # ── BEAUTIFUL LOGIN UI (ALWAYS SHOW IF NOT LOGGED IN) ──────────────────
+    bg_img = ""
+    if os.path.exists("login_banner.png"):
+        bg_img = get_base64_bin_file("login_banner.png")
 
-        st.markdown(f"""
-            <style>
-            .stApp {{
-                background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                            url("data:image/png;base64,{bg_img}");
-                background-size: cover;
-                background-position: top center;
-                background-attachment: fixed;
-            }}
-            .login-wrapper {{
-                text-align: center;
-                margin-top: 35vh;
-                padding: 20px;
-            }}
-            .login-title {{
-                font-family: 'Syne', sans-serif;
-                font-size: 26px;
-                font-weight: 800;
-                color: #f5a623;
-                letter-spacing: 2px;
-                margin-bottom: 5px;
-                text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
-            }}
-            .login-sub {{
-                font-size: 11px;
-                color: #ffffff;
-                text-transform: uppercase;
-                letter-spacing: 4px;
-                margin-bottom: 40px;
-                text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
-                opacity: 0.9;
-            }}
-            /* Style the input container to be narrow and centered */
-            .stTextInput {{
-                max-width: 400px;
-                margin: 0 auto;
-            }}
-            .stTextInput label {{
-                font-weight: 900 !important;
-                color: #f5a623 !important;
-                font-size: 16px !important;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-                margin-bottom: 8px;
-                display: block;
-            }}
-            div[data-baseweb="input"] {{
-                background: rgba(0,0,0,0.6) !important;
-                border: 1px solid rgba(245, 166, 35, 0.5) !important;
-                border-radius: 12px !important;
-                backdrop-filter: blur(10px);
-            }}
-            input {{
-                color: white !important;
-                text-align: center !important;
-            }}
-            header, [data-testid="stSidebar"] {{
-                visibility: hidden;
-            }}
-            </style>
-        """, unsafe_allow_html=True)
-        
-        # UI Layout
-        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
-        st.markdown('<div class="login-title">CHOCOBERRY BUSINESS INTELLIGENCE SYSTEM</div>', unsafe_allow_html=True)
-        st.markdown('<div class="login-sub">FINANCIAL COMMAND CENTRE</div>', unsafe_allow_html=True)
-        
-        # Use columns to narrow the input
-        _, col, _ = st.columns([1, 1.5, 1])
-        with col:
-            st.text_input("ENTER PASSWORD", type="password", on_change=password_entered, key="password_input", placeholder="••••••••")
-            if "password_correct" in st.session_state and not st.session_state["password_correct"]:
-                st.markdown('<p style="color:#ff4b4b; font-size:12px; margin-top:10px; font-weight:bold">ACCESS DENIED — UNAUTHORIZED ATTEMPT</p>', unsafe_allow_html=True)
+    st.markdown(f"""
+        <style>
+        .stApp {{
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url("data:image/png;base64,{bg_img}");
+            background-size: cover;
+            background-position: top center;
+            background-attachment: fixed;
+        }}
+        .login-wrapper {{
+            text-align: center;
+            margin-top: 35vh;
+            padding: 20px;
+        }}
+        .login-title {{
+            font-family: 'Syne', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: #f5a623;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.9);
+        }}
+        .login-sub {{
+            font-size: 11px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
+            opacity: 0.9;
+        }}
+        .stTextInput {{
+            max-width: 400px;
+            margin: 0 auto;
+        }}
+        .stTextInput label {{
+            font-weight: 900 !important;
+            color: #f5a623 !important;
+            font-size: 16px !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }}
+        div[data-baseweb="input"] {{
+            background: rgba(0,0,0,0.6) !important;
+            border: 1px solid rgba(245, 166, 35, 0.5) !important;
+            border-radius: 12px !important;
+            backdrop-filter: blur(10px);
+        }}
+        input {{
+            color: white !important;
+            text-align: center !important;
+        }}
+        header, [data-testid="stSidebar"] {{
+            visibility: hidden;
+        }}
+        </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
+    st.markdown('<div class="login-title">CHOCOBERRY BUSINESS INTELLIGENCE SYSTEM</div>', unsafe_allow_html=True)
+    st.markdown('<div class="login-sub">FINANCIAL COMMAND CENTRE</div>', unsafe_allow_html=True)
+    
+    _, col, _ = st.columns([1, 1.5, 1])
+    with col:
+        st.text_input("ENTER PASSWORD", type="password", on_change=password_entered, key="password_input", placeholder="••••••••")
+        if "password_correct" in st.session_state and not st.session_state["password_correct"]:
+            st.markdown('<p style="color:#ff4b4b; font-size:12px; margin-top:10px; font-weight:bold">ACCESS DENIED — UNAUTHORIZED ATTEMPT</p>', unsafe_allow_html=True)
 
-        st.markdown('<p style="margin-top:100px; font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:2px">RESTRICTED ACCESS — AUTHORIZED PERSONNEL ONLY</p>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        return False
-
-
-
-
-
-
-    elif not st.session_state["password_correct"]:
-        # Password not correct, retry outouts
-        st.markdown("<div style='text-align:center; padding:100px'>", unsafe_allow_html=True)
-        st.text_input("Username", on_change=password_entered, key="username_input")
-        st.text_input("Password", type="password", on_change=password_entered, key="password_input")
-        st.error("😕 User not known or password incorrect")
-        st.markdown("</div>", unsafe_allow_html=True)
-        return False
-    else:
-        # Password correct.
-        return True
+    st.markdown('<p style="margin-top:100px; font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:2px">RESTRICTED ACCESS — AUTHORIZED PERSONNEL ONLY</p>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    
+    return False
 
 if not check_password():
-    st.stop()  # Do not run the rest of the dashboard
+    st.stop()
 
 
 def parse_time_range(time_str):
