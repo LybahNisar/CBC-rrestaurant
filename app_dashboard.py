@@ -43,16 +43,24 @@ def check_password():
 
     def password_entered():
         """Checks whether a password entered by the user is correct."""
-        # FOR PRODUCTION (STREAMLIT CLOUD)
-        if "DASHBOARD_PASSWORD" in st.secrets:
-            valid_pass = st.secrets["DASHBOARD_PASSWORD"]
-        # FOR LOCAL (using .env)
-        else:
+        valid_pass = None
+        
+        # 1. Try to get password from Streamlit Cloud Secrets (Production)
+        try:
+            if "DASHBOARD_PASSWORD" in st.secrets:
+                valid_pass = st.secrets["DASHBOARD_PASSWORD"]
+        except Exception:
+            # Secrets not configured yet
+            pass
+
+        # 2. Try to get password from Environment Variables (Local .env)
+        if not valid_pass:
             valid_pass = os.environ.get("DASHBOARD_PASSWORD")
 
+        # 3. Verify
         if valid_pass and st.session_state["password_input"] == valid_pass:
             st.session_state["password_correct"] = True
-            del st.session_state["password_input"]  # don't store password
+            del st.session_state["password_input"]
         else:
             st.session_state["password_correct"] = False
 
