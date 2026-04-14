@@ -1069,6 +1069,7 @@ def load_data():
     channel_dict  = CHANNEL_DATA.copy()
     dispatch_map  = {k: v.copy() for k, v in DISPATCH_DATA.items()}
     delivery_fees = 282.0
+    hourly_map    = {h: 0.0 for h in range(24)}
 
     if os.path.exists(base):
         try:
