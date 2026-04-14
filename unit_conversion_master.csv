@@ -1,0 +1,101 @@
+Original Unit,Gram/ML Equivalent,Unit Type,Audit Note
+1 pc,1.0,Count,Standard piece count
+1 TBSP,15.0,Weight,Standard tablespoon (level)
+2 pcs,2.0,Count,Standard piece count
+garnish,3.0,Weight,Estimated garnish weight (mixed berries/topping)
+1 swirl,20.0,Weight,Estimated syrup swirl weight
+2 TBSP,30.0,Weight,Standard volume
+sprinkle,2.0,Weight,Estimated sprinkle weight
+15oz,443.0,Volume,Standard fluid conversion
+10 lines,20.0,Weight,Estimated 2g per line of sauce
+light drizzle,5.0,Weight,Nominal weight for drizzle
+drizzle,10.0,Weight,Standard drizzle weight
+4 pcs,4.0,Count,Standard piece count
+150g,150.0,Weight,Direct metric
+pinch,1.0,Weight,Minimal weight
+1,1.0,Count,Generic unit
+handful,15.0,Weight,Standard handful for nuts/toppings
+1 scoop,80.0,Weight,Standard dessert/gelato scoop
+15 lines,30.0,Weight,Estimated 2g per line
+1 TSP,5.0,Weight,Standard teaspoon
+15g,15.0,Weight,Direct metric
+3 lines,6.0,Weight,Estimated 2g per line
+5 pcs,5.0,Count,Standard piece count
+10g,10.0,Weight,Direct metric
+30g,30.0,Weight,Direct metric
+5 lines,10.0,Weight,Estimated 2g per line
+top up,50.0,Weight,Estimate for beverage topping/filling
+4 lines,8.0,Weight,Estimated 2g per line
+half cup,120.0,Volume,Estimate based on 250ml cup
+16 lines,32.0,Weight,Estimated 2g per line
+50ml,50.0,Volume,Direct metric
+7-10 lines,17.0,Weight,Average (8.5 lines) @ 2g/line
+circle on plate,10.0,Weight,Estimate for plate decoration
+2 TSP,10.0,Weight,Standard volumetric
+1 serving,100.0,Weight,Estimated side serving weight
+6 lines,12.0,Weight,Estimated 2g per line
+8 lines,16.0,Weight,Estimated 2g per line
+1 portion,150.0,Weight,Standard dough/base portion
+1 ladle,60.0,Weight,Standard small ladle size
+approx 15 lines,30.0,Weight,Estimate based on 15 lines
+15g ,15.0,Weight,Direct metric (trailing space fix)
+10 lines base + 5 lines cross angle,30.0,Weight,Total of 15 lines @ 2g each
+2 TBSP ,30.0,Weight,Direct metric (trailing space fix)
+circle on plate,10.0,Weight,Instruction to weight mapping
+sprinkle half side of plate,5.0,Weight,Instruction to weight mapping
+1 pcs,1.0,Count,Typo fix
+80g,80.0,Weight,Direct metric
+1 TBSP,15.0,Weight,Repeat entry for safety
+250°C,0.0,Ignore,Cooking instruction (no weight)
+7 mins until golden brown,0.0,Ignore,Instruction
+30 secs (45 secs from frozen),0.0,Ignore,Instruction
+separate container,0.0,Ignore,Instruction
+remove plastic wrapping,0.0,Ignore,Instruction
+mix before use,0.0,Ignore,Instruction
+as per picture,0.0,Ignore,Instruction
+edges only,0.0,Ignore,Instruction
+around edges,0.0,Ignore,Instruction
+both sides,0.0,Ignore,Instruction
+on top,0.0,Ignore,Instruction
+middle of plate with plastic knife,0.0,Ignore,Instruction
+spread on edges of plate,0.0,Ignore,Instruction
+microwave 30 secs,0.0,Ignore,Instruction
+separate container - flip container onto plate,0.0,Ignore,Instruction
+12,12.0,Count,Generic count
+23.11,0.0,Price,Metadata skip
+39,0.0,Metadata,Skip
+23.99,0.0,Price,Metadata skip
+71.97,0.0,Price,Metadata skip
+4oz Single Wall White Paper Cups (100),1.0,Count,Inventory mapping
+Thermal Rolls 80mm x 50mm x 12mm – 20,1.0,Count,Inventory mapping
+1x12,12.0,Count,Case mapping
+1.0,1.0,Count,Direct numeric
+1.00,1.0,Count,Direct numeric
+500.0,500.0,Weight,Direct numeric
+500.00,500.0,Weight,Direct numeric
+pices,1.0,Count,Typo fix
+PCS,1.0,Count,Direct unit
+EACH,1.0,Count,Direct unit
+PACK,1.0,Count,Direct unit
+DAYS,1.0,Count,Direct unit
+KWH,1.0,Count,Direct unit
+Box,1.0,Count,Direct unit
+BOX,1.0,Count,Direct unit
+CASE,1.0,Count,Direct unit
+Each,1.0,Count,Direct unit
+pcs,1.0,Count,Direct unit
+Pack,1.0,Count,Direct unit
+days,1.0,Count,Direct unit
+kWh,1.0,Count,Direct unit
+G,1.0,Weight,Direct metric
+grams,1.0,Weight,Direct metric
+KG,1000.0,Weight,Kilogram mapping
+kg,1000.0,Weight,Kilogram mapping
+Litre,1000.0,Volume,Litre mapping
+litre,1000.0,Volume,Litre mapping
+ml,1.0,Volume,Direct metric
+ML,1.0,Volume,Direct metric
+oz,29.57,Volume,Ounce mapping
+OZ,29.57,Volume,Ounce mapping
+lb,453.59,Weight,Pound mapping
+LB,453.59,Weight,Pound mapping

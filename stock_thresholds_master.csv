@@ -1,0 +1,52 @@
+Item Name,Current Stock,Min Threshold (Reorder Point),Unit,Supplier,Unit Cost (£)
+Lotus Cheesecake,1.0,3.0,Box (16 pcs),Head Office,42.0
+Ferrero Cheesecake,3.5,2.0,Box (16 pcs),Head Office,42.0
+Oreo Cheesecake,3.0,2.0,Box (16 pcs),Head Office,42.0
+Strawberry Cheesecake,1.0,2.0,Box (16 pcs),Head Office,42.0
+Milk Lindt Cheesecake,0.0,2.0,Box (16 pcs),Head Office,45.0
+Pistachio Cheesecake,0.0,2.0,Box (12 pcs),Head Office,25.0
+Vanilla Milk Cake,6.0,8.0,Tray (9 pcs),Head Office,20.0
+Lotus Milk Cake,0.0,8.0,Tray (9 pcs),Head Office,20.0
+Pistachio Milk Cake,6.0,6.0,Tray (9 pcs),Head Office,20.0
+Nutella Milk Cake,3.0,3.0,Tray (9 pcs),Head Office,20.0
+Oreo Milk Cake,0.0,3.0,Tray (9 pcs),Head Office,20.0
+Dream Cake,5.0,30.0,Pcs,Head Office,2.95
+Jam & Coconut Cake,1.5,2.0,Tray,Head Office,33.0
+Cornflake Tart,1.5,2.0,Tray,Head Office,29.0
+Kunafa Dream Cake,15.0,30.0,Pcs,Head Office,3.5
+Lazy Cat Cake,2.0,40.0,Pcs,Head Office,3.95
+Apple Crumble,1.0,2.0,Box,Head Office,23.0
+Sticky Toffee Pudding,2.0,2.0,Box,Head Office,19.5
+Sticky Chocolate Cake,3.0,2.0,Box,TBC,23.99
+Lava Cake,4.0,4.0,Box,Cr8 Foods,23.0
+Fudge Cake,3.0,4.0,Box,Head Office,25.0
+Brownie,2.0,3.0,Box,Head Office,22.0
+Milk Chocolate Chips,1.0,2.0,KG,Procurement,110.0
+Water 24pk,11.0,21.0,Case,Bookers,2.99
+2ltr Whole Milk,5.0,12.0,Bottle,Freshways,1.5
+Eggs,1.0,1.0,Case,Freshways,15.0
+Nutella 2btls,3.0,5.0,Tub (3kg),Procurement,40.0
+Lotus Sauce 4pk,2.0,2.0,Case,Procurement,38.0
+Strawberry syrup,4.0,2.0,Bottle,Procurement,8.0
+Lemon Syrup,3.0,4.0,Bottle,Procurement,14.0
+Passion Syrup,2.0,2.0,Bottle,Procurement,14.0
+Pomergranate syrup,2.0,2.0,Bottle,Procurement,8.0
+Blue Moon Syrup,2.0,2.0,Bottle,Procurement,8.0
+Cookie Dough 20kg,2.0,45.0,KG,HQ,140.0
+Kunafa 25pc,3.0,9.0,Box,HQ,57.5
+Waffle Mix 6pkts,14.0,4.5,Case,HQ,45.0
+Gelato Vanilla,3.0,6.0,Tub,Procurement,30.0
+Gelato Strawberry,2.0,3.0,Tub,Procurement,30.0
+Gelato Swiss Chocolate,2.0,3.0,Tub,Procurement,30.0
+Gelato Cookies n Cream,2.0,2.0,Tub,Procurement,22.0
+Kulfi Original,2.0,3.0,Tub,Procurement,19.0
+Kulfi Mango,0.0,2.0,Tub,Procurement,19.0
+Heinz Baked Beans,0.0,2.0,Case,Bookers,24.49
+Whipped Cream,3.0,3.0,Unit,Freshways,5.0
+Rubicon Mango,5.0,10.0,Case,Global,10.0
+Rubicon Passion,5.0,5.0,Case,Global,8.0
+Rubicon Guava,4.0,10.0,Case,Global,10.0
+Salam cola,2.0,2.0,Case,Global,5.0
+Red Bull,0.0,5.0,Case,Global,15.0
+J20 A&M,3.0,10.0,Case,Global,12.0
+Crunch Cake,0.5,3.0,Unit,Clares,15.0

@@ -1,0 +1,62 @@
+Recipe Ingredient,Stock Item Name,Match Type,Conversion Notes
+Aero Mint bar,Aero Mint (pack of 24),Component,1 bar per piece
+Apple crumble (from HQ frozen),Bramley Apple Crumbles,Direct,1:1 Piece mapping
+Bagel,18 Brioche Burger Buns,Category,Bagel stock mapping
+Bagel chicken,Bagel Chicken (2kg),Direct,Weight based mapping
+Baked beans,Armaan Catering Chicken Sausages,Category,Breakfast category link
+Banana,Bananas,Direct,Weight based mapping
+Beef patty,18 Brioche Burger Buns,Category,Burger components
+Belgian milk chocolate,Belcolade Cacao Trace Milk Chocolate 34% Buttons 1kg 5kg and 15kg (15kg SKU),Direct,Chocolate drop mapping
+Belgian white chocolate,Belcolade Chocolate White (15KG),Direct,Chocolate drop mapping
+Blueberries,Fruit (Mixed/Assorted),Category,Mixed fruit mapping
+Blueberry crumble cheesecake (from HQ),Lotus Biscoff Cheesecake,Category,Cheesecake variant mapping
+Brownie (from HQ frozen),Chocolate Brownie,Direct,1:1 HQ piece mapping
+Burger bun,18 Brioche Burger Buns,Direct,Case mapping
+Butter,Comelle Ice Cream Mix,Category,Dairy mapping
+Cheese slice,Cheese Slices Cheddar,Direct,Slice count
+Cheese slices,Cheese Slices Cheddar,Direct,Slice count
+Cherry tomatoes,Cherry Tomatoes,Direct,Weight based
+Chicken dumplings (HQ frozen),Chicken Momos,Direct,1:1 piece mapping
+Chicken zinger patty (HQ frozen),Hot & Spicy Zinger (Patty),Direct,1:1 piece mapping
+Chocolate pudding (from HQ frozen),Chocolate Fudge Fixation,Direct,Dessert mapping
+Chocolate sauce,Nutella (2x3Kg),Category,Sauce mapping
+Chocolate syrup,Monin Syrup - Strawberry,Category,Syrup mapping
+Condensed milk,Condensed Milk,Direct,1:1 Tin mapping
+Cookies & cream gelato,Cookies & Cream Gelato DISOTTO (51t),Direct,Tub mapping
+Cookie dough,Cookie Dough (20 kg),Direct,Weight based mapping
+Cornflake tart (from HQ frozen),Bramley Apple Crumbles,Category,Tart mapping
+Crunchie bar,Crunchie (48 bar / 40 bar),Direct,Bar count
+Double cream,500g UHT Aerosol Cream,Category,Cream mapping
+Evaporated milk,Evaporated Milk,Direct,1:1 Tin mapping
+Ferrero Rocher cheesecake (from HQ),Luxury Ferrero Rocher Cheesecake,Direct,1:1 HQ mapping
+Fresh milk,2ltr Whole Milk,Direct,Volume based mapping
+Fresh whole milk,2ltr Whole Milk,Direct,Volume based mapping
+Frozen churros,Churros,Direct,1:1 piece/kg mapping
+Frozen rustic fries,GF Super Crispy Fries 4x2.5kg,Direct,Weight based mapping
+Hash browns,Hash Browns,Direct,1:1 piece mapping
+Hot custard,Custard (1 ltr) Qty:12,Direct,Volume based mapping
+Kinder Bueno,Kinder Chocolate Medium Bar,Category,Kinder bar mapping
+Kinder sauce,Nutella (2x3Kg),Category,Sauce mapping
+Lava cake (from HQ frozen),Molten Chocolate Cake (Lava Cake),Direct,1:1 piece mapping
+Lotus Biscoff biscuit,Lotus Biscoff,Direct,Sleeve/Unit mapping
+Lotus Biscoff cheesecake (from HQ),Lotus Biscoff Cheesecake,Direct,1:1 HQ mapping
+Lotus sauce,Lotus Sauce (Case of 4),Direct,Jar mapping
+Luxury fudge cake (from HQ frozen),Chocolate Fudge Fixation,Direct,1:1 HQ mapping
+Milk Lindt cheesecake (from HQ),Milk Chocolate Lindt Cheesecake,Direct,1:1 HQ mapping
+Milk chocolate sauce,Nutella (2x3Kg),Category,Praline sauce mapping
+Mushrooms (sliced),Family Pack Mushrooms,Direct,Weight based mapping
+Nutella sauce,Nutella (2x3Kg),Direct,Tub mapping
+Oreo biscuits,OREO Biscuit,Direct,Pack/Unit mapping
+Oreo cheesecake (from HQ),Luxury Cookies & Cream Cheesecake,Direct,1:1 HQ mapping
+Pistachio kanafeh cheesecake (from HQ),Pistachio Kanafeh Cheesecake (12pcs),Direct,1:1 HQ mapping
+Pistachio sauce,Gelart Toffee Dessert Sauce 1kg,Category,Specialty sauce mapping
+San Sebastian cheesecake (from HQ),San Sebastian Cheesecake Quality,Direct,1:1 piece mapping
+Sticky toffee pudding (from HQ frozen),CLASS Ind StickyToffee Pud (1x12),Direct,1:1 piece mapping
+Strawberries,Fruit (Mixed/Assorted),Category,Mixed fruit mapping
+Strawberry cheesecake (from HQ),Strawberry Glazed Cheesecake,Direct,1:1 HQ mapping
+Strawberry sauce,Monin Syrup - Strawberry,Category,Syrup mapping
+Tiramisu cream,Tiramisu Pudding - 30 pieces,Category,Component mapping
+Whipped cream,500g UHT Aerosol Cream,Direct,Unit based mapping
+White chocolate sauce,Belcolade Chocolate White (15KG),Category,Melted mapping
+rijo 42 Red Beans 1Kg RRB,rijo 42 Red Beans 1Kg RRB,Direct,1:1 mapping
+rijo Skimmed Milk (500g),rijo Skimmed Milk (500g),Direct,1:1 mapping

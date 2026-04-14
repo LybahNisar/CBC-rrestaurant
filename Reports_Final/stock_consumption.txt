@@ -1,0 +1,50 @@
+============================================================
+  BI SYSTEM — ESTIMATED INGREDIENT USAGE (Quarterly)
+============================================================
+  Analysis based on 509 items sold.
+------------------------------------------------------------
+  Ingredient                          Est. Usage
+  ------------------------------ ---------------
+  Fresh milk                        527,830.0
+  Cookie dough                      143,700.0
+  Condensed milk                    102,800.0
+  COOKING: Oven grill setting        49,750.0
+  Warm white chocolate               32,640.0
+  Milk chocolate sauce               32,301.0
+  Warm Belgian milk chocolate        30,640.0
+  Nutella sauce                      28,739.0
+  COOKING: Oven temperature          24,000.0
+  Cookie dough top layer             19,200.0
+  Nutella sauce (on top)             19,072.0
+  Rustic fries                       18,024.0
+  Cooked white rice                  17,940.0
+  Chicken steak sauce                16,800.0
+  Hot cheese sauce                   16,350.0
+  Masala omelette batter             16,320.0
+  Medium strawberries                16,021.0
+  Bagel chicken                      14,925.0
+  Fresh chicken strips               14,300.0
+  Fire cracker sauce                 13,000.0
+  Mixed grated cheese                12,750.0
+  Frozen rustic fries                11,440.0
+  Waffle batter                      11,065.0
+  Choco-puff batter                  10,860.0
+  Omelette batter                     8,440.0
+  Cold water (for matcha)             8,200.0
+  Cookie dough base layer             7,680.0
+  White chocolate                     7,660.0
+  Warm pistachio sauce                7,360.0
+  Seasoned rustic fries               7,150.0
+  Monin Passion Fruit Syrup           6,440.0
+  Warm Lotus Biscoff spread           5,440.0
+  Katafi mix                          4,894.0
+  Banana                              4,849.0
+  Julienne cut mixed bell pepper      4,550.0
+  Monin Pomegranate Syrup             4,250.0
+  Mixed salad leaves                  4,170.0
+  Monin Coconut Syrup                 3,990.0
+  Strawberry puree                    3,800.0
+  Fresh whole milk                    3,774.0
+------------------------------------------------------------
+  Unmatched: 401 items.
+============================================================

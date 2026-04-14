@@ -1,0 +1,15 @@
+Category,Item_Name,Shelf_Life_Days,Storage_Condition,Waste_Risk
+MILK CAKES,Original Milk Cake,3,Refrigerated,High
+MILK CAKES,Lotus Biscoff Milk Cake,3,Refrigerated,High
+MILK CAKES,Pistachio Milk Cake,3,Refrigerated,High
+CHEESECAKES,Lotus Biscoff Cheesecake,5,Refrigerated,Medium
+CHEESECAKES,Ferrero Rocher Cheesecake,5,Refrigerated,Medium
+CHEESECAKES,Oreo Cheesecake,5,Refrigerated,Medium
+CAKES,Luxury Fudge Cake,7,Ambient/Fridge,Low
+PUDDINGS,Sticky Toffee Pudding,4,Refrigerated,Medium
+DOUGH,Waffle Mix,2,Refrigerated,High
+DOUGH,Cookie Dough,3,Refrigerated,High
+DAIRY,Fresh Milk,5,Refrigerated,High
+DAIRY,Double Cream,4,Refrigerated,High
+FRUIT,Fresh Strawberries,2,Refrigerated,Extreme
+FRUIT,Bananas,3,Ambient,Extreme

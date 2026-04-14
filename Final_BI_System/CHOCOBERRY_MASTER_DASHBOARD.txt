@@ -1,0 +1,109 @@
+================================================================================
+                         CHOCOBERRY CARDIFF MASTER BI SYSTEM
+                              UNIFIED PERFORMANCE DASHBOARD
+================================================================================
+
+[ PHASE 1: WEEKLY SALES PERFORMANCE ]
+============================================================
+  BI SYSTEM — WEEKLY SALES REPORT (26 Mar - 01 Apr 2026)
+============================================================
+  Total Orders        : 1,141
+  Total Net Sales     : £17,074.23
+  Grand Total Revenue : £17,829.32
+  Weekly AOV          : £15.63
+------------------------------------------------------------
+  Date         Day   Orders    Revenue     AOV
+  ------------ ----- ------ ---------- -------
+  2026-03-26   Thu      111 £ 1,694.76 £ 15.27  (SLOW)
+  2026-03-27   Fri      166 £ 2,413.62 £ 14.54
+  2026-03-28   Sat      198 £ 2,873.55 £ 14.51
+  2026-03-29   Sun      220 £ 3,622.80 £ 16.47  (PEAK)
+  2026-03-30   Mon      139 £ 2,252.33 £ 16.20
+  2026-03-31   Tue      162 £ 2,693.75 £ 16.63
+  2026-04-01   Wed      145 £ 2,278.51 £ 15.71
+------------------------------------------------------------
+  PEAK TRADING INSIGHT (Q1 TREND)
+  - Peak Trading Hour: 21:00 - 22:00 (£37,477 total Q1)
+  - Peak 3-Hour Window: 19:00 - 22:00
+------------------------------------------------------------
+  SALES FORECAST (Next Week Baseline)
+  - Est. Daily Revenue: £2,547.05
+  - Est. Weekly Total  : £17,829.32
+============================================================
+
+================================================================================
+[ PHASE 2: STAFF LABOUR EFFICIENCY ]
+============================================================
+  BI SYSTEM — LABOUR COST vs. REVENUE ANALYSIS
+  Week Period: 30 March – 05 April 2026
+============================================================
+  Day               Sales     Labour    Ratio (%)
+  ------------ ---------- ---------- ------------
+  Mon          £ 2,252.33 £     0.00         0.0%  (HIGH EFFICIENCY)
+  Tue          £ 2,693.75 £     0.00         0.0%  (HIGH EFFICIENCY)
+  Wed          £ 2,278.51 £     0.00         0.0%  (HIGH EFFICIENCY)
+  Thu          £   148.90 £     0.00         0.0%  (HIGH EFFICIENCY)
+------------------------------------------------------------
+  SUMMARY (Mon-Thu Period)
+  Total Sales (to Thu)  : £7,373.49
+  Total Labour (to Thu) : £0.00
+  Labour Cost Ratio     : 0.0%
+  - RECOMMENDATION: Ensure service quality isn't suffering from low staffing.
+============================================================
+
+================================================================================
+[ PHASE 3: THEORETICAL STOCK TRACKING ]
+============================================================
+  BI SYSTEM — ESTIMATED INGREDIENT USAGE (Quarterly)
+============================================================
+  Analysis based on 509 items sold.
+------------------------------------------------------------
+  Ingredient                          Est. Usage
+  ------------------------------ ---------------
+  Fresh milk                        527,830.0
+  Cookie dough                      143,700.0
+  Condensed milk                    102,800.0
+  COOKING: Oven grill setting        49,750.0
+  Warm white chocolate               32,640.0
+  Milk chocolate sauce               32,301.0
+  Warm Belgian milk chocolate        30,640.0
+  Nutella sauce                      28,739.0
+  COOKING: Oven temperature          24,000.0
+  Cookie dough top layer             19,200.0
+  Nutella sauce (on top)             19,072.0
+  Rustic fries                       18,024.0
+  Cooked white rice                  17,940.0
+  Chicken steak sauce                16,800.0
+  Hot cheese sauce                   16,350.0
+  Masala omelette batter             16,320.0
+  Medium strawberries                16,021.0
+  Bagel chicken                      14,925.0
+  Fresh chicken strips               14,300.0
+  Fire cracker sauce                 13,000.0
+  Mixed grated cheese                12,750.0
+  Frozen rustic fries                11,440.0
+  Waffle batter                      11,065.0
+  Choco-puff batter                  10,860.0
+  Omelette batter                     8,440.0
+  Cold water (for matcha)             8,200.0
+  Cookie dough base layer             7,680.0
+  White chocolate                     7,660.0
+  Warm pistachio sauce                7,360.0
+  Seasoned rustic fries               7,150.0
+  Monin Passion Fruit Syrup           6,440.0
+  Warm Lotus Biscoff spread           5,440.0
+  Katafi mix                          4,894.0
+  Banana                              4,849.0
+  Julienne cut mixed bell pepper      4,550.0
+  Monin Pomegranate Syrup             4,250.0
+  Mixed salad leaves                  4,170.0
+  Monin Coconut Syrup                 3,990.0
+  Strawberry puree                    3,800.0
+  Fresh whole milk                    3,774.0
+------------------------------------------------------------
+  Unmatched: 401 items.
+============================================================
+
+================================================================================
+REPORT GENERATED ON: 2026-04-02
+================================================================================
