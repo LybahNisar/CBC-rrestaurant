@@ -59,7 +59,11 @@ def check_password():
             valid_pass = os.environ.get("DASHBOARD_PASSWORD")
 
         # 3. Verify
-        if valid_pass and st.session_state["password_input"] == valid_pass:
+        # Get input and strip spaces
+        user_input = str(st.session_state["password_input"]).strip()
+        actual_pass = str(valid_pass).strip() if valid_pass else None
+
+        if actual_pass and user_input == actual_pass:
             st.session_state["password_correct"] = True
             del st.session_state["password_input"]
         else:
