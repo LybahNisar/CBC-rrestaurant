@@ -1,0 +1,267 @@
+Supplier,Invoice Number,Invoice Date,Due Date,Account Number,Bill To,Item #,Product Code,Item Description,Qty,Unit,Unit Rate (£),VAT %,VAT Amount (£),Line Total (£)
+We Can Source It Ltd,NEWWEB-136148-2026,02/03/2026,02/03/2026,Order No: 172459,Akhil Rajesh - 192 City Road Cardiff CF24 3JF,1,,No.4 Kraft Food Takeaway Box – 180 BOXES,1,Case,33.75,20.00,6.75,40.50
+We Can Source It Ltd,NEWWEB-136148-2026,02/03/2026,02/03/2026,Order No: 172459,Akhil Rajesh - 192 City Road Cardiff CF24 3JF,2,,Next Day Shipping,1,,7.50,0.00,0.00,7.50
+We Can Source It Ltd,NEWWEB-136148-2026,02/03/2026,02/03/2026,Order No: 172459,Akhil Rajesh - 192 City Road Cardiff CF24 3JF,INVOICE TOTAL,,Subtotal £40.50 | Shipping £7.50 | VAT £6.75 | Total £48.00,,,,,6.75,48.00
+The VoIP Shop (Transifr Ltd),26021200408781,01/02/2026,20/02/2026,VS1001456 / S002244,Choco Berry Cardiff - 205 City Road Cardiff CF24 3JD,1,S0GEA 80/20,Line Rental,3,,5.95,20.00,,
+The VoIP Shop (Transifr Ltd),26021200408781,01/02/2026,20/02/2026,VS1001456 / S002244,Choco Berry Cardiff - 205 City Road Cardiff CF24 3JD,2,S0GEA 80/20,Connectivity,3,,40.99,20.00,,
+The VoIP Shop (Transifr Ltd),26021200408781,01/02/2026,20/02/2026,VS1001456 / S002244,Choco Berry Cardiff - 205 City Road Cardiff CF24 3JD,3,,Static IP Address,1,,3.95,20.00,,
+The VoIP Shop (Transifr Ltd),26021200408781,01/02/2026,20/02/2026,VS1001456 / S002244,Choco Berry Cardiff - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Sub Total £44.94 | VAT £8.99 | Invoice Total £53.93,,,,,8.99,53.93
+Source Catering UK Ltd,SC-1182,04/03/2026,04/03/2026,379634251,Chocoberry Cardiff Ltd - 205 City Rd Cardiff CF24 3JD,1,,B Grade Pitco 35C Gas Fryer (1 year parts & labour warranty),1,pcs,950.00,20.00,190.00,1140.00
+Source Catering UK Ltd,SC-1182,04/03/2026,04/03/2026,379634251,Chocoberry Cardiff Ltd - 205 City Rd Cardiff CF24 3JD,INVOICE TOTAL,,Subtotal £950.00 | VAT 20% £190.00 | Total Due £1140.00,,,,,190.00,1140.00
+rijo42 Ingredients Ltd,181673,10/03/2026,09/04/2026,42039 / Order 202558,Chocoberry Cardiff 1 Limited - 199-204 City Road Cardiff CF24 3JD,1,RRB,rijo 42 Red Beans 1Kg RRB,6,Each,21.92,0.00,0.00,131.52
+rijo42 Ingredients Ltd,181673,10/03/2026,09/04/2026,42039 / Order 202558,Chocoberry Cardiff 1 Limited - 199-204 City Road Cardiff CF24 3JD,2,RSM,rijo Skimmed Milk (500g),10,Each,6.64,0.00,0.00,66.40
+rijo42 Ingredients Ltd,181673,10/03/2026,09/04/2026,42039 / Order 202558,Chocoberry Cardiff 1 Limited - 199-204 City Road Cardiff CF24 3JD,3,,Delivery / Postage & Packaging,1,Each,7.99,20.00,1.60,7.99
+rijo42 Ingredients Ltd,181673,10/03/2026,09/04/2026,42039 / Order 202558,Chocoberry Cardiff 1 Limited - 199-204 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Total Goods £205.91 | VAT £1.60 | Total Value GBP £207.51 | Due By 09/04/2026,,,,,1.60,207.51
+Premier Vanguard Ltd (Premvan),SINV00846141,18/03/2026,30/04/2026,CHO048 / SORD00912635,CHOCOBERRY CARDIFF 1 LTD T/A Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,1,THM805012,Thermal Rolls 80mm x 50mm x 12mm – 20 (MUST BE 80X05!!!!!),5,Pack,10.50,20.00,10.50,52.50
+Premier Vanguard Ltd (Premvan),SINV00846141,18/03/2026,30/04/2026,CHO048 / SORD00912635,CHOCOBERRY CARDIFF 1 LTD T/A Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,INVOICE TOTAL,,Total Goods £52.50 | VAT £10.50 | Total Inc. VAT £63.00,,,,,10.50,63.00
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,1,,Electricity Charges (01/02/2026 – 28/02/2026),1,,528.80,20.00,,
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,2,,Climate Change Levy (CCL),1,,10.57,0.00,0.00,10.57
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,INVOICE TOTAL,,Electricity £528.80 | CCL £10.57 | Subtotal £539.37 | VAT 20% £107.07 | Total £646.44 | Site: 205 City Rd Cardiff CF24 3JD | MPAN: 03 0393 N13 21 0004 1771 984,,,,,107.07,646.44
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,3,E14ML16012,Standing Charge – 28 days @ 364.4210p/day,28,days,3.6442,20.00,20.41,122.45
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,4,E14ML16012,Day Unit Rate – 1363.90 kWh @ 30.0160p/kWh,1363.90,kWh,0.3002,20.00,81.88,491.27
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,5,E14ML16012,Nuclear RAB Levy – 2671.70 kWh @ 0.5000p/kWh,2671.70,kWh,0.005,0.00,2.67,16.03
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,6,E14ML16012,Network Charging Compensation – 2671.70 kWh @ 0.1500p/kWh,2671.70,kWh,0.0015,0.00,0.00,4.01
+Pozitive Energy (pe),26977120269928994,04/03/2026,14/03/2026,269771,Chocoberry Cardiff 1 Limited - 175 Chepstow Road Newport NP19 8GH,7,E14ML16012,Climate Change Levy – 1363.90 kWh @ 0.77500p/kWh,1363.90,kWh,0.00775,0.00,2.11,12.68
+Next Day Coffee (NDCC Ltd),859125,01/12/2025,,,Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,1,SUBR001,Tate & Lyle Brown Sugar Sticks 1000x2.5g,2,Each,7.49,0.00,0.00,14.98
+Next Day Coffee (NDCC Ltd),859125,01/12/2025,,,Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,2,CUWH003B,4oz Single Wall White Paper Cups (100),2,Each,2.49,20.00,1.00,5.98
+Next Day Coffee (NDCC Ltd),859125,01/12/2025,,,Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,3,,Delivery,1,,3.99,0.00,0.00,3.99
+Next Day Coffee (NDCC Ltd),859125,01/12/2025,,,Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Subtotal £19.96 | Delivery £3.99 | VAT Total £1.00 | Total £24.95,,,,,1.00,24.95
+MR TEES LTD,INV-4011,11/02/2026,13/03/2026,358072683,Chocoberry Cardiff 1 Ltd,1,,Heavyweight T-shirt,12,Each,8.50,20.00,,102.00
+MR TEES LTD,INV-4011,11/02/2026,13/03/2026,358072683,Chocoberry Cardiff 1 Ltd,2,,Chef Jacket,3,Each,15.00,20.00,,45.00
+MR TEES LTD,INV-4011,11/02/2026,13/03/2026,358072683,Chocoberry Cardiff 1 Ltd,INVOICE TOTAL,,Sub Total £147.00 | VAT £29.40 | Total £176.40 | Amount Due £176.40,,,,,29.40,176.40
+MediSupplies Ltd,4672033,17/12/2025,30 Days Net,1001297020 / CC-GM-WEB-3131873,Chocoberry - 205 City Rd Cardiff CF24 3JR,1,PMC5234,FlexCel Blue Nitrile Powder Free Gloves Box 100 – Medium,20,EACH,2.7000,20.00,,54.00
+MediSupplies Ltd,4672033,17/12/2025,30 Days Net,1001297020 / CC-GM-WEB-3131873,Chocoberry - 205 City Rd Cardiff CF24 3JR,2,PMC5235,FlexCel Blue Nitrile Powder Free Gloves Box 100 – Large,20,EACH,2.7000,20.00,,54.00
+MediSupplies Ltd,4672033,17/12/2025,30 Days Net,1001297020 / CC-GM-WEB-3131873,Chocoberry - 205 City Rd Cardiff CF24 3JR,3,PMC0054,GREEN MOB CAP – PK 100,10,EACH,3.6500,20.00,,36.50
+MediSupplies Ltd,4672033,17/12/2025,30 Days Net,1001297020 / CC-GM-WEB-3131873,Chocoberry - 205 City Rd Cardiff CF24 3JR,INVOICE TOTAL,,Goods £144.50 | VAT 20% £28.90 | Total £173.40 | INVOICE PAID,,,,,28.90,173.40
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,1,,Duty of Care Charge (01/02/2026),1,,6.00,20.00,1.20,6.00
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,2,,Empty 1100L Lockable General x2 (02/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,3,,Empty 1100L Lockable General x2 (04/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,4,,Empty 1100L Lockable General x2 (06/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,5,,Empty 1100L Lockable General x2 (09/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,6,,Empty 1100L Lockable General x2 (11/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,7,,Empty 1100L Lockable General x2 (13/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,8,,Empty 1100L Lockable General x2 (16/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,9,,Empty 1100L Lockable General x2 (20/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,10,,Empty 1100L Lockable General x2 (23/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,11,,Empty 1100L Lockable General x2 (25/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,12,,Empty 1100L Lockable General x2 (27/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,13,,Empty 1100L Lockable General x2 (19/02/2026),2,,15.90,20.00,6.36,31.80
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,14,,Empty 360L Cans Plastics Cartons (03/02/2026),1,,10.50,20.00,2.10,10.50
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,15,,Empty 360L Cans Plastics Cartons (17/02/2026),1,,10.50,20.00,2.10,10.50
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,16,,Empty 240L Food (02/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,17,,Empty 240L Food (06/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,18,,Empty 240L Food (09/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,19,,Empty 240L Food (13/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,20,,Empty 240L Food (16/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,21,,Empty 240L Food (20/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,22,,Empty 240L Food (23/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,23,,Empty 240L Food (27/02/2026),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,24,,Empty 240L Food (02/02/2026 – 2nd collection),1,,9.01,20.00,1.80,9.01
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,25,,Empty 360L Glass (10/02/2026),1,,6.47,20.00,1.29,6.47
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,26,,Empty 360L Glass (24/02/2026),1,,6.47,20.00,1.29,6.47
+Lili Waste Services Ltd,P598125,28/02/2026,14 days,CHO003,Chocoberry Cardiff 1 Ltd - 199-204 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Total Net £493.62 | Total VAT £98.72 | Total £592.34,,,,,98.72,592.34
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,1,1544,CLASS Ind StickyToffee Pud (1x12),2,1x12,20.02,0.00,0.00,40.04
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,2,52774,Luxury Sticky Chocolate Pu (1x12),1,1x12,21.76,0.00,0.00,21.76
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,3,28924,Molten Chocolate Truffle CSWEET STR (9x140g),4,9x140g,22.54,0.00,0.00,90.16
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,4,33988,Vanilla Dream Ice Cream MOVENPICK (51t),6,51t,29.59,20.00,,177.54
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,5,B3430X3,Blue Bubblegum Gelato DISOTTO (51t),1,51t,24.29,20.00,,24.29
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,6,15309X3,Strawberry Ice Cream MOVENPICK (51t),1,51t,29.59,20.00,,29.59
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,7,7229X3,Swiss Chocolate Ice Cream MOVENPICK (51t),3,51t,29.59,20.00,,88.77
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,8,28574X4,Cookies & Cream Gelato DISOTTO (51t),1,51t,20.50,20.00,,20.50
+Holdsworth Foods (Michael I Holdsworth Ltd),510-715159,20/08/2025,7 days from statement,CH0769 / Web Order 220150,Chocoberry Cardiff 1 Ltd T/A Chocoberry - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,VAT Rate 1 ZERO £151.96 VAT £0.00 | VAT Rate 2 20% £340.69 VAT £68.13 | Total Ex VAT £492.65 | VAT £68.13 | Invoice Total £560.78,,,,,68.13,560.78
+Henley Bridge (Cocoa House Lewes),HB130437W,05/02/2026,05/02/2026,AWRS URN: XZAW 000 0010 4874,Chaiwala - 192 City Road Cardiff CF24 3JF,1,B.O3XCTE15,Belcolade Cacao Trace Milk Chocolate 34% Buttons 1kg 5kg and 15kg (15kg SKU),2,15kg,146.11,0.00,0.00,292.22
+Henley Bridge (Cocoa House Lewes),HB130437W,05/02/2026,05/02/2026,AWRS URN: XZAW 000 0010 4874,Chaiwala - 192 City Road Cardiff CF24 3JF,INVOICE TOTAL,,Total £292.22 | Amount Paid £292.22 | Amount Due £0.00 | PAID IN FULL,,,,,0.00,292.22
+Global Foods Limited,415827,26/02/2026,26/02/2026,Customer 19382,Chaiwala Restaurant - 199-203 City Road Cardiff CF24 3JR,1,36784,Red Bull Stimulation 24x3x8x250ml (Case),1,Case,20.49,20.00,,20.49
+Global Foods Limited,415827,26/02/2026,26/02/2026,Customer 19382,Chaiwala Restaurant - 199-203 City Road Cardiff CF24 3JR,2,36786,Red Bull Stimulation 24x3x8x250ml (Single),1,Single,20.49,20.00,,20.49
+Global Foods Limited,415827,26/02/2026,26/02/2026,Customer 19382,Chaiwala Restaurant - 199-203 City Road Cardiff CF24 3JR,INVOICE TOTAL,,Count Total Cases 2 Singles | VAT Code B 6.0000 20.00% | Total Goods £40.98 | VAT £8.20 | Total Invoice £49.18 | PAID AT CASH POINT 26 FEB 2026,,,,,8.20,49.18
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154 / Round 1051,Chocoberry - 205 City Road Cardiff CF24 3JR,1,40,2ltr Whole Milk,24,2ltr,1.3700,Z - Zero,0.00,32.88
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154 / Round 1051,Chocoberry - 205 City Road Cardiff CF24 3JR,2,261,500g UHT Aerosol Cream,17,500g,3.7900,Z - Zero,0.00,64.43
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154 / Round 1051,Chocoberry - 205 City Road Cardiff CF24 3JR,INVOICE TOTAL,,Invoice £97.31 | VAT £0.00 | Balance B/Forward £0.00 | Total Balance Owed £97.31 | Week Ending 21 Mar 2026 | Total Payments Received This Week £217.46,,,,,0.00,97.31
+EDF Energy,KI-A47C1F14-0007,28/03/2026,28/03/2026,A-A47C1F14 / Meter 9394199000,Checoberry Cardiff 1 LTD - 175 Chepstow Road Newport NP19 8GH,1,9394199000,"Gas – Energy Used 334,000 units (m³) @ 7,800p/kWh (est.) Fixed Online 1 Year 01 Jul 2025 – 28 Feb 2026",334000,m³,,0.00,0.00,287.88
+EDF Energy,KI-A47C1F14-0007,28/03/2026,28/03/2026,A-A47C1F14 / Meter 9394199000,Checoberry Cardiff 1 LTD - 175 Chepstow Road Newport NP19 8GH,2,9394199000,Gas – Standing Charge 243 days @ 45.000p/day,243,days,0.45,0.00,0.00,109.35
+EDF Energy,KI-A47C1F14-0007,28/03/2026,28/03/2026,A-A47C1F14 / Meter 9394199000,Checoberry Cardiff 1 LTD - 175 Chepstow Road Newport NP19 8GH,3,9394199000,Government Climate Change Levy (CCL) 3690.8 kWh @ 0.000p/kWh,3690.8,kWh,0.00,0.00,0.00,0.00
+EDF Energy,KI-A47C1F14-0007,28/03/2026,28/03/2026,A-A47C1F14 / Meter 9394199000,Checoberry Cardiff 1 LTD - 175 Chepstow Road Newport NP19 8GH,INVOICE TOTAL,,Estimated VAT Invoice | Net Gas Charges -£397.23 | CCL £0.00 | VAT £19.86 | Total £417.09 debit | Current Balance £385.63 credit | Supply: 205 City Road Cardiff CF24 3JD | Contract: Fixed Online 1 Year ends 01 Jul 2026,,,,,19.86,417.09
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,1,,Choco Puff Powder (HQ),12,Box,4.00,0.00,0.00,48.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,2,,Chocoberry Belgian Style Luxury Waffle Mix,3,Box,45.00,0.00,0.00,135.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,3,,CHOCOBERRY ROUND WAFFLE PLATES,1,pcs,80.00,20.00,16.00,80.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,4,,Chocoberry Tea Blend (Pack of 10),1,Box,59.99,0.00,0.00,59.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,5,,Comelle Ice Cream Mix,12,ltr,20.99,20.00,50.38,251.88
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,6,,Cookie Dough (20 kg),2,Box,140.00,0.00,0.00,280.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,7,,Crep Mix Powder (HQ),4,Box,5.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,8,,Kanafeh (25pcs),4,Box,57.50,0.00,0.00,230.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,9,,Belcolade Chocolate Milk (15 KG),2,Box,148.99,0.00,0.00,297.98
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,10,,Milk Chocolate Flavour Button,1,kg,89.00,0.00,0.00,89.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,11,,Lotus Sauce (Case of 4),1,ml,38.00,0.00,0.00,38.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,12,,Nutella (2x3Kg),3,kg,37.99,0.00,0.00,113.97
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,13,,PISTACHIO KNAFEH MIX TUB,1,kg,69.00,0.00,0.00,69.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,14,,Lotus Biscoff,1,Box,15.00,0.00,0.00,15.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,15,,OREO Biscuit,2,Box,15.00,0.00,0.00,30.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,16,,Lazy Cat Cake (20pcs),1,Box,79.00,0.00,0.00,79.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,17,,Krunch Cake (24 Pcs),1,Box,95.00,0.00,0.00,95.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,18,,Chocolate Dream Cake,15,Pcs,2.95,0.00,0.00,44.25
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,19,,Banana Pudding (30 Pcs),1,Box,60.00,0.00,0.00,60.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,20,,Pistachio Chocolate Kanafeh Dream Cake,18,Box,3.50,0.00,0.00,63.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,21,,Chocolate Fudge Fixation,3,Box,25.00,0.00,0.00,75.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,22,,Molten Chocolate Cake (Lava Cake),4,Box,23.00,0.00,0.00,92.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,23,,Bramley Apple Crumbles,1,Box,23.00,0.00,0.00,23.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,24,,Luxury Cookies & Cream Cheesecake,1,Box,42.00,0.00,0.00,42.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,25,,Luxury Ferrero Rocher Cheesecake,2,Box,42.00,0.00,0.00,84.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,26,,Milk Cake Tray (Biscoff),2,Box,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,27,,Milk Cake Tray (Oreo),1,Box,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,28,,Milk Cake Tray (Pistachio),2,Box,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,29,,Milk Cake Tray (Vanilla),2,pcs,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,30,,Movenpick Mint Chocolate Ice Cream,1,ltr,16.50,20.00,3.30,16.50
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,31,,Movenpick Strawberry Ice Cream,2,ltr,30.00,20.00,12.00,60.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,32,,Movenpick Swiss Chocolate Ice Cream,2,Pcs,30.00,20.00,12.00,60.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,33,,Movenpick Vanilla Dream Ice Cream,1,ltr,30.00,20.00,6.00,30.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,34,,Gelato Oblast (Cookie & Cream Gelato) 5LTR,1,Box,22.00,20.00,4.40,22.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,35,,Original Malai Kulfi Ice Cream,1,ltr,19.00,20.00,3.80,19.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,36,,Churros,2,Box,18.00,0.00,0.00,36.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,37,,Matcha Powder (Ceremonial Grade) 250g,1,g,38.40,0.00,0.00,38.40
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,38,,Monin Syrup - Blue Curacao,1,Pcs,8.00,0.00,0.00,8.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,39,,Monin Syrup - Passion,2,pcs,8.00,0.00,0.00,16.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,40,,Monin Syrup - Pomegranate,1,Pcs,8.00,0.00,0.00,8.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,41,,Monin Syrup - Strawberry,1,Pcs,8.00,0.00,0.00,8.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,42,,12oz Pet Glass & Lids,1,Box,89.99,20.00,18.00,89.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,43,,750ml Round Bowls & Lids (300),1,Box,44.99,20.00,9.00,44.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,44,,Bags 22x12x34 Small (250),1,Box,39.99,20.00,8.00,39.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,45,,Bags 27x17x37.5 Medium (250),2,Box,44.99,20.00,18.00,89.98
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,46,,Printed Pizza Boxes (100pcs),3,Box,19.99,20.00,11.99,59.97
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,47,,Tea Cups (8oz) (100pcs),1,Box,9.99,20.00,2.00,9.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,48,,Bagel Chicken (2kg),1,kg,18.00,0.00,0.00,18.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,49,,(Pasta) Crispy Chicken Fillet,3,Pcs,10.00,0.00,0.00,30.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,50,,RED Pasta Sauce (3 kg),1,Kg,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,51,,WHITE Pasta Sauce (3 kg),1,Kg,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,52,,Noodle Sauce (3kg),2,Kg,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,53,,Belcolade Chocolate White (15KG),1,box,148.99,-,-,148.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,54,,Tiramisu Pudding - 30 pieces,1,Box,60.00,0.00,0.00,60.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,55,,Butter Chicken (3kg),1,kg,28.00,0.00,0.00,28.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,56,,Breaded Chicken Frites (Chicken Mountain),2,Pcs,10.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,57,,Ferrero Rocher (Case of 48),1,box,15.50,20.00,3.10,15.50
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,58,,Crunchie (48 bar / 40 bar),1,Pcs,24.00,20.00,4.80,24.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,59,,Aero Mint (pack of 24),1,Box,12.99,20.00,2.60,12.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,60,,Kinder Chocolate Medium Bar,1,Box,12.00,20.00,2.40,12.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,61,,Chicken Momos,1,Box,150.00,0.00,0.00,150.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,62,,Krunch Cake (24 Pcs),1,Box,95.00,0.00,0.00,95.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,63,,Peach Smoothie Mix (case of 8),1,Box,73.00,0.00,0.00,73.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,64,,5.5oz Cups & Lids (whippy) (2500),1,Box,104.99,20.00,21.00,104.99
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,65,,A2 Poster – Crunch cake,1,Box,21.00,20.00,4.18,21.00
+Cr8 Foods Ltd,INV-000208,26/03/2026,26/03/2026,SO-00188,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,INVOICE TOTAL,,Sub Total £4105.35 | Zero Rate (0%) £0.00 | Standard Rate (20%) £212.95 | Total £4318.30 | Balance Due £4318.30,,,,,212.95,4318.30
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,1,254374,Carters Royal Soda Water 12x1ltr,2,12x1ltr,7.59,A - Zero,0.00,15.18
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,2,180805,Ice Valley Still Spring Water 24x500ml,5,24x500ml,2.99,B - Std,0.65,14.95
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,3,318415,18 Brioche Burger Buns 10x4pk,1,10x4pk,10.49,A - Zero,0.00,10.49
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,4,162218,Monin Caramel Syrup 1ltr,1,1ltr,10.99,A - Zero,0.00,10.99
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,5,275006,Gelart Toffee Dessert Sauce 1kg,1,1kg,4.49,A - Zero,0.00,4.49
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,6,303698,GF Super Crispy Fries 4x2.5kg,2,4x2.5kg,16.99,A - Zero,0.00,33.98
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,7,305852,CTS KraftFoodBox 4Lid 1500ml 5x36s,1,5x36s,53.99,B - Std,0.00,53.99
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,8,209225,2C Ply Blue Centrefeed 1x6pk,3,1x6pk,5.99,B - Std,0.00,17.97
+Makro Self Service Wholesalers Ltd (Cardiff Branch 588),3580431,27/03/2026,27/03/2026,737087015 / XTAW00000I02869,CHOCOBERRY CARDIFF - City Road Cardiff CF24 3JD,INVOICE TOTAL,,Total Items 17 | Goods A Zero £70.94 VAT £0.00 | Goods B 20% £102.09 VAT £20.42 | Invoice Total £193.45 | Club Promotions Saved £3.00,,,,,20.42,193.45
+Ampulla Ltd,1054155,17/02/2025,17/02/2025,Order 1054155 / VAT 935768183,Awais Tahir - Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,1,G250MLCJSURP-GCAPARTOG,250ml Tall Glass Juice Bottle & Twist Off Cap (Suresluk) – Gold,50,Each,0.46,20.00,,23.00
+Ampulla Ltd,1054155,17/02/2025,17/02/2025,Order 1054155 / VAT 935768183,Awais Tahir - Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,2,F4LNICTUB-F2/4LNICLID,4ltr Natural Ice Cream Tub With Lid (IP),40,Each,1.40,20.00,,56.00
+Ampulla Ltd,1054155,17/02/2025,17/02/2025,Order 1054155 / VAT 935768183,Awais Tahir - Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,3,,Shipping,1,,15.30,20.00,,15.30
+Ampulla Ltd,1054155,17/02/2025,17/02/2025,Order 1054155 / VAT 935768183,Awais Tahir - Chocoberry Cardiff - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Subtotal £79.00 | Shipping £15.30 | VAT £15.71 (20%) | Total £94.30 | Paid by Credit/Debit Card,,,,,15.71,94.30
+Amazon Business (Amazon Business EU S.a.r.l. UK Branch),GB62JHW0ABEI,18/03/2026,18/03/2026,Order 205-4698432-1261129 / VAT GB305634227,Akhil Rajesh - 192 City Rd Cardiff CF24 3JF,1,B009BQ2QZG,Genware SPF18-W Royal White Round Eared Dish 18cm Diameter Pack of 6,1,Pack,25.79,20.00,5.16,30.95
+Amazon Business (Amazon Business EU S.a.r.l. UK Branch),GB62JHW0ABEI,18/03/2026,18/03/2026,Order 205-4698432-1261129 / VAT GB305634227,Akhil Rajesh - 192 City Rd Cardiff CF24 3JF,INVOICE TOTAL,,Invoice Total £30.95 | VAT 20% £5.16 | Total Payable £30.95 | PAID | Order Date 15 Mar 2026,,,,,5.16,30.95
+Alliance Disposables Ltd,I13474724,11/03/2026,30 days,IWM0C258 / Order SO/W11797583,Chocoberry Cardiff 1 Ltd - 205 City Road Cardiff CF24 3JD,1,CDCS0001,Flash Prof C5 Conc Disinfecting Cleaner 2x2Ltr (Maxoptra04),1,2x2Ltr,70.25,20.00,14.05,84.30
+Alliance Disposables Ltd,I13474724,11/03/2026,30 days,IWM0C258 / Order SO/W11797583,Chocoberry Cardiff 1 Ltd - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Goods £70.25 | VAT £14.05 | Carriage £0.00 | Invoice Total £84.30 | Standard VAT Rate 20%,,,,,14.05,84.30
+Abbey Bookbinding & Printing Ltd,14087,,01/12/2025,09083825,Chocoberry - Cardiff,1,,Chocoberry Laminated Posters 300gsm Silk Matt Laminated Both Sides,20,Each,1.50,20.00,6.00,30.00
+Abbey Bookbinding & Printing Ltd,14087,,01/12/2025,09083825,Chocoberry - Cardiff,INVOICE TOTAL,,Subtotal £30.00 | Total VAT 20% £6.00 | Total GBP £36.00 | Due Date 1 Dec 2025,,,,,6.00,36.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,1,,Krunch Cake (24 Pcs),3.00,Pcs,95.00,0.00,0.00,285.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,2,,Chocoberry Belgian Style Luxury Waffle Mix,3.00,Box,45.00,0.00,0.00,135.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,3,,Chocoberry Tea Blend (Pack of 10),2.00,Box,59.99,0.00,0.00,119.98
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,4,,Choco Puff Powder (HQ),14.00,Box,4.00,0.00,0.00,56.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,5,,Comelle Ice Cream Mix,15.00,ltr,20.99,20.00,62.97,314.85
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,6,,Crep Mix Powder (HQ),5.00,Box,5.00,0.00,0.00,25.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,7,,Kanafeh (25pcs),5.00,Box,57.50,0.00,0.00,287.50
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,8,,Belcolade Chocolate Milk (15 KG),1.00,Box,148.99,0.00,0.00,148.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,9,,Nutella (2x3Kg),2.00,kg,37.99,0.00,0.00,75.98
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,10,,Pistachio Knafeh Mix Tub,1.00,kg,69.00,0.00,0.00,69.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,11,,Custard (1 ltr) Qty:12,1.00,Box,25.00,0.00,0.00,25.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,12,,OREO Biscuit,1.00,Box,15.00,0.00,0.00,15.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,13,,Spray and Cook (Cooking Spray),2.00,Pcs,8.00,0.00,0.00,16.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,14,,Chocolate Dream Cake,24.00,Pcs,2.95,0.00,0.00,70.80
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,15,,Banana Pudding (30 Pcs),2.00,Box,60.00,0.00,0.00,120.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,16,,Lazy Cat Cake (20pcs),1.00,Pcs,79.00,0.00,0.00,79.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,17,,Lazy Cat Cake Topping (Ambient - HQ) Pack-4,1.00,Pcs,16.00,0.00,0.00,16.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,18,,SMALL - Knafeh Chocolate Bar 24 pcs - 1 BOX,1.00,Box,90.00,0.00,0.00,90.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,19,,Pistachio Chocolate Kanafeh Dream Cake,15.00,Box,3.50,0.00,0.00,52.50
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,20,,Molten Chocolate Cake (Lava Cake),1.00,Box,23.00,0.00,0.00,23.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,21,,Chocolate Fudge Fixation,1.00,Box,25.00,0.00,0.00,25.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,22,,Bramley Apple Crumbles,2.00,Box,23.00,0.00,0.00,46.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,23,,Lotus Biscoff Cheesecake,2.00,Box,42.00,0.00,0.00,84.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,24,,Milk Chocolate Lindt Cheesecake,1.00,Box,45.00,0.00,0.00,45.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,25,,Pistachio Kanafeh Cheesecake (12pcs),1.00,Box,32.00,0.00,0.00,32.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,26,,Tiramisu Pudding - 30 pieces,1.00,Box,60.00,0.00,0.00,60.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,27,,Milk Cake Tray (Biscoff),6.00,Box,20.00,0.00,0.00,120.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,28,,Milk Cake Tray (Oreo),2.00,Pcs,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,29,,Movenpick Swiss Chocolate Ice Cream,2.00,Pcs,30.00,20.00,12.00,60.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,30,,Movenpick Vanilla Dream Ice Cream,3.00,ltr,30.00,20.00,18.00,90.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,31,,Mango Kulfi Ice Cream,3.00,ltr,19.00,20.00,11.40,57.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,32,,Original Malai Kulfi Ice Cream,2.00,ltr,19.00,20.00,7.60,38.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,33,,Matcha Powder (Ceremonial Grade) 250g,1.00,g,38.40,0.00,0.00,38.40
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,34,,Strawberry Smoothie Mix (case of 8),1.00,Box,73.00,0.00,0.00,73.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,35,,1300ml Round Bowls & Lids (300),1.00,Box,69.99,20.00,14.00,69.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,36,,Bags 22x12x34 Small (250),2.00,Box,39.99,20.00,16.00,79.98
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,37,,Printed Boats & Sleeves (400pcs),1.00,Box,69.99,20.00,14.00,69.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,38,,Tea Cups (8oz) (100pcs),2.00,Box,9.99,20.00,4.00,19.98
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,39,,Printed Pizza Boxes (100pcs),2.00,Box,19.99,20.00,8.00,39.98
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,40,,Tissues Printed (2000pcs),1.00,Box,28.99,20.00,5.80,28.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,41,,Blue Roles - High Quality (6 Pcs),3.00,Pcs,11.50,20.00,6.90,34.50
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,42,,(Pasta) Crispy Chicken Fillet,4.00,Pcs,10.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,43,,Armaan Catering Chicken Sausages,1.00,Box,44.50,0.00,0.00,44.50
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,44,,Bagel Chicken (2kg),2.00,kg,18.00,0.00,0.00,36.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,45,,Breaded Chicken Frites (Chicken Mountain),3.00,Pcs,10.00,0.00,0.00,30.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,46,,Butter Chicken (3kg),1.00,kg,28.00,0.00,0.00,28.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,47,,Hash Browns,2.00,Box,25.00,0.00,0.00,50.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,48,,Hot & Spicy Zinger (Patty),6.00,Pcs,10.00,0.00,0.00,60.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,49,,RED Pasta Sauce (3 kg),1.00,kg,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,50,,WHITE Pasta Sauce (3 kg),2.00,kg,20.00,0.00,0.00,40.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,51,,Fire Cracker Sauce (3kg),1.00,kg,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,52,,Noodle Sauce (3kg),1.00,kg,20.00,0.00,0.00,20.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,53,,Belcolade Chocolate White (15KG),1.00,Box,148.99,0.00,0.00,148.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,54,,Strawberry Glazed Cheesecake,1.00,Box,42.00,0.00,0.00,42.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,55,,750ml Round Bowls & Lids (300),1.00,Box,44.99,20.00,8.98,44.99
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,56,,Lotus Sauce (Case of 4),1.00,ml,38.00,0.00,0.00,38.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,57,,Lotus Biscoff,1.00,Box,15.00,0.00,0.00,15.00
+Cr8 Foods Ltd,INV-000265,02/04/2026,02/04/2026,SO-00247,Chocoberry Cardiff - 205 City Rd Cardiff CF24 3JD,INVOICE TOTAL,,Sub-Total £3853.89 | Zero Rate (0%) £0.00 | Standard Rate (20%) £189.65,,,,,,189.65
+T.Quality (Swansea Depot),76534,24/03/2026,14 days from invoice,CHO 202,Chocoberry Cardiff 1 Ltd - 205 City Road Cardiff CF24 3JD,1,SSC012,San Sebastian Cheesecake Quality,11,1x10,23.80,A - Zero,0.00,261.80
+T.Quality (Swansea Depot),76534,24/03/2026,14 days from invoice,CHO 202,Chocoberry Cardiff 1 Ltd - 205 City Road Cardiff CF24 3JD,INVOICE TOTAL,,Goods Total £261.80 | VAT Total £0.00,,,,,,0.00
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154,Chocoberry - 205 City Road Cardiff CF24 3JR,1,40,2ltr Whole Milk,24,2ltr,1.3700,Z - Zero,0.00,32.88
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154,Chocoberry - 205 City Road Cardiff CF24 3JR,2,261,500g UHT Aerosol Cream,17,500g,3.7900,Z - Zero,0.00,64.43
+Freshways (Nijjar Dairies Ltd),A8486779,21/03/2026,21/03/2026,63154,Chocoberry - 205 City Road Cardiff CF24 3JR,INVOICE TOTAL,,Invoice £97.31 | VAT £0.00 | Balance B/Forward £0.00 | Total Balance Owed £97.31,,,,,,0.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,1,,Whole Chicken 1.1 x12,1.00,Each,48.00,0.00,0.00,48.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,2,,Cut Two Joints Wings 2J,5.00,Each,3.20,0.00,0.00,16.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,3,,Chicken Breast,20.00,Each,5.40,0.00,0.00,108.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,4,,Sliced Cheese,2.00,Each,8.49,0.00,0.00,16.98
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,5,,Chicken Breast - BLACK Taken,20.00,Each,5.80,0.00,0.00,116.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,6,,Whole Chicken 1.1 x12 Taken,2.00,Each,48.00,0.00,0.00,96.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,7,,Sliced Cheese Taken,2.00,Each,8.49,0.00,0.00,16.98
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,8,,Chicken Leg Meat Taken,10.00,Each,4.20,0.00,0.00,42.00
+Abdul's Poultry Limited,183591,16/03/2026,,A030,Ayra Foods Ltd - 199-203 City Road Cardiff CF24,INVOICE TOTAL,,Total Net Amount £459.96 | Carriage Net £0.00 | Total Tax Amount £0.00 | Invoice Total £459.96,,,,,0.00,459.96
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,1,,Sriracha Mayo,2.00,Each,1.99,0.00,0.00,3.98
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,2,,Ferrero Rocher,9.00,Each,7.99,20.00,11.99,71.91
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,3,,Cheese Slices Cheddar,5.00,Each,0.99,0.00,0.00,4.95
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,4,,Evaporated Milk,10.00,Each,0.55,0.00,0.00,5.50
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,5,,Condensed Milk,15.00,Each,0.85,0.00,0.00,12.75
+Lidl (CAR-Cathays),LIDL-02042026-1,02/04/2026,02/04/2026,VAT: GB350396892,Chocoberry Cardiff,INVOICE TOTAL,,VAT A (0%) £27.18 | VAT B (20%) £71.91 | VAT £11.99 | Total £99.09,,,,,11.99,99.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,1,,Family Pack Mushrooms,1.00,Each,1.59,0.00,0.00,1.59
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,2,,Avocados,4.00,Each,1.35,0.00,0.00,5.40
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,3,,Medium Egg Noodles,3.00,Each,1.05,0.00,0.00,3.15
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,4,,Greek Feta Cheese,1.00,Each,2.09,0.00,0.00,2.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,5,,Limes Loose,8.00,Each,0.24,0.00,0.00,1.92
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,6,,Bananas,3.00,Each,0.78,0.00,0.00,2.34
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,7,,Breakfast Waffles,3.00,Each,0.65,0.00,0.00,1.95
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,8,,Mixed Leaf Salad,3.00,Each,0.95,0.00,0.00,2.85
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,9,,Cherry Tomatoes,1.00,Each,1.09,0.00,0.00,1.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,10,,Shallots,2.00,Each,1.09,0.00,0.00,2.18
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,11,,Spring Onions,1.00,Each,0.65,0.00,0.00,0.65
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,12,,Large Pack Coriander,1.00,Each,1.09,0.00,0.00,1.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,13,,Flat Leaf Parsley,1.00,Each,1.09,0.00,0.00,1.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,14,,Ready To Eat Mango,1.00,Each,1.65,0.00,0.00,1.65
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,15,,Peppers Mixed,3.00,Each,1.75,0.00,0.00,5.25
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,16,,Premium Blackberries,1.00,Each,2.09,0.00,0.00,2.09
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,17,,Raspberries,2.00,Each,1.99,0.00,0.00,3.98
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,18,,Red Chillies,1.00,Each,0.55,0.00,0.00,0.55
+Lidl (CAR-Cathays),LIDL-01042026-2,01/04/2026,01/04/2026,VAT: GB350396892,Chocoberry Cardiff,INVOICE TOTAL,,VAT A (0%) £46.84 | VAT £0.00 | Total Discount £1.22 | Total £48.84,,,,,0.00,48.84
+Best Fruit,117938,31/03/2026,31/03/2026,Till-2,Chocoberry Cardiff - 143 City Road Cardiff,1,,Fruit (Mixed/Assorted),299.00,Each,0.20,0.00,0.00,59.80
+Best Fruit,117938,31/03/2026,31/03/2026,Till-2,Chocoberry Cardiff - 143 City Road Cardiff,INVOICE TOTAL,,Total £59.80 | Paid by Card £59.80,,,,,0.00,59.80
