@@ -1377,6 +1377,19 @@ with st.sidebar:
             width="stretch",
         )
 
+    st.markdown("---")
+    st.markdown("**🌐 Remote Cloud Sync**")
+    # Get portal URL from session state or default
+    if "portal_url_input" not in st.session_state:
+        st.session_state["portal_url_input"] = os.environ.get("PORTAL_URL", "http://localhost:5050")
+    
+    portal_url = st.text_input("Invoice Portal URL", 
+                               value=st.session_state["portal_url_input"],
+                               placeholder="e.g. https://portal.render.com",
+                               help="Paste your Render or Streamlit Portal URL here to sync invoices from staff.")
+    st.session_state.portal_url = portal_url.rstrip("/")
+    st.markdown('<div style="font-size:10px; color:#6b7094">Syncs staff uploads from your phone-friendly portal into this system.</div>', unsafe_allow_html=True)
+
 # ── KPI computation ───────────────────────────────────────────────────────
 master_rev    = f_df["Revenue"].sum()
 master_tax    = f_df["Tax on net sales"].sum()
@@ -3232,19 +3245,27 @@ with tab12:
     st.markdown('<div class="page-sub">Financial payables, supplier auditing, and cash flow protection.</div>', unsafe_allow_html=True)
 
     # ── PORTAL SYNC STATUS PANEL ────────────────────────────────────────────
+    portal_base = st.session_state.get("portal_url", "http://localhost:5050")
     try:
         import urllib.request as _ur
-        with _ur.urlopen("http://localhost:5050/api/pending?secret=chocoberry2026", timeout=2) as _r:
+        portal_secret = os.environ.get("PORTAL_SECRET", "chocoberry2026")
+        check_url = f"{portal_base}/api/pending?secret={portal_secret}"
+        
+        with _ur.urlopen(check_url, timeout=3) as _r:
             _pending = json.loads(_r.read())
+        
         if _pending:
             st.markdown(f"""
             <div style="background:rgba(245,166,35,0.1);border:1px solid #f5a623;
                         padding:14px 18px;border-radius:10px;margin-bottom:16px">
                 <b style="color:#f5a623">📱 {len(_pending)} new invoice(s) uploaded by staff</b>
-                — waiting to be synced into the ledger.
+                — waiting to be synced from <code style="color:#f5a623">{portal_base}</code>
             </div>""", unsafe_allow_html=True)
+            
             if st.button("🔄 Sync Staff Uploads Now", type="primary", key="portal_sync"):
+                # Pass the dynamic URL to the sync script
                 import subprocess, sys as _sys
+                os.environ["PORTAL_URL"] = portal_base
                 result = subprocess.run(
                     [_sys.executable, "sync_portal_invoices.py"],
                     capture_output=True, text=True

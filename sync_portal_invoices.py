@@ -20,11 +20,13 @@ load_dotenv()
 
 
 PORTAL_SECRET = os.environ.get("PORTAL_SECRET", "chocoberry2026")
+PORTAL_BASE   = os.environ.get("PORTAL_URL", "http://localhost:5050").rstrip("/")
 
 PORTAL_DB  = Path(__file__).parent / "invoices.db"        # portal DB (staff uploads)
 MAIN_DB    = Path(__file__).parent / "cbc_invoice_intelligence.db" # main dashboard DB
-PORTAL_API = f"http://localhost:5050/api/pending?secret={PORTAL_SECRET}"
-MARK_API   = "http://localhost:5050/api/mark_synced"
+
+PORTAL_API = f"{PORTAL_BASE}/api/pending?secret={PORTAL_SECRET}"
+MARK_API   = f"{PORTAL_BASE}/api/mark_synced"
 
 # ── Supplier helpers ──────────────────────────────────────────────
 
