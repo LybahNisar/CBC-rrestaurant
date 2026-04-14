@@ -1,0 +1,997 @@
+﻿Category,Recipe Name,Type,Ingredient,Quantity,Unit/Notes
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,Cookie dough (from HQ frozen),150g,Eat-In portion
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,Cookie dough (from HQ frozen),200g,T/A portion
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,Milk chocolate sauce,5 lines,Eat-In drizzle
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,Milk chocolate sauce,7-10 lines,T/A drizzle
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,White chocolate sauce (White Choc Chip variant),5 lines,Eat-In drizzle
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,White chocolate sauce (White Choc Chip variant),7-10 lines,T/A drizzle
+Cookie Dough,Milk / White Chocolate Chip Cookie Dough,Eat-In,COOKING: Oven temperature,250°C,7 mins until golden brown
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Cookie dough base layer,30g,Eat-In
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Cookie dough base layer,50g,T/A
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Katafi mix (from HQ),1 TBSP,Eat-In filling
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Katafi mix (from HQ),2 TBSP,T/A filling
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Cookie dough top layer,80g,Eat-In
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Cookie dough top layer,120g,T/A
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Pistachio powder,1 TBSP,topping
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Dry baked katafi (from HQ),1 TBSP,topping
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Pistachio sauce,5 lines,Eat-In drizzle
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,Pistachio sauce,7-10 lines,T/A drizzle
+Cookie Dough,Kanafeh Cookie Dough,Eat-In,COOKING: Oven temperature,250°C,7 mins until golden brown. Shape dough before placing on katafi
+Cookie Dough,Oreo-Tella Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Oreo-Tella Cookie Dough,Eat-In,Crushed Oreo powder,1 TBSP,topping
+Cookie Dough,Oreo-Tella Cookie Dough,Eat-In,Milk chocolate sauce,5 lines,Eat-In drizzle / 7-10 lines T/A
+Cookie Dough,Royal Ferrero Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Royal Ferrero Cookie Dough,Eat-In,Mixed nuts topping,1 TBSP,topping
+Cookie Dough,Royal Ferrero Cookie Dough,Eat-In,Ferrero Rocher chocolates,2 pcs,cut in half
+Cookie Dough,Royal Ferrero Cookie Dough,Eat-In,Nutella sauce,5 lines,Eat-In / 7-10 lines T/A
+Cookie Dough,Choco-Caramel Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Choco-Caramel Cookie Dough,Eat-In,Caramel cube topping,1 TBSP,topping
+Cookie Dough,Choco-Caramel Cookie Dough,Eat-In,Milk chocolate sauce,5 lines,Eat-In / 7-10 lines T/A
+Cookie Dough,Lotus Biscoff Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Lotus Biscoff Cookie Dough,Eat-In,Lotus Biscoff dust,1 TBSP,topping
+Cookie Dough,Lotus Biscoff Cookie Dough,Eat-In,Milk chocolate sauce,5 lines,Eat-In / 7-10 lines T/A
+Cookie Dough,Chocolate Surprise Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Chocolate Surprise Cookie Dough,Eat-In,Fudge brownie,1 pc,smashed & spread evenly (1.5 pcs for T/A)
+Cookie Dough,Chocolate Surprise Cookie Dough,Eat-In,Milk chocolate sauce,5 lines,Eat-In / 7-10 lines T/A
+Cookie Dough,Raspberry Kiss Cookie Dough,Eat-In,Cookie dough,150g,Eat-In / 200g T/A
+Cookie Dough,Raspberry Kiss Cookie Dough,Eat-In,White chocolate sauce,5 lines,Eat-In / 7-10 lines T/A
+Cookie Dough,Raspberry Kiss Cookie Dough,Eat-In,Fresh raspberries,4-5 pcs,Eat-In / 6-7 pcs T/A
+Cookie Dough,Raspberry Kiss Cookie Dough,Eat-In,Raspberry sauce,5 lines,Eat-In / 7 lines T/A
+Kanafeh,BATCH: Sugar Syrup,Batch,Sugar packets,3 packets,
+Kanafeh,BATCH: Sugar Syrup,Batch,Cardamom pods,20 pcs,
+Kanafeh,BATCH: Sugar Syrup,Batch,Water,5 litres,boil 1 hour then cool 30-60 mins
+Kanafeh,Original Kanafeh,All,Kanafeh (from HQ frozen),1 portion,defrost 24h in fridge - shelf life 3 days
+Kanafeh,Original Kanafeh,All,Sugar syrup (homemade),4 circles edges + 5 circles middle after flip,applied during & after cooking
+Kanafeh,Original Kanafeh,All,Pistachio dust,2 TBSP,edges only
+Kanafeh,Original Kanafeh,All,COOKING: Oven temperature,260°C,7-10 mins until golden brown
+Kanafeh,Nutella Loaded Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,Nutella Loaded Kanafeh,All,Nutella sauce,10 lines base + 5 lines cross angle,
+Kanafeh,Nutella Loaded Kanafeh,All,Pistachio powder,2 TBSP,edges only
+Kanafeh,White Chocolate & Pistachio Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,White Chocolate & Pistachio Kanafeh,All,Warm white chocolate,80g,
+Kanafeh,White Chocolate & Pistachio Kanafeh,All,Pistachio dust,1 TBSP,on top
+Kanafeh,Chocoberry Special Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,Chocoberry Special Kanafeh,All,Warm pistachio sauce,80g,
+Kanafeh,Chocoberry Special Kanafeh,All,Pistachio dust,1 TBSP,on top
+Kanafeh,Lotus Biscoff Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,Lotus Biscoff Kanafeh,All,Warm Lotus Biscoff spread,80g,
+Kanafeh,Lotus Biscoff Kanafeh,All,Lotus Biscoff dust,1 TBSP,on top
+Kanafeh,Oreo Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,Oreo Kanafeh,All,Nutella sauce,10 lines base + 5 lines cross angle,
+Kanafeh,Oreo Kanafeh,All,Oreo powder,2 TBSP,edges only
+Kanafeh,Belgian Chocolate Kanafeh,All,Kanafeh,1 portion,
+Kanafeh,Belgian Chocolate Kanafeh,All,Warm Belgian milk chocolate,80g,base
+Kanafeh,Belgian Chocolate Kanafeh,All,White chocolate,20g,marble effect with knife
+Kanafeh,Belgian Chocolate Kanafeh,All,Pistachio powder,2 TBSP,around edges
+Cheesecakes,Strawberry Cheesecake,Dine-In,Strawberry cheesecake (from HQ),1 pc,remove plastic wrapping
+Cheesecakes,Strawberry Cheesecake,Dine-In,Chocolate sauce,circle on plate,plate decoration
+Cheesecakes,Strawberry Cheesecake,Dine-In,Mixed berries,garnish,as per picture
+Cheesecakes,Lotus Biscoff Cheesecake,Dine-In,Lotus Biscoff cheesecake (from HQ),1 pc,
+Cheesecakes,Lotus Biscoff Cheesecake,Dine-In,Lotus dust,2 TBSP,half side of plate only
+Cheesecakes,Lotus Biscoff Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,Milk Lindt Cheesecake,Dine-In,Milk Lindt cheesecake (from HQ),1 pc,
+Cheesecakes,Milk Lindt Cheesecake,Dine-In,Cocoa powder,sprinkle half side of plate,shaker
+Cheesecakes,Milk Lindt Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,Ferrero Rocher Cheesecake,Dine-In,Ferrero Rocher cheesecake (from HQ),1 pc,
+Cheesecakes,Ferrero Rocher Cheesecake,Dine-In,Chocolate sauce,circle on plate,
+Cheesecakes,Ferrero Rocher Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,Ferrero Rocher Cheesecake,Dine-In,Mixed nuts topping,2 TSP,around edges
+Cheesecakes,Oreo Cheesecake,Dine-In,Oreo cheesecake (from HQ),1 pc,
+Cheesecakes,Oreo Cheesecake,Dine-In,Oreo dust,2 TBSP,half side of plate
+Cheesecakes,Oreo Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,Blueberry Crumble Cheesecake,Dine-In,Blueberry crumble cheesecake (from HQ),1 pc,
+Cheesecakes,Blueberry Crumble Cheesecake,Dine-In,Cocoa powder,2 TBSP,half side of plate
+Cheesecakes,Blueberry Crumble Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,San Sebastian Cheesecake,Dine-In,San Sebastian cheesecake (from HQ),1 pc,
+Cheesecakes,San Sebastian Cheesecake,Dine-In,Milk chocolate sauce,1 TBSP,middle of plate with plastic knife
+Cheesecakes,San Sebastian Cheesecake,Dine-In,Mixed berries,garnish,
+Cheesecakes,San Sebastian Cheesecake,Dine-In,Sauce pot (2oz),1 pc,customer choice: milk choc / white / pistachio
+Cheesecakes,Kanafeh Cheesecake,Dine-In,Kanafeh cheesecake (from HQ),1 pc,
+Cheesecakes,Kanafeh Cheesecake,Dine-In,Pistachio sauce,1 TBSP,spread on edges of plate
+Cakes & Treats,Hot Fudge Brownie,All,Fudge brownie (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Hot Fudge Brownie,All,Milk chocolate sauce,4 lines,on top
+Cakes & Treats,Hot Fudge Brownie,All,Mixed berries,both sides,decoration
+Cakes & Treats,Hot Fudge Brownie,All,Ice cream OR custard,1 serving,separate container
+Cakes & Treats,Lava Cake,All,Lava cake (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Lava Cake,All,Milk chocolate sauce,4 lines,on top
+Cakes & Treats,Lava Cake,All,Mixed berries,both sides,decoration
+Cakes & Treats,Lava Cake,All,Ice cream OR custard,1 serving,separate container
+Cakes & Treats,Luxury Fudge Cake,All,Luxury fudge cake (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Luxury Fudge Cake,All,Milk chocolate sauce,6 lines,on top
+Cakes & Treats,Luxury Fudge Cake,All,Mixed berries,both sides,decoration
+Cakes & Treats,Luxury Fudge Cake,All,Ice cream OR custard,1 serving,separate container
+Cakes & Treats,Kanafeh Brownie,All,Brownie (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Kanafeh Brownie,All,Milk chocolate sauce,4 lines,on top
+Cakes & Treats,Kanafeh Brownie,All,Katafi mix,1 TBSP,middle
+Cakes & Treats,Kanafeh Brownie,All,Dry katafi,1 TSP,sprinkle
+Cakes & Treats,Kanafeh Brownie,All,Pistachio powder,1 TSP,sprinkle
+Cakes & Treats,Peanut Butter Stack,All,Peanut butter stack cake (from HQ frozen),1 pc,microwave 10 secs (20 secs from frozen)
+Cakes & Treats,Peanut Butter Stack,All,Milk chocolate sauce,4 lines,on top
+Cakes & Treats,Peanut Butter Stack,All,Mixed berries,garnish,
+Cakes & Treats,Peanut Butter Stack,All,Ice cream OR custard,1 serving,separate container
+Cakes & Treats,Cornflake Tart,All,Cornflake tart (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Cornflake Tart,All,Hot custard,separate serving,preferred accompaniment
+Cakes & Treats,Jam & Coconut Sponge Cake,All,Jam & coconut sponge cake (from HQ frozen),1 pc,microwave 30 secs (45 secs from frozen)
+Cakes & Treats,Jam & Coconut Sponge Cake,All,Hot custard,separate serving,preferred accompaniment
+Cakes & Treats,Chocolate Pudding,All,Chocolate pudding (from HQ frozen),1 pc,microwave 1 min 30 secs from frozen
+Cakes & Treats,Chocolate Pudding,All,Milk chocolate sauce,4 lines,on top after flipping
+Cakes & Treats,Chocolate Pudding,All,Ice cream OR custard,1 serving,separate container
+Cakes & Treats,Sticky Toffee Pudding,All,Sticky toffee pudding (from HQ frozen),1 pc,microwave 1 min 30 secs from frozen
+Cakes & Treats,Sticky Toffee Pudding,All,Ice cream OR custard,1 serving,separate container - flip container onto plate
+Cakes & Treats,Apple Crumble,All,Apple crumble (from HQ frozen),1 pc,microwave 1 min then oven 10 mins approx
+Cakes & Treats,Apple Crumble,All,Ice cream OR custard,1 serving,separate container - remove with spatula cooked part on top
+Waffle & Choco-Puff Batter,BATCH: Waffle Mix,Batch,Cold water,1800ml,
+Waffle & Choco-Puff Batter,BATCH: Waffle Mix,Batch,Sunflower oil,500ml,
+Waffle & Choco-Puff Batter,BATCH: Waffle Mix,Batch,HQ waffle mix,1 full packet,mix slowly 2-3 mins then heavily 2-3 mins. Rest 5-10 mins then mix final time
+Waffle & Choco-Puff Batter,BATCH: Choco-Puff Mix,Batch,Water,750g,
+Waffle & Choco-Puff Batter,BATCH: Choco-Puff Mix,Batch,Sunflower oil,250g,
+Waffle & Choco-Puff Batter,BATCH: Choco-Puff Mix,Batch,HQ waffle mix,1500g,beat well with spatula 5-7 mins until thick
+Chocoberry Specials,Waffle Bites,All,Waffle batter,5oz tub per portion,cook in machine at 170°C for 2 mins. Cut into pieces. Serve 8 pcs per dish
+Chocoberry Specials,Chocopuffs,All,Choco-puff batter,12-13 puffs per portion,fry at 180°C until golden brown. Drain excess oil
+Chocoberry Specials,Waffle Bites Topping — White Chocolate,All,Warm white chocolate,to coat,
+Chocoberry Specials,Waffle Bites Topping — Nutella & Nuts,All,Nutella sauce,warm drizzle,
+Chocoberry Specials,Waffle Bites Topping — Nutella & Nuts,All,Mixed nuts topping,1 TBSP,
+Chocoberry Specials,Waffle Bites Topping — Kinder & Belgian Milk Choc,All,Kinder sauce,half side,6 lines
+Chocoberry Specials,Waffle Bites Topping — Kinder & Belgian Milk Choc,All,Belgian milk chocolate,half side,6 lines
+Chocoberry Specials,Waffle Bites Topping — Kinder & Strawberry,All,Kinder sauce,drizzle,
+Chocoberry Specials,Waffle Bites Topping — Kinder & Strawberry,All,Medium strawberries,2 pcs,sliced
+Chocoberry Specials,Waffle Bites Topping — Belgian Milk Chocolate,All,Belgian milk chocolate,to coat,
+Chocoberry Specials,Waffle Bites Topping — Nutella & Strawberry,All,Warm Nutella,drizzle,
+Chocoberry Specials,Waffle Bites Topping — Nutella & Strawberry,All,Medium strawberries,2 pcs,sliced
+Chocoberry Specials,Waffle Bites Topping — Kinder & Oreo,All,Kinder sauce,drizzle,
+Chocoberry Specials,Waffle Bites Topping — Kinder & Oreo,All,Oreo dust topping,sprinkle,
+Chocoberry Specials,Waffle Bites Topping — Pistachio,All,Warm pistachio sauce,to coat,
+Chocoberry Specials,Chocopuffs Topping — Nutella,All,Warm Nutella sauce,approx 15 lines,
+Chocoberry Specials,Chocopuffs Topping — Milk Choc & Strawberry,All,Milk chocolate sauce,15 lines,
+Chocoberry Specials,Chocopuffs Topping — Milk Choc & Strawberry,All,Medium strawberries,2 pcs,sliced
+Chocoberry Specials,Chocopuffs Topping — Kinder & White Choc,All,Kinder sauce,6 lines,half side
+Chocoberry Specials,Chocopuffs Topping — Kinder & White Choc,All,White chocolate sauce,6 lines,half side
+Chocoberry Specials,Chocopuffs Topping — Kinder & White Choc,All,Medium strawberries,2 pcs,sliced
+Round Waffles,Round Waffle Base,All,Waffle batter,1 ladle,pour evenly. Cook at 170°C for 3 mins. Serve immediately. Half rounds = all quantities halved
+Round Waffles,Strawberry Dream Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Strawberry Dream Waffle,All,Medium strawberries,6 pcs,sliced
+Round Waffles,Strawberry Dream Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Lotus Biscoff Waffle,All,Lotus sauce,12 lines,first drizzle
+Round Waffles,Lotus Biscoff Waffle,All,Lotus Biscoff dust,3 TBSP,
+Round Waffles,Lotus Biscoff Waffle,All,Lotus sauce,10 lines,finish drizzle
+Round Waffles,Lotus Biscoff Waffle,All,Lotus Biscoff biscuit,1 pc,
+Round Waffles,Oreo Overload Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Oreo Overload Waffle,All,Oreo dust,3 TBSP,
+Round Waffles,Oreo Overload Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Oreo Overload Waffle,All,Oreo biscuit,1 pc,
+Round Waffles,Snow White Waffle,All,White chocolate sauce,15 lines,first drizzle
+Round Waffles,Snow White Waffle,All,Raffaello chocolate,1 pc,
+Round Waffles,Snow White Waffle,All,Medium strawberries,5 pcs,sliced
+Round Waffles,Snow White Waffle,All,Mini marshmallows,4oz,
+Round Waffles,Snow White Waffle,All,White chocolate sauce,10 lines,finish drizzle
+Round Waffles,White Chocolate & Strawberry Waffle,All,White chocolate sauce,15 lines,first drizzle
+Round Waffles,White Chocolate & Strawberry Waffle,All,Medium strawberries,6 pcs,sliced
+Round Waffles,White Chocolate & Strawberry Waffle,All,White chocolate sauce,10 lines,finish drizzle
+Round Waffles,Chocolate Explosion Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Chocolate Explosion Waffle,All,Fudge brownies,2 pcs,smashed
+Round Waffles,Chocolate Explosion Waffle,All,Kinder Bar chocolate,1 bar,
+Round Waffles,Chocolate Explosion Waffle,All,Kinder chocolate sauce,10 lines,finish drizzle
+Round Waffles,Banana Delight Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Banana Delight Waffle,All,Banana,10-12 thin slices,
+Round Waffles,Banana Delight Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Chocoberry Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Chocoberry Waffle,All,Medium strawberries,5 pcs,sliced
+Round Waffles,Chocoberry Waffle,All,Pistachio powder,1 TBSP,
+Round Waffles,Chocoberry Waffle,All,White chocolate sauce,10 lines,finish drizzle
+Round Waffles,Choco-Rocher Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Choco-Rocher Waffle,All,Mixed nuts,2 TBSP,
+Round Waffles,Choco-Rocher Waffle,All,Ferrero Rocher chocolates,2 pcs,sliced in half
+Round Waffles,Choco-Rocher Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Raspberry Sensation Waffle,All,White chocolate sauce,15 lines,first drizzle
+Round Waffles,Raspberry Sensation Waffle,All,Raspberries,10 pcs,spread out
+Round Waffles,Raspberry Sensation Waffle,All,White chocolate sauce,10 lines,second drizzle
+Round Waffles,Raspberry Sensation Waffle,All,Raspberry sauce,10 lines,finish drizzle
+Round Waffles,Fruitella Waffle,All,Nutella sauce,15 lines,first drizzle
+Round Waffles,Fruitella Waffle,All,Banana,10 thin slices,
+Round Waffles,Fruitella Waffle,All,Medium strawberries,5 pcs,sliced
+Round Waffles,Fruitella Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Yum Bubblegum Waffle,All,Nutella sauce,12 lines,first drizzle
+Round Waffles,Yum Bubblegum Waffle,All,Millions sweets & colour sprinkles,1 TBSP,
+Round Waffles,Yum Bubblegum Waffle,All,Kinder Bueno,1 pc,
+Round Waffles,Yum Bubblegum Waffle,All,Bubblegum sauce,10 lines,second drizzle
+Round Waffles,Yum Bubblegum Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+Round Waffles,Cookilicious Waffle,All,Cookie dough balls (defrosted),12 balls approx 10g each,6 per foil tray. Bake at 170°C 2 mins. Cool 2-3 mins
+Round Waffles,Cookilicious Waffle,All,Nutella sauce,15 lines,drizzle
+Round Waffles,Cookilicious Waffle,All,Cookie dough pieces,10-12 pcs,
+Round Waffles,Cookilicious Waffle,All,Milk chocolate sauce,10 lines,finish drizzle
+French Crepes,Crepe Base,All,Crepe batter,180ml per crepe,cook at 180°C. First crepe: spray heavily. Cook 10-15 secs. Flip. Cook 30 secs. Fold into triangle
+French Crepes,Nutella Classic Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Nutella Classic Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,Strawberry Passion Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Strawberry Passion Crepe,All,Medium strawberries,3-4 pcs,sliced
+French Crepes,Strawberry Passion Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,Banoffee Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Banoffee Crepe,All,Banana,10-12 thin slices,
+French Crepes,Banoffee Crepe,All,Milk chocolate sauce (on top),16 lines,
+French Crepes,Oreo Blossom Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Oreo Blossom Crepe,All,Oreo dust,3 TBSP,
+French Crepes,Oreo Blossom Crepe,All,Oreo biscuit,1 pc,
+French Crepes,Oreo Blossom Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,Fresh Indulgence Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Fresh Indulgence Crepe,All,Medium strawberries,2-3 pcs,sliced
+French Crepes,Fresh Indulgence Crepe,All,Banana,half pc,sliced
+French Crepes,Fresh Indulgence Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,Luscious Lotus Crepe,All,Lotus sauce (inside),3 lines,
+French Crepes,Luscious Lotus Crepe,All,Lotus Biscoff dust,3 TBSP,
+French Crepes,Luscious Lotus Crepe,All,Lotus Biscoff biscuit,1 pc,
+French Crepes,Luscious Lotus Crepe,All,Lotus sauce (on top),16 lines,
+French Crepes,Oreo & Strawberry Crepe,All,Nutella sauce (inside),3 lines,
+French Crepes,Oreo & Strawberry Crepe,All,Medium strawberries,3 pcs,sliced
+French Crepes,Oreo & Strawberry Crepe,All,Oreo dust,2 TBSP,
+French Crepes,Oreo & Strawberry Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,Hazel Nutter Crepe,All,Nutella sauce,3 lines,
+French Crepes,Hazel Nutter Crepe,All,Mixed nuts,2 TBSP,
+French Crepes,Hazel Nutter Crepe,All,Kinder Bueno chocolate,1 pc,
+French Crepes,Hazel Nutter Crepe,All,Nutella sauce (on top),16 lines,
+French Crepes,The Canadian Crepe,All,Maple syrup (inside),3 lines,
+French Crepes,The Canadian Crepe,All,Medium strawberries,5 pcs,sliced
+French Crepes,The Canadian Crepe,All,Maple syrup (on top),10 lines,
+French Crepes,Raspberry Temptation Crepe,All,White chocolate (inside),3 lines,
+French Crepes,Raspberry Temptation Crepe,All,Raspberries,10 pcs,
+French Crepes,Raspberry Temptation Crepe,All,White chocolate (on top),15 lines,
+French Crepes,Raspberry Temptation Crepe,All,Raspberry sauce,10 lines,
+French Crepes,Kanafeh Crepe,All,Katafi mix (inside),2 TBSP,spread evenly
+French Crepes,Kanafeh Crepe,All,Milk chocolate sauce,10 lines,marble effect with knife
+French Crepes,Kanafeh Crepe,All,Pistachio sauce,10 lines,marble effect with knife
+French Crepes,Kanafeh Crepe,All,Pistachio dust,1 TBSP,bottom gap
+French Crepes,Kanafeh Crepe,All,Dry katafi,1 TBSP,bottom gap
+Spanish Churros,COOKING: All Churros,All,Frozen churros,4 pcs per portion,fry at highest heat 6 mins. Flip at 3 mins. Drain. Coat in cinnamon & sugar mixture
+Spanish Churros,Original Churros,All,Cinnamon & sugar mixture,coat,
+Spanish Churros,Original Churros,All,Dipping sauce (milk / white / Kinder / Nutella),1 pot (2oz),customer choice
+Spanish Churros,Cookies & Cream Churros,All,Milk chocolate sauce,4 lines,
+Spanish Churros,Cookies & Cream Churros,All,Oreo dust,1 TBSP,
+Spanish Churros,Cookies & Cream Churros,All,White chocolate sauce,4 lines,
+Spanish Churros,Chocolate & Almond Churros,All,Milk chocolate sauce,6 lines,
+Spanish Churros,Chocolate & Almond Churros,All,Almond slices,1 TBSP,
+Spanish Churros,Chocolate & Sprinkle Churros,All,Milk chocolate sauce,6 lines,
+Spanish Churros,Chocolate & Sprinkle Churros,All,Colour sprinkles,1 TBSP,
+Spanish Churros,Strawberry & Pistachio Churros,All,Milk chocolate sauce,6 lines,
+Spanish Churros,Strawberry & Pistachio Churros,All,Pistachio dust,1 TBSP,
+Spanish Churros,Strawberry & Pistachio Churros,All,Medium strawberries,2 pcs,sliced
+Dipped Strawberries,Belgian Milk Chocolate Strawberries,All,Large strawberries,6 pcs (7-8 if small),clean dry & chilled
+Dipped Strawberries,Belgian Milk Chocolate Strawberries,All,Belgian milk chocolate,to dip,scrape excess. Set in fridge if runny
+Dipped Strawberries,Belgian White Chocolate Strawberries,All,Large strawberries,6 pcs,
+Dipped Strawberries,Belgian White Chocolate Strawberries,All,Belgian white chocolate,to dip,
+Dipped Strawberries,Kinder Chocolate Dipped Strawberries,All,Large strawberries,6 pcs,
+Dipped Strawberries,Kinder Chocolate Dipped Strawberries,All,Kinder chocolate,to dip,
+Dipped Strawberries,Assorted Dipped Strawberries,All,Large strawberries,6 pcs,2 milk + 2 white + 2 Kinder chocolate
+Dipped Strawberries,Assorted Dipped Strawberries,All,Belgian milk chocolate,2 pcs worth,
+Dipped Strawberries,Assorted Dipped Strawberries,All,Belgian white chocolate,2 pcs worth,
+Dipped Strawberries,Assorted Dipped Strawberries,All,Kinder chocolate,2 pcs worth,
+Chocolate Strawberry Cups,Chopped Strawberry Cup (12oz),All,Belgian milk chocolate,drizzle,glass lining
+Chocolate Strawberry Cups,Chopped Strawberry Cup (12oz),All,Medium strawberries,4 pcs layer 1,sliced
+Chocolate Strawberry Cups,Chopped Strawberry Cup (12oz),All,Milk chocolate sauce,4 lines,layer 1
+Chocolate Strawberry Cups,Chopped Strawberry Cup (12oz),All,Medium strawberries,4 pcs layer 2,sliced
+Chocolate Strawberry Cups,Chopped Strawberry Cup (12oz),All,Milk chocolate sauce,4 lines,layer 2. Same for Kinder / White / Nutella variants
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Belgian milk chocolate,drizzle,glass lining
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Pistachio sauce,drizzle,glass lining
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Medium strawberries,3 pcs layer 1,sliced
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Katafi mix,2 TBSP layer 1,
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Milk chocolate sauce,4 lines layer 1,
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Medium strawberries,3 pcs layer 2,sliced
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Katafi mix,2 TBSP layer 2,
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Milk chocolate sauce,4 lines layer 2,
+Chocolate Strawberry Cups,Kanafeh Strawberry Cup,All,Dry katafi,1 TSP,top garnish. Do not fill to very top
+Sundaes,Strawberry Shortbread Sundae,All,Strawberry sauce,drizzle,glass base
+Sundaes,Strawberry Shortbread Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Strawberry Shortbread Sundae,All,Strawberry gelato,1 scoop,
+Sundaes,Strawberry Shortbread Sundae,All,Fresh strawberries,freshly chopped,
+Sundaes,Strawberry Shortbread Sundae,All,Crushed shortbread biscuit,1 TBSP,
+Sundaes,Strawberry Shortbread Sundae,All,Strawberry sauce,light drizzle,
+Sundaes,Strawberry Shortbread Sundae,All,Whipped cream,1 swirl,
+Sundaes,Strawberry Shortbread Sundae,All,Garnish: shortbread crumbs + strawberries + strawberry sauce,light drizzle,top
+Sundaes,Banana Split Sundae,All,Toffee sauce,drizzle,glass base
+Sundaes,Banana Split Sundae,All,Vanilla gelato,2 scoops,
+Sundaes,Banana Split Sundae,All,Banana,half pc,thinly sliced
+Sundaes,Banana Split Sundae,All,Toffee sauce,light drizzle,
+Sundaes,Banana Split Sundae,All,Whipped cream,1 swirl,
+Sundaes,Banana Split Sundae,All,Garnish: 2 thin banana slices + toffee sauce,top garnish,
+Sundaes,Tutti Frutti Sundae,All,Strawberry sauce,drizzle,glass base
+Sundaes,Tutti Frutti Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Tutti Frutti Sundae,All,Strawberry gelato,1 scoop,
+Sundaes,Tutti Frutti Sundae,All,Banana,8 thin slices,
+Sundaes,Tutti Frutti Sundae,All,Medium strawberries,2 pcs,
+Sundaes,Tutti Frutti Sundae,All,Strawberry sauce,light drizzle,
+Sundaes,Tutti Frutti Sundae,All,Whipped cream,1 swirl,
+Sundaes,Tutti Frutti Sundae,All,Garnish: 2 thin banana slices + 2 small strawberries + strawberry sauce,top garnish,
+Sundaes,Mango Me Sundae,All,Mango sauce,drizzle,glass base
+Sundaes,Mango Me Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Mango Me Sundae,All,Mango ice cream,1 scoop,
+Sundaes,Mango Me Sundae,All,Small mango cubes,8 pcs,
+Sundaes,Mango Me Sundae,All,Mango sauce,light drizzle,
+Sundaes,Mango Me Sundae,All,Whipped cream,1 swirl,
+Sundaes,Mango Me Sundae,All,Garnish: 4 small mango cubes + mango sauce,top garnish,
+Sundaes,Oreo Heaven Sundae,All,Chocolate sauce,drizzle,glass base
+Sundaes,Oreo Heaven Sundae,All,Cookies & cream gelato,1 scoop,
+Sundaes,Oreo Heaven Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Oreo Heaven Sundae,All,Crushed Oreo powder,2 TBSP,
+Sundaes,Oreo Heaven Sundae,All,Half Oreo biscuit,a few pieces,chopped
+Sundaes,Oreo Heaven Sundae,All,Chocolate sauce,light drizzle,
+Sundaes,Oreo Heaven Sundae,All,Whipped cream,1 swirl,
+Sundaes,Oreo Heaven Sundae,All,Garnish: half Oreo biscuit + Oreo powder + chocolate sauce,top garnish,
+Sundaes,Royal Ferrero Sundae,All,Chocolate sauce,drizzle,glass base
+Sundaes,Royal Ferrero Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Royal Ferrero Sundae,All,Chocolate gelato,1 scoop,
+Sundaes,Royal Ferrero Sundae,All,Ferrero Rocher chocolates,2 pcs,crushed
+Sundaes,Royal Ferrero Sundae,All,Chocolate sauce,light drizzle,
+Sundaes,Royal Ferrero Sundae,All,Whipped cream,1 swirl,
+Sundaes,Royal Ferrero Sundae,All,Garnish: remaining Ferrero cut in 2 pcs + chocolate sauce,top garnish,
+Sundaes,Fudge Brownie Sundae,All,Chocolate sauce,drizzle,glass base
+Sundaes,Fudge Brownie Sundae,All,Chocolate gelato,2 scoops,
+Sundaes,Fudge Brownie Sundae,All,Fudge brownie bites,1.5 pcs,smashed
+Sundaes,Fudge Brownie Sundae,All,Chocolate sauce,light drizzle,
+Sundaes,Fudge Brownie Sundae,All,Whipped cream,1 swirl,
+Sundaes,Fudge Brownie Sundae,All,Garnish: remaining half brownie + chocolate sauce,top garnish,
+Sundaes,Millions Sundae,All,Bubblegum sauce,drizzle,glass base
+Sundaes,Millions Sundae,All,Vanilla gelato,1 scoop,
+Sundaes,Millions Sundae,All,Bubblegum gelato,1 scoop,
+Sundaes,Millions Sundae,All,Millions sweets,1 TBSP,
+Sundaes,Millions Sundae,All,Bubblegum sauce,light drizzle,
+Sundaes,Millions Sundae,All,Whipped cream,1 swirl,
+Sundaes,Millions Sundae,All,Garnish: millions sweets + bubblegum sauce,top garnish,
+Soft Swirl Ice-Cream,Mango Passion Swirl,All,Whippy ice cream,fill tub,add halfway then drizzle then fill rest
+Soft Swirl Ice-Cream,Mango Passion Swirl,All,Mango sauce,drizzle,
+Soft Swirl Ice-Cream,Mango Passion Swirl,All,Fresh passion fruit,half pc,seeds on top
+Soft Swirl Ice-Cream,Chocoberry Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Chocoberry Swirl,All,Nutella sauce,light drizzle,
+Soft Swirl Ice-Cream,Chocoberry Swirl,All,Strawberries,2-3 pcs chopped,on sides
+Soft Swirl Ice-Cream,Chocoberry Swirl,All,Nutella sauce,light drizzle top,
+Soft Swirl Ice-Cream,Choco Crunch Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Choco Crunch Swirl,All,Chocolate sauce,light drizzle,
+Soft Swirl Ice-Cream,Choco Crunch Swirl,All,Lazzy cat coco-puffs,2-3 TBSP,top
+Soft Swirl Ice-Cream,Pistachio Kanafeh Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Pistachio Kanafeh Swirl,All,Pistachio sauce,light drizzle,
+Soft Swirl Ice-Cream,Pistachio Kanafeh Swirl,All,Katafi mix,2 TBSP,
+Soft Swirl Ice-Cream,Pistachio Kanafeh Swirl,All,Pistachio sauce,light drizzle top,
+Soft Swirl Ice-Cream,Pistachio Kanafeh Swirl,All,Pistachio nuts,garnish,
+Soft Swirl Ice-Cream,Cookie Crumb Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Cookie Crumb Swirl,All,Chocolate sauce,light drizzle,
+Soft Swirl Ice-Cream,Cookie Crumb Swirl,All,Oreo dust,1 TBSP,top
+Soft Swirl Ice-Cream,Golden Biscoffee Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Golden Biscoffee Swirl,All,Lotus sauce,light drizzle,
+Soft Swirl Ice-Cream,Golden Biscoffee Swirl,All,Lotus Biscoff powder,1 TBSP,top
+Soft Swirl Ice-Cream,Mi-Su Tiramisu Swirl,All,Ladyfingers,3 pcs,soaked in espresso + cold water 5 secs. Store in fridge up to 24h
+Soft Swirl Ice-Cream,Mi-Su Tiramisu Swirl,All,Whippy ice cream,fill tub,
+Soft Swirl Ice-Cream,Mi-Su Tiramisu Swirl,All,Chocolate sauce,light drizzle,
+Soft Swirl Ice-Cream,Mi-Su Tiramisu Swirl,All,Cocoa powder,dust,garnish
+Mojito,Strawberry Mojito,All,Strawberry Nojito bottle (HQ),1 bottle,fill halfway then top up
+Mojito,Strawberry Mojito,All,Fresh strawberry,1 pc,cut into 6 pieces
+Mojito,Strawberry Mojito,All,Lemon slice,1 pc,
+Mojito,Strawberry Mojito,All,Mint leaves,4 pcs,smash for aroma before using
+Mojito,Strawberry Mojito,All,Ice cubes,half cup,
+Mojito,Lemon Mojito,All,Lemon Nojito bottle (HQ),1 bottle,fill halfway then top up
+Mojito,Lemon Mojito,All,Lemon slice,1 pc,
+Mojito,Lemon Mojito,All,Lime slice,1 pc,
+Mojito,Lemon Mojito,All,Fresh strawberry,1 pc,cut into 6 pieces
+Mojito,Lemon Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Lemon Mojito,All,Ice cubes,half cup,
+Mojito,Passion Fruit Mojito,All,Monin Passion Fruit Syrup,40ml,
+Mojito,Passion Fruit Mojito,All,Sprite / Barr Lemon,top up,
+Mojito,Passion Fruit Mojito,All,Fresh passion fruit,1 whole,
+Mojito,Passion Fruit Mojito,All,Lemon slice,1 pc,
+Mojito,Passion Fruit Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Passion Fruit Mojito,All,Ice cubes,half cup,
+Mojito,Blue Hawaiian Mojito,All,Monin Blue Curacao Syrup,25ml,
+Mojito,Blue Hawaiian Mojito,All,Monin Coconut Syrup,30ml,
+Mojito,Blue Hawaiian Mojito,All,Sprite / Barr Lemon,top up,
+Mojito,Blue Hawaiian Mojito,All,Lemon slice,1 pc,
+Mojito,Blue Hawaiian Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Blue Hawaiian Mojito,All,Ice cubes,half cup,
+Mojito,Pomegranate Mojito,All,Monin Pomegranate Syrup,50ml,
+Mojito,Pomegranate Mojito,All,Sprite / Barr Lemon,top up,
+Mojito,Pomegranate Mojito,All,Fresh pomegranate seeds,1 TBSP,
+Mojito,Pomegranate Mojito,All,Lemon slice,1 pc,
+Mojito,Pomegranate Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Pomegranate Mojito,All,Ice cubes,half cup,
+Mojito,Berry Nice Mojito,All,Monin Jabuticaba Syrup,60ml,
+Mojito,Berry Nice Mojito,All,Sprite / Barr Lemonade,top up,
+Mojito,Berry Nice Mojito,All,Fresh blueberries,2 pcs,
+Mojito,Berry Nice Mojito,All,Lemon slice,1 pc,
+Mojito,Berry Nice Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Berry Nice Mojito,All,Ice cubes,half cup,
+Mojito,Rose & Lychee Mojito,All,Monin Lychee Syrup,40ml,
+Mojito,Rose & Lychee Mojito,All,Rose syrup,5ml,
+Mojito,Rose & Lychee Mojito,All,Sprite / Barr Lemon,top up,
+Mojito,Rose & Lychee Mojito,All,Lemon slice,1 pc,
+Mojito,Rose & Lychee Mojito,All,Mint leaves,4 pcs,smash for aroma
+Mojito,Rose & Lychee Mojito,All,Dried rose petals,garnish,
+Mojito,Rose & Lychee Mojito,All,Ice cubes,half cup,
+Iced Lattes,Iced Latte,All,Fresh milk,fill ¾ glass,can swap to Oat / Coconut / Soya
+Iced Lattes,Iced Latte,All,Double espresso shot,1,poured over gently
+Iced Lattes,Iced Latte,All,Ice cubes,¾ glass,
+Iced Lattes,Iced Spanish Latte,All,Condensed milk,400g,per batch — mix with 1950ml fresh milk to make Spanish milk
+Iced Lattes,Iced Spanish Latte,All,Fresh milk,1950ml,per batch
+Iced Lattes,Iced Spanish Latte,All,Spanish milk (pre-made),fill glass leaving room at top,
+Iced Lattes,Iced Spanish Latte,All,Double espresso shot,1,poured over gently
+Iced Lattes,Iced Spanish Latte,All,Ice cubes,¾ glass,
+Iced Lattes,Iced Pistachio Latte,All,Fresh milk,200ml,blend with pistachio sauce 10 secs
+Iced Lattes,Iced Pistachio Latte,All,Pistachio sauce,4oz,blend with milk
+Iced Lattes,Iced Pistachio Latte,All,Double espresso shot,1,poured over gently
+Iced Lattes,Iced Pistachio Latte,All,Ice cubes,¾ glass,
+Iced Lattes,Iced Red Velvet Latte,All,Fresh milk,fill ¾ glass,
+Iced Lattes,Iced Red Velvet Latte,All,Red Velvet powder,2 TBSP,mix with 50ml hot water
+Iced Lattes,Iced Red Velvet Latte,All,Ice cubes,fill glass,
+Iced Lattes,Iced Red Velvet Latte,All,Whipped cream,optional,
+Iced Lattes,Iced Luna Latte,All,Fresh milk,fill ¾ glass,
+Iced Lattes,Iced Luna Latte,All,Luna powder,2 TBSP,mix with 50ml hot water
+Iced Lattes,Iced Luna Latte,All,Ice cubes,fill glass,
+Iced Lattes,Iced Luna Latte,All,Whipped cream,optional,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Double espresso shot,1,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Cocoa powder,2 TBSP,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Sugar,1 TBSP,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Fresh milk,200ml,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Whippy ice cream,4oz,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Ice cubes,half cup,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Chocolate syrup,drizzle glass,
+Iced Frappe & Ice-Coolers,Iced Mocha,All,Whipped cream,optional,blend all except ice 30 secs then add ice blend 10 secs
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Zuma hot chocolate powder,2 TBSP,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Sugar,1 TBSP,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Fresh milk,200ml,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Chocolate gelato,1 scoop,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Ice cubes,half cup,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Chocolate syrup,drizzle glass,
+Iced Frappe & Ice-Coolers,Iced Chocolate,All,Whipped cream,optional,blend all except ice 30 secs
+Iced Frappe & Ice-Coolers,Frozen Peach,All,Cold water,one third glass,
+Iced Frappe & Ice-Coolers,Frozen Peach,All,Sweetbird Peach Smoothie Mix,fill remaining glass,
+Iced Frappe & Ice-Coolers,Frozen Peach,All,Ice cubes,fill glass,blend in Ninja Bullet 10 secs until thick
+Iced Matcha,Vanilla Oat Iced Matcha,All,Oat milk,fill ¾ glass,mix well
+Iced Matcha,Vanilla Oat Iced Matcha,All,Vanilla syrup,30ml,
+Iced Matcha,Vanilla Oat Iced Matcha,All,Matcha powder,3g,whisked in 50ml water with electric handheld whisk until smooth
+Iced Matcha,Vanilla Oat Iced Matcha,All,Cold water (for matcha),50ml,
+Iced Matcha,Vanilla Oat Iced Matcha,All,Ice cubes,half glass,
+Iced Matcha,Iced Strawberry Matcha,All,Oat milk,fill ¾ glass,
+Iced Matcha,Iced Strawberry Matcha,All,Strawberry puree,40ml,
+Iced Matcha,Iced Strawberry Matcha,All,Matcha powder,3g,whisked in 50ml water
+Iced Matcha,Iced Strawberry Matcha,All,Cold water (for matcha),50ml,
+Iced Matcha,Iced Strawberry Matcha,All,Ice cubes,half glass,
+Iced Matcha,Iced Mango Matcha,All,Oat milk,fill ¾ glass,
+Iced Matcha,Iced Mango Matcha,All,Mango puree,40ml,
+Iced Matcha,Iced Mango Matcha,All,Matcha powder,3g,whisked in 50ml water
+Iced Matcha,Iced Mango Matcha,All,Cold water (for matcha),50ml,
+Iced Matcha,Iced Mango Matcha,All,Ice cubes,half glass,
+Iced Matcha,Iced White Matcha,All,Oat milk,fill ¾ glass,
+Iced Matcha,Iced White Matcha,All,Zuma liquid white chocolate,50ml,
+Iced Matcha,Iced White Matcha,All,Matcha powder,3g,whisked in 50ml water
+Iced Matcha,Iced White Matcha,All,Cold water (for matcha),50ml,
+Iced Matcha,Iced White Matcha,All,Ice cubes,half glass,
+Falooda,BATCH: Falooda Milk,Batch,Fresh whole milk,4.5 pints,combine all until blended. Fresh 3 days in fridge
+Falooda,BATCH: Falooda Milk,Batch,Kulfi ice cream,half litre (500ml),
+Falooda,BATCH: Falooda Milk,Batch,Sugar,350g,
+Falooda,BATCH: Falooda Milk,Batch,Evaporated milk,400g,
+Falooda,BATCH: Falooda Noodles,Batch,Falooda noodles (HQ packet),per packet instructions,fresh 3 days in fridge
+Falooda,BATCH: Basil Seeds,Batch,Basil seeds,1 TBSP,soak in 250ml cold water 15 mins until translucent coating forms
+Falooda,Kulfi Falooda,All,Soaked basil seeds,1 TBSP,
+Falooda,Kulfi Falooda,All,Falooda noodles,3 lifts (fork),
+Falooda,Kulfi Falooda,All,Falooda milk,half glass,
+Falooda,Kulfi Falooda,All,Kulfi ice cream,1.5 scoops,lightly mix with metal spoon
+Falooda,Kulfi Falooda,All,Falooda milk,top up,
+Falooda,Kulfi Falooda,All,Kulfi ice cream cubes,5 pcs,on top
+Falooda,Kulfi Falooda,All,Pistachio powder,sprinkle,garnish
+Falooda,Kulfi Falooda,All,Rose syrup,light drizzle,garnish
+Falooda,Rose Falooda,All,Soaked basil seeds,1 TBSP,
+Falooda,Rose Falooda,All,Falooda noodles,3 lifts (fork),
+Falooda,Rose Falooda,All,Falooda milk,half glass,
+Falooda,Rose Falooda,All,Kulfi ice cream,1.5 scoops,mix well
+Falooda,Rose Falooda,All,Rose syrup,2 TBSP,until bright pink colour visible
+Falooda,Rose Falooda,All,Falooda milk,top up,
+Falooda,Rose Falooda,All,Kulfi ice cream cubes,5 pcs,on top
+Falooda,Rose Falooda,All,Pistachio powder,sprinkle,garnish
+Falooda,Rose Falooda,All,Rose syrup,light drizzle,garnish
+Falooda,Mango Falooda,All,Soaked basil seeds,1 TBSP,
+Falooda,Mango Falooda,All,Falooda noodles,3 lifts (fork),
+Falooda,Mango Falooda,All,Falooda milk,half glass,
+Falooda,Mango Falooda,All,Mango kulfi ice cream,1.5 scoops,mix well
+Falooda,Mango Falooda,All,Falooda milk,top up,
+Falooda,Mango Falooda,All,Kulfi ice cream cubes,5 pcs,on top
+Falooda,Mango Falooda,All,Pistachio powder,sprinkle,garnish
+Falooda,Mango Falooda,All,Rose syrup,light drizzle,garnish
+Falooda,Pistachio Falooda,All,Soaked basil seeds,1 TBSP,
+Falooda,Pistachio Falooda,All,Falooda noodles,3 lifts (fork),
+Falooda,Pistachio Falooda,All,Falooda milk,half glass,
+Falooda,Pistachio Falooda,All,Pistachio kulfi ice cream,1.5 scoops,mix well
+Falooda,Pistachio Falooda,All,Falooda milk,top up,
+Falooda,Pistachio Falooda,All,Kulfi ice cream cubes,5 pcs,on top
+Falooda,Pistachio Falooda,All,Pistachio powder,sprinkle,garnish
+Falooda,Pistachio Falooda,All,Rose syrup,light drizzle,garnish
+Milkshakes,COOKING NOTE: All Milkshakes,All,Whippy ice cream (standard base),15oz,blend 30 secs. Top with whipped cream. Gelato-based shakes use 12oz whippy + 2 scoops gelato
+Milkshakes,Kinder Bueno Shake (Milk or White),All,Kinder Bueno individual pieces,2 pcs,
+Milkshakes,Kinder Bueno Shake (Milk or White),All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Kinder Bueno Shake (Milk or White),All,Whipped cream,1 swirl,top
+Milkshakes,Nutella & Banana Shake,All,Nutella sauce,4oz,
+Milkshakes,Nutella & Banana Shake,All,Banana,half pc,
+Milkshakes,Nutella & Banana Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Nutella & Banana Shake,All,Whipped cream,1 swirl,top
+Milkshakes,KitKat Shake,All,KitKat bar,40g,
+Milkshakes,KitKat Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,KitKat Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Pistachio OR Kulfi Shake,All,Pistachio or Kulfi gelato,2 scoops,
+Milkshakes,Pistachio OR Kulfi Shake,All,Whippy ice cream,12oz,blend 30 secs
+Milkshakes,Pistachio OR Kulfi Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Snickers Shake,All,Snickers bar,40g,
+Milkshakes,Snickers Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Snickers Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Chocolate Shake,All,Chocolate gelato,2 scoops,
+Milkshakes,Chocolate Shake,All,Whippy ice cream,12oz,blend 30 secs
+Milkshakes,Chocolate Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Lotus Biscoff Shake,All,Lotus Biscoff biscuits,5 pcs,
+Milkshakes,Lotus Biscoff Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Lotus Biscoff Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Brownie Delight Shake,All,Brownie pieces,3 pcs,
+Milkshakes,Brownie Delight Shake,All,Whippy ice cream,15oz,blend 30 secs then drizzle cup with choc sauce
+Milkshakes,Brownie Delight Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Aero Mint Shake,All,Aero Mint bar,36g,
+Milkshakes,Aero Mint Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Aero Mint Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Nutella & Strawberry Shake,All,Nutella sauce,2oz,
+Milkshakes,Nutella & Strawberry Shake,All,Medium strawberries,4 pcs,
+Milkshakes,Nutella & Strawberry Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Nutella & Strawberry Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Oreo Shake,All,Oreo biscuits,4 pcs,
+Milkshakes,Oreo Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Oreo Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Bubblegum Shake,All,Whippy ice cream,12oz,
+Milkshakes,Bubblegum Shake,All,Bubblegum gelato,2 scoops,blend 30 secs. Drizzle glass with bubblegum sauce
+Milkshakes,Bubblegum Shake,All,Bubblegum sauce,drizzle glass,
+Milkshakes,Bubblegum Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Ferrero Rocher Shake,All,Ferrero Rocher chocolates,3 pcs,
+Milkshakes,Ferrero Rocher Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Ferrero Rocher Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Coffee Love Shake,All,Fresh double espresso shot,1,
+Milkshakes,Coffee Love Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Coffee Love Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Strawberry Shake,All,Strawberry sauce,25ml,
+Milkshakes,Strawberry Shake,All,Medium strawberries,4 pcs,
+Milkshakes,Strawberry Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Strawberry Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Strawberry Cheesecake Shake,All,Whippy ice cream,15oz,
+Milkshakes,Strawberry Cheesecake Shake,All,NYC cheesecake slice,60g,
+Milkshakes,Strawberry Cheesecake Shake,All,Medium strawberries,4 pcs,
+Milkshakes,Strawberry Cheesecake Shake,All,Strawberry sauce,25ml,blend 30 secs. Drizzle glass with strawberry sauce
+Milkshakes,Strawberry Cheesecake Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Crunchie Shake,All,Crunchie bar,40g,
+Milkshakes,Crunchie Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Crunchie Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Vanilla Shake,All,Vanilla gelato,2 scoops,
+Milkshakes,Vanilla Shake,All,Whippy ice cream,12oz,blend 30 secs
+Milkshakes,Vanilla Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Oreo & Ferrero Shake,All,Oreo biscuits,2 pcs,
+Milkshakes,Oreo & Ferrero Shake,All,Ferrero Rocher chocolates,2 pcs,
+Milkshakes,Oreo & Ferrero Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Oreo & Ferrero Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Chocolate Indulgence Shake,All,Maltesers,6 pcs,
+Milkshakes,Chocolate Indulgence Shake,All,Ferrero Rocher chocolates,2 pcs,
+Milkshakes,Chocolate Indulgence Shake,All,Nutella sauce,2oz,blend 30 secs
+Milkshakes,Chocolate Indulgence Shake,All,Whippy ice cream,15oz,
+Milkshakes,Chocolate Indulgence Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Terry Orange Shake,All,Terry's Chocolate Orange pieces,6 pcs,
+Milkshakes,Terry Orange Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Terry Orange Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Mango Shake,All,Whippy ice cream,12oz,
+Milkshakes,Mango Shake,All,Rubicon mango juice,30ml,
+Milkshakes,Mango Shake,All,Mango ice cream,2 scoops,blend 30 secs
+Milkshakes,Mango Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Nutella Shake,All,Nutella sauce,4oz,
+Milkshakes,Nutella Shake,All,Whippy ice cream,15oz,blend 30 secs
+Milkshakes,Nutella Shake,All,Whipped cream,1 swirl,top
+Milkshakes,Cookies & Cream Shake,All,Nutella sauce,4oz,
+Milkshakes,Cookies & Cream Shake,All,Whippy ice cream,15oz,blend 30 secs. Drizzle glass with chocolate syrup
+Milkshakes,Cookies & Cream Shake,All,Whipped cream,1 swirl,top
+Espresso Coffees,Double Espresso,All,Ground coffee,16-20g,grind into portafilter
+Espresso Coffees,Double Espresso,All,Espresso extraction yield,30-40g,25-30 sec extraction. Serve immediately
+Espresso Coffees,Espresso Macchiato,All,Double espresso shot,1,in espresso cup
+Espresso Coffees,Espresso Macchiato,All,Milk foam,2 TBSP,scooped on top — extra foam aeration
+Espresso Coffees,Americano,All,Double espresso shot,1,in serving cup
+Espresso Coffees,Americano,All,Hot water,fill cup,White Americano = add milk in separate small pot
+Milk-Based Coffees,Flat White,All,Double espresso shot,1,in 8-9oz cup
+Milk-Based Coffees,Flat White,All,Steamed milk (minimal foam),fill cup,1-2 sec aeration. Transfer to small pitcher
+Milk-Based Coffees,Latte,All,Double espresso shot,1,in 10-12oz cup
+Milk-Based Coffees,Latte,All,Steamed milk (medium foam),fill cup,2-4 sec aeration. Use large pitcher. Add syrup to espresso for flavoured latte
+Milk-Based Coffees,Cappuccino,All,Double espresso shot,1,in 10-12oz cup
+Milk-Based Coffees,Cappuccino,All,Steamed milk (thick velvety foam),fill cup,5-6 sec aeration. Transfer to second pitcher. Cocoa powder optional
+Milk-Based Coffees,Mocha / White Mocha,All,Double espresso shot,1,in 10-12oz cup
+Milk-Based Coffees,Mocha / White Mocha,All,Hot chocolate powder,1 TBSP,mix well with espresso
+Milk-Based Coffees,Mocha / White Mocha,All,Steamed milk (latte foam),pour over,
+Hot Chocolates,Milk Hot Chocolate,All,Zuma hot chocolate powder,2 TBSP,add small milk first then mix
+Hot Chocolates,Milk Hot Chocolate,All,Steamed milk (latte consistency),fill tall glass,whipped cream & toppings as requested
+Hot Chocolates,White Hot Chocolate,All,White hot chocolate powder,2 TBSP,add small milk first then mix
+Hot Chocolates,White Hot Chocolate,All,Steamed milk (latte consistency),fill tall glass,whipped cream & toppings as requested
+Hot Chocolates,Ruby Hot Chocolate,All,Ruby chocolate powder,2 TBSP,add small milk first then mix
+Hot Chocolates,Ruby Hot Chocolate,All,Steamed milk (latte consistency),fill tall glass,
+Hot Chocolates,Pistachio Hot Chocolate,All,White hot choc powder,1 TBSP,
+Hot Chocolates,Pistachio Hot Chocolate,All,Pistachio sauce,2-3oz,blend with milk 10 secs then steam
+Hot Chocolates,Pistachio Hot Chocolate,All,Fresh milk,100ml,blend with pistachio then steam
+Speciality Lattes (Espresso),Spanish Latte (Hot),All,Double espresso shot,1,in 10-12oz cup
+Speciality Lattes (Espresso),Spanish Latte (Hot),All,Pre-made Spanish milk,fill cup,steam to latte consistency
+Speciality Lattes (Espresso),Pistachio Latte (Hot),All,Double espresso shot,1,
+Speciality Lattes (Espresso),Pistachio Latte (Hot),All,Pistachio sauce,2-3oz,blend with milk 10 secs then steam
+Speciality Lattes (Espresso),Pistachio Latte (Hot),All,Fresh milk,100ml,blend with pistachio then steam
+Speciality Lattes (Espresso),Pistachio Latte (Hot),All,Pistachio powder,optional,as per customer request
+Speciality Lattes (Espresso),Tiramisu Latte,All,Double espresso shot,1,
+Speciality Lattes (Espresso),Tiramisu Latte,All,Tiramisu cream,50ml,
+Speciality Lattes (Espresso),Tiramisu Latte,All,Normal milk + Spanish milk (half each),fill glass,steam to latte consistency
+Speciality Lattes (Espresso),Tiramisu Latte,All,Tiramisu ladyfinger,1 pc,
+Speciality Lattes (Espresso),Tiramisu Latte,All,Cocoa powder,dust on top,
+Speciality Lattes (Non-Espresso),Red Velvet Latte (Hot),All,Red Velvet powder,3 TSP,mix quickly with small amount of milk
+Speciality Lattes (Non-Espresso),Red Velvet Latte (Hot),All,Steamed milk (latte consistency),fill 10oz cup,
+Speciality Lattes (Non-Espresso),Luna Latte (Hot),All,Luna Latte powder,3 TSP,mix quickly with small amount of milk
+Speciality Lattes (Non-Espresso),Luna Latte (Hot),All,Steamed milk (latte consistency),fill 10oz cup,
+Speciality Lattes (Non-Espresso),Spiced Chai Latte,All,Chaii Latte powder,3 TSP,
+Speciality Lattes (Non-Espresso),Spiced Chai Latte,All,Steamed milk (slightly extra hot latte),fill tall glass,cinnamon powder dust optional
+Speciality Lattes (Non-Espresso),Vanilla Oat Matcha Latte (Hot),All,Matcha powder,2-3 TSP,
+Speciality Lattes (Non-Espresso),Vanilla Oat Matcha Latte (Hot),All,Vanilla syrup,30ml,
+Speciality Lattes (Non-Espresso),Vanilla Oat Matcha Latte (Hot),All,Oat milk (steamed latte consistency),fill 10oz cup,mix matcha with small oat milk first
+Teas,English Tea,All,Teabag,1 pc,
+Teas,English Tea,All,Hot water,fill cup,milk in separate pot
+Teas,Green Tea,All,Green tea bag,1 pc,hot water
+Teas,Mint Tea,All,Fresh mint leaves OR mint teabag,to taste,hot water
+Karak Tea,BATCH: Karak Chai,Batch,Fresh whole milk,6 litres,
+Karak Tea,BATCH: Karak Chai,Batch,Cold water,1 litre,high flame 20 mins
+Karak Tea,BATCH: Karak Chai,Batch,HQ Karak tea packets,2 packets,add when milk rises near top. Boil over 4-5 times. Cook 30 more mins. Strain into hot drink dispenser
+Food - Breakfast,Classic English Breakfast,All,Pork sausages,2 pcs,fryer 180°C 4-5 mins then grill 7-8 mins until golden brown. Must reach 75°C internal
+Food - Breakfast,Classic English Breakfast,All,Beef bacon strips,2 pcs,grill 1 min each side. Must reach 75°C
+Food - Breakfast,Classic English Breakfast,All,Hash browns,2 pcs,fryer 180°C 3-4 mins until crispy golden
+Food - Breakfast,Classic English Breakfast,All,Fried eggs,2 pcs,runny: 2 min each side / medium: 3 min + 2 min / well-done: 3.5 min each side
+Food - Breakfast,Classic English Breakfast,All,Cooked mushrooms,2 TBSP,pan 6-7 mins with butter cube + 1 TBSP oil + salt & pepper
+Food - Breakfast,Classic English Breakfast,All,Cherry tomatoes,4 pcs,grill with 1 TSP oil until grill marks visible
+Food - Breakfast,Classic English Breakfast,All,Baked beans,4oz pot,heated in pan or microwave
+Food - Breakfast,Classic English Breakfast,All,Sourdough bread,1 slice,brushed with 1 TSP melted butter then toasted. Cut in half. Serve in separate bowl
+Food - Breakfast,Classic English Breakfast,All,Salad leaves,4-5 leaves,garnish
+Food - Breakfast,South Asian Breakfast,All,Masala omelette batter,120ml per portion,batch: 15 eggs + 50g onion + 50g tomato (no seeds) + 3 whole green chillies + half bunch coriander + HQ masala. Cook 2 mins flip 45-60 secs
+Food - Breakfast,South Asian Breakfast,All,Masala beans (HQ mix),4oz pot,batch of 5 tins. Heat until ready
+Food - Breakfast,South Asian Breakfast,All,Butter chicken (HQ frozen),4oz pot,defrost then heat to 75°C
+Food - Breakfast,South Asian Breakfast,All,Parathas,2 pcs,1 TSP oil on flat top. Cook 1 min each side until golden brown crispy
+Food - Breakfast,South Asian Breakfast,All,Mixed salad,prepared,4-5 leaves + 2 cherry tomatoes halved + sliced red onion + sliced cucumber + 1 sliced lemon + HQ salad seasoning + 1 TSP pomegranate molasses
+Food - Breakfast,One-Pot Skillet,All,Masala beans,250g,heat in skillet 1.5-2 mins
+Food - Breakfast,One-Pot Skillet,All,Eggs,2 pcs,crack into skillet. Lid on. Cook 5 mins medium flame. Per customer preference
+Food - Breakfast,One-Pot Skillet,All,Cooked sausage,1 pc,sliced into 10 pieces. Place on edges in circle
+Food - Breakfast,One-Pot Skillet,All,Cooked mushrooms,1 TBSP,towards centre
+Food - Breakfast,One-Pot Skillet,All,Feta cheese,1 cube,smashed & spread evenly over skillet
+Food - Breakfast,One-Pot Skillet,All,Fresh parsley,sprinkle,
+Food - Breakfast,One-Pot Skillet,All,Chilli oil,1 TBSP,drizzle for garnish
+Food - Breakfast,One-Pot Skillet,All,Sourdough bread,1.5 slices,buttered & toasted. Serve in separate bowl
+Food - Breakfast,Shakshuka,All,Shakshuka sauce (from HQ),225g,heat in skillet until bubbles
+Food - Breakfast,Shakshuka,All,Eggs,2 pcs,crack into skillet. Lid on. Cook 4 mins medium flame. Per customer preference
+Food - Breakfast,Shakshuka,All,Feta cheese,1 cube,smashed & spread over skillet
+Food - Breakfast,Shakshuka,All,Fresh parsley,sprinkle,
+Food - Breakfast,Shakshuka,All,Chilli oil,1 TBSP,evenly over skillet
+Food - Breakfast,Shakshuka,All,Sourdough bread,1.5 slices,buttered & toasted. Serve in separate bowl
+Food - Breakfast,Melty Egg Muffin,All,Muffin bun,1 pc,cut in half. Brush with melted butter. Warm on flat top 1 min
+Food - Breakfast,Melty Egg Muffin,All,Hash browns,2 pcs,fryer 180°C 3-4 mins. Smash
+Food - Breakfast,Melty Egg Muffin,All,Fried eggs,2 pcs,medium preferred: 3 min one side + 1.5-2 min other
+Food - Breakfast,Melty Egg Muffin,All,Cheese slice,1 pc,place on bottom bun. Oven 1 min
+Food - Breakfast,Melty Egg Muffin,All,Chilli sauce,2-3 lines,on cheese
+Food - Breakfast,Melty Egg Muffin,All,Guacamole paste,1 TBSP,on top bun. Batch: 5 avocados + 2 TSP salt + 5 TSP lemon juice + quarter bunch parsley
+Food - Breakfast,Melty Egg Muffin,All,Salad leaves,3 pcs per bun,on top of guacamole
+Food - Breakfast,Grilled Chicken Bagel,All,Bagel,1 pc,cut in half
+Food - Breakfast,Grilled Chicken Bagel,All,Mayo,1 TBSP per half,spread all over
+Food - Breakfast,Grilled Chicken Bagel,All,Bagel chicken,75g per bagel,spread on mayo
+Food - Breakfast,Grilled Chicken Bagel,All,Mixed grated cheese,50g per bagel,on top of chicken
+Food - Breakfast,Grilled Chicken Bagel,All,COOKING: Oven grill setting,250°C,5 mins until golden brown
+Food - Breakfast,Grilled Chicken Bagel,All,Rustic fries (seasoned),10-15 pcs,serve in same dish
+Food - Breakfast,Grilled Chicken Bagel,All,Fresh parsley + mild chilli flakes,garnish,
+Food - Breakfast,Chicken Egg Paratha Roll,All,Parathas,2 pcs,1 TSP oil flat top. Cook 1 min each side. Golden brown crispy
+Food - Breakfast,Chicken Egg Paratha Roll,All,Omelette batter,140ml,pour on flat top. Place paratha on batter after 30 secs. Flip. Cook until well done
+Food - Breakfast,Chicken Egg Paratha Roll,All,Butter chicken (HQ),3-4 pieces from 4oz pot,place in middle of paratha
+Food - Breakfast,Chicken Egg Paratha Roll,All,Mixed grated cheese,50g per paratha,spread on top. Roll the paratha
+Food - Breakfast,Turkish Eggs,All,Tzatziki sauce,225g,spread in bottom of serving bowl
+Food - Breakfast,Turkish Eggs,All,Fried eggs,2 pcs,medium
+Food - Breakfast,Turkish Eggs,All,Sunflower oil,1 TSP,
+Food - Breakfast,Turkish Eggs,All,Butter,10g,
+Food - Breakfast,Turkish Eggs,All,Mixed bell peppers (chopped),50g,saute 2 mins
+Food - Breakfast,Turkish Eggs,All,Salt,pinch,
+Food - Breakfast,Turkish Eggs,All,Chilli powder,pinch,
+Food - Breakfast,Turkish Eggs,All,Turkish chilli flakes,pinch,cook 30 more secs then pour over eggs
+Food - Breakfast,Turkish Eggs,All,Simit bread,1 pc,toast & cut in half. Serve separate
+Food - Breakfast,Egg Avocado Croissant,All,All-butter croissant,1 pc,cut in half. Warm oven 30 secs
+Food - Breakfast,Egg Avocado Croissant,All,Guacamole paste,30g,on bottom slice
+Food - Breakfast,Egg Avocado Croissant,All,Eggs,2 pcs,scrambled: butter in pan then fold with spatula into soft curds
+Food - Breakfast,Egg Avocado Croissant,All,Butter,10g,for scrambling
+Food - Breakfast,Egg Avocado Croissant,All,Cherry tomato,1 pc,cut into 4 pieces. On top of eggs
+Food - Breakfast,Egg Avocado Croissant,All,Salad leaves,5 pcs,on top of tomatoes
+Food - Breakfast,Egg Avocado Croissant,All,Sriracha chilli sauce,1 TSP,drizzle on salad
+Food - Breakfast,Egg Avocado Croissant,All,Potato tots (hashbrown tots),12 pcs,fried. Serve alongside
+Food - Eggs,Traditional Omelette,All,Omelette batter,200g per portion,batch: 15 eggs + onion + tomato + chillies + coriander + HQ masala
+Food - Eggs,Traditional Omelette,All,Oil,1 TSP,
+Food - Eggs,Traditional Omelette,All,COOKING: Cook 2 mins,flip,45-60 secs. Light brown
+Food - Eggs,Traditional Omelette,All,Sourdough bread,1 large slice,toasted and cut into 3. Serve on side
+Food - Eggs,Traditional Omelette,All,Mixed salad,30g,with pomegranate molasses
+Food - Eggs,Greek Omelette,All,Omelette batter,200g per portion,
+Food - Eggs,Greek Omelette,All,Oil,1 TSP,
+Food - Eggs,Greek Omelette,All,Black olives (sliced),15g,inside omelette
+Food - Eggs,Greek Omelette,All,Fresh parsley (chopped),2g,inside omelette
+Food - Eggs,Greek Omelette,All,Greek feta cheese (crushed),20g,inside omelette then fold
+Food - Eggs,Greek Omelette,All,Sourdough bread,1 large slice,toasted. Cut 3 slices. Serve on side
+Food - Eggs,Greek Omelette,All,Mixed salad,30g,with pomegranate molasses
+Food - Eggs,Classic French Omelette,All,Plain egg batter,150g per portion,
+Food - Eggs,Classic French Omelette,All,Butter,10g,
+Food - Eggs,Classic French Omelette,All,Salt,pinch,
+Food - Eggs,Classic French Omelette,All,Pepper,pinch,
+Food - Eggs,Classic French Omelette,All,Mixed cheddar cheese,30g,on top. Fold when eggs still runny. Cook 1.5 min each side medium heat
+Food - Eggs,Classic French Omelette,All,Sourdough bread,1 large slice,toasted. Cut 3 slices. Serve on side
+Food - Eggs,Classic French Omelette,All,Mixed salad,30g,with pomegranate molasses
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Fresh chicken strips,110g,pan high heat 3.5 mins
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Fire cracker sauce,100g,add to pan
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Dried whole red chilli,1 pc,add to pan
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Julienne cut mixed bell peppers,35g (approx),add last 1 min
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Sliced mushrooms,25g,add last 1 min
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Sliced onions,20g,add last 1 min
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Cooked white rice,138g,microwave approx 90 secs. Place on half of bowl
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Mild chilli flakes,sprinkle,
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Spring onions,garnish,
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Red & green chilli,garnish,
+Food - Bowls & Mains,Fire Cracker Chicken Bowl,All,Fresh parsley,garnish,total cooking 8-10 mins
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Cooked chicken gochujang mix (HQ),250g,heat in pan 5-6 mins. Must reach 75°C
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Cooked white rice,275g,microwave 90 secs (800 watt). Fill 750ml bowl for portion control
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Sliced avocado,half pc,place around chicken
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Salad leaves,handful,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Mixed bell peppers,handful,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Tomatoes (diced),handful,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Red onions,handful,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Cucumber,handful,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Gochujang sauce,drizzle,over bowl
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Black & white sesame seeds,sprinkle,
+Food - Bowls & Mains,Chicken Gochujang Bowl,All,Spring onions + red & green chilli,garnish,
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Cooked white rice,125g,microwave 1 min 30 secs
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Chickpea curry (from HQ),150g,heat in pan 5-6 mins to 75°C
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Mixed salad (leaves + cucumber + bell pepper + tomatoes + red onion),25g,
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Salad seasoning,1 pinch,
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Pomegranate molasses,drizzle,on salad
+Food - Bowls & Mains,Spiced Chickpea Bowl,All,Spring onions + fresh parsley + red & green chilli,garnish,
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Crispy chicken frites (HQ frozen),8 pcs,fryer 180°C 4-6 mins. Check temperature probe
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Seasoned rustic fries,65g,base of bowl
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Mixed salad leaves,15g,on fries in centre
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Salad dressing,1 pinch,
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Pomegranate molasses,drizzle,on salad
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Chilli sauce,12 lines,on top of chicken mountain
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Sesame seeds,sprinkle,
+Food - Bowls & Mains,Crispy Chicken Mountain Bowl,All,Spring onions + red & green chilli,garnish,
+Food - Bowls & Mains,Falafel Bowl,All,Falafels (HQ frozen),5 pcs,fryer 180°C 7 mins until dark brown
+Food - Bowls & Mains,Falafel Bowl,All,Flavoured rice (HQ),125g,microwave 1 min 45 secs
+Food - Bowls & Mains,Falafel Bowl,All,Mixed salad leaves,handful,
+Food - Bowls & Mains,Falafel Bowl,All,Rustic fries,handful,on other side of bowl
+Food - Bowls & Mains,Falafel Bowl,All,Taziki sauce,approx 10 lines drizzle,
+Food - Bowls & Mains,Falafel Bowl,All,Hummus,1 spoonful,
+Food - Bowls & Mains,Falafel Bowl,All,Ezme,1 spoonful,
+Food - Bowls & Mains,Falafel Bowl,All,Sumac,pinch,garnish
+Food - Bowls & Mains,Falafel Bowl,All,Pickled chilli,1 pc,garnish
+Food - Bowls & Mains,Burger Bowl,All,Beef patty,1 pc,mince on hot plate 4-5 mins medium well — OR — chicken fillet 150g grilled 4 min each side then diced
+Food - Bowls & Mains,Burger Bowl,All,Mixed salad leaves + mixed bell peppers,handful,
+Food - Bowls & Mains,Burger Bowl,All,Salad seasoning + pomegranate molasses,pinch + drizzle,
+Food - Bowls & Mains,Burger Bowl,All,Sliced avocado,half pc,
+Food - Bowls & Mains,Burger Bowl,All,Caramelised mushrooms,handful,
+Food - Bowls & Mains,Burger Bowl,All,Caramelised onions,handful,
+Food - Bowls & Mains,Burger Bowl,All,Rustic fries,65g,
+Food - Bowls & Mains,Burger Bowl,All,Hot cheese sauce,150g,on top of meat
+Food - Bowls & Mains,Burger Bowl,All,Gherkins,4 thin slices,garnish on meat
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Boiled penne pasta,100g,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,White pasta sauce,150g,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Mixed bell peppers,25g,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Mushrooms (sliced),15g,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Double cream,30ml,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Chicken patty (HQ),1 pc,fryer 180°C 5-6 mins. Cut into 6 strips. Veg: omit chicken add broccoli
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Cooking oil,1 TBSP,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Salt & pepper,1 pinch each,
+Food - Pasta,Chicken / Vegetable Pasta (White Sauce),All,Dry parsley,1 pinch,garnish
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Boiled penne pasta,100g,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Red pasta sauce,150g,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Mixed bell peppers,15g,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Mushrooms (sliced),15g,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Black diced olives,4 pcs,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Chopped white onion,15g,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Chicken patty (HQ),1 pc,fryer 5-6 mins. Cut into 6 strips
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Grated parmesan cheese,garnish,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Fresh chopped parsley,garnish,
+Food - Pasta,Penne Arrabbiata — Chicken / Veg,All,Salt + pepper + red chilli flakes,1 pinch each,
+Food - Burgers,Crunchy Chicken Burger,All,Chicken zinger patty (HQ frozen),1 pc,fryer 180°C 6-7 mins
+Food - Burgers,Crunchy Chicken Burger,All,Burger bun,1 pc,lightly toast on hot plate
+Food - Burgers,Crunchy Chicken Burger,All,Chilli mayo sauce,approx 1 TSP,on each bun
+Food - Burgers,Crunchy Chicken Burger,All,Lettuce (chopped),15g,on bottom bun
+Food - Burgers,Crunchy Chicken Burger,All,Tomato slices,2 pcs,on lettuce
+Food - Burgers,Crunchy Chicken Burger,All,Red onion rings,2 pcs,on tomato
+Food - Burgers,Crunchy Chicken Burger,All,Cheese slice,1 pc,on patty
+Food - Burgers,Crunchy Chicken Burger,All,Rustic fries,with chips,serve alongside
+Food - Burgers,Crunchy Chicken Burger,All,Mayo & chilli sauce,2oz pot,half and half. Serve on side
+Food - Burgers,Heritage Angus Beef Burger,All,Beef patty,1 pc,hot plate oil. 2.5 mins each side. Salt & pepper each side
+Food - Burgers,Heritage Angus Beef Burger,All,Sliced mushrooms,on patty,cook alongside on hot plate until lightly brown
+Food - Burgers,Heritage Angus Beef Burger,All,Sliced onions,on patty,cook alongside until caramelised
+Food - Burgers,Heritage Angus Beef Burger,All,Cheese slices,2 pcs,on patty. Let sizzle 1 min
+Food - Burgers,Heritage Angus Beef Burger,All,Burger bun,1 pc,lightly toast on hot plate
+Food - Burgers,Heritage Angus Beef Burger,All,Chilli mayo sauce,3 lines,on each bun
+Food - Burgers,Heritage Angus Beef Burger,All,Lettuce (chopped),15g,
+Food - Burgers,Heritage Angus Beef Burger,All,Tomato slices,2 pcs,
+Food - Burgers,Heritage Angus Beef Burger,All,Rustic fries,with chips,
+Food - Burgers,Heritage Angus Beef Burger,All,Mayo & chilli sauce,2oz pot,half and half
+Food - Burgers,Chicken Gochujang Burger,All,Chicken zinger patty (HQ frozen),1 pc,fryer 180°C 6-7 mins
+Food - Burgers,Chicken Gochujang Burger,All,Gochujang sauce,warm,microwave 30 secs. Apply to cooked patty
+Food - Burgers,Chicken Gochujang Burger,All,Sesame seeds,sprinkle,on patty
+Food - Burgers,Chicken Gochujang Burger,All,Spring onions,sprinkle,on patty
+Food - Burgers,Chicken Gochujang Burger,All,Burger bun,1 pc,lightly toast on hot plate
+Food - Burgers,Chicken Gochujang Burger,All,Chilli mayo sauce,3 lines,each bun
+Food - Burgers,Chicken Gochujang Burger,All,Lettuce (chopped),15g,
+Food - Burgers,Chicken Gochujang Burger,All,Tomato slices,2 pcs,
+Food - Burgers,Chicken Gochujang Burger,All,Red onion rings,2 pcs,
+Food - Burgers,Chicken Gochujang Burger,All,Cheese slice,1 pc,
+Food - Burgers,Chicken Gochujang Burger,All,Rustic fries,with chips,
+Food - Burgers,Mexican Grill Chicken Burger,All,Chicken steak fillet,1 pc,grill 4 mins each side
+Food - Burgers,Mexican Grill Chicken Burger,All,Burger bun,1 pc,lightly toast on hot plate
+Food - Burgers,Mexican Grill Chicken Burger,All,Chilli mayo sauce,approx 1 TSP,each bun
+Food - Burgers,Mexican Grill Chicken Burger,All,Lettuce (chopped),handful,
+Food - Burgers,Mexican Grill Chicken Burger,All,Gherkins OR pickled chillies,3-4 pcs,
+Food - Burgers,Mexican Grill Chicken Burger,All,Caramelised onions,5g,on chicken
+Food - Burgers,Mexican Grill Chicken Burger,All,Cheese sauce,75g,pour on chicken
+Food - Burgers,Mexican Grill Chicken Burger,All,Rustic fries,70g,serve alongside
+Food - Steak & Grill,Chicken Steak,All,Chicken steak fillets,2 pcs (approx 250g total — 125g each),grill 4 mins each side. Cut to check if cooked
+Food - Steak & Grill,Chicken Steak,All,Chicken steak sauce,200g,heat in pan then cook fillets in sauce 3-4 mins
+Food - Steak & Grill,Chicken Steak,All,Rustic fries,130g,
+Food - Steak & Grill,Chicken Steak,All,Mixed salad leaves,30g,
+Food - Steak & Grill,Chicken Steak,All,Salad dressing,pinch,
+Food - Steak & Grill,Chicken Steak,All,Pomegranate sauce,1 TSP,drizzle on salad
+Food - Steak & Grill,Chicken Steak,All,Fresh chopped parsley,garnish,
+Food - Steak & Grill,Chicken Steak,All,Spring onions + red & green chilli,garnish,total cooking 13-15 mins
+Food - Steak & Grill,Chicken Parmeson,All,Chicken fillet,1 pc,flat top 8 mins total with lid. Make cuts with knife
+Food - Steak & Grill,Chicken Parmeson,All,Red pasta sauce,spread,on cooked fillet
+Food - Steak & Grill,Chicken Parmeson,All,Dried oregano,sprinkle,
+Food - Steak & Grill,Chicken Parmeson,All,Mixed grated cheese,spread,on sauce
+Food - Steak & Grill,Chicken Parmeson,All,Mixed olives,handful,veggies
+Food - Steak & Grill,Chicken Parmeson,All,Mixed bell peppers,handful,veggies
+Food - Steak & Grill,Chicken Parmeson,All,Red & green chilli,slices,veggies
+Food - Steak & Grill,Chicken Parmeson,All,Red onion,slices,veggies
+Food - Steak & Grill,Chicken Parmeson,All,Grated parmesan cheese,on top of veggies,oven grill 8 mins
+Food - Steak & Grill,Chicken Parmeson,All,Mixed salad + chips,side serving,
+Food - Noodles,Sesame Noodles (Chicken),All,Sesame oil,1 TSP,
+Food - Noodles,Sesame Noodles (Chicken),All,Chicken strips,100g,cook 2.5 mins
+Food - Noodles,Sesame Noodles (Chicken),All,Julienne mixed bell peppers,35g,
+Food - Noodles,Sesame Noodles (Chicken),All,Sliced mushrooms,25g,
+Food - Noodles,Sesame Noodles (Chicken),All,Sliced onions,20g,
+Food - Noodles,Sesame Noodles (Chicken),All,Noodles sauce,60g,cook 2 mins
+Food - Noodles,Sesame Noodles (Chicken),All,Boiled noodles,150g,toss to coat evenly
+Food - Noodles,Sesame Noodles (Chicken),All,Chilli sauce,1 TBSP,
+Food - Noodles,Sesame Noodles (Chicken),All,Chilli garlic sauce,1 TBSP,toss. Total 10-12 mins
+Food - Noodles,Sesame Noodles (Chicken),All,Sesame seeds,sprinkle,garnish
+Food - Noodles,Sesame Noodles (Chicken),All,Spring onions + red & green chilli,garnish,
+Food - Noodles,Sesame Noodles (Beef),All,Sesame oil,1 TSP,
+Food - Noodles,Sesame Noodles (Beef),All,Beef strips,90g,
+Food - Noodles,Sesame Noodles (Beef),All,Julienne mixed bell peppers,35g,
+Food - Noodles,Sesame Noodles (Beef),All,Sliced mushrooms,25g,
+Food - Noodles,Sesame Noodles (Beef),All,Sliced onions,20g,
+Food - Noodles,Sesame Noodles (Beef),All,Noodles sauce,60g,cook 2 mins
+Food - Noodles,Sesame Noodles (Beef),All,Boiled noodles,150g,toss to coat
+Food - Noodles,Sesame Noodles (Beef),All,Chilli sauce,1 TBSP,
+Food - Noodles,Sesame Noodles (Beef),All,Chilli garlic sauce,1 TBSP,toss. Total 8-10 mins
+Food - Noodles,Sesame Noodles (Beef),All,Sesame seeds,sprinkle,garnish
+Food - Noodles,Sesame Noodles (Beef),All,Spring onions + red & green chilli,garnish,
+Food - Noodles,Sesame Noodles (Vegetable),All,Sesame oil,1 TSP,
+Food - Noodles,Sesame Noodles (Vegetable),All,Julienne mixed bell peppers,35g,
+Food - Noodles,Sesame Noodles (Vegetable),All,Baby corn,3 pcs,
+Food - Noodles,Sesame Noodles (Vegetable),All,Broccoli (small pieces),3 pcs,
+Food - Noodles,Sesame Noodles (Vegetable),All,Sliced mushrooms,25g,
+Food - Noodles,Sesame Noodles (Vegetable),All,Sliced white onions,20g,cook 1 min
+Food - Noodles,Sesame Noodles (Vegetable),All,Noodles sauce,60g,cook 2 mins
+Food - Noodles,Sesame Noodles (Vegetable),All,Boiled noodles,150g,toss to coat
+Food - Noodles,Sesame Noodles (Vegetable),All,Chilli sauce,1 TBSP,
+Food - Noodles,Sesame Noodles (Vegetable),All,Chilli garlic sauce,1 TBSP,toss. Total 8-10 mins
+Food - Noodles,Sesame Noodles (Vegetable),All,Sesame seeds,sprinkle,garnish
+Food - Noodles,Sesame Noodles (Vegetable),All,Spring onions + red & green chilli,garnish,
+Food - Light Bites,Seasoned Rustic Fries,All,Frozen rustic fries,130g,fryer 170-180°C 2 min 45 secs
+Food - Light Bites,Seasoned Rustic Fries,All,HQ seasoning,even coat,toss in bowl
+Food - Light Bites,Masala Chips,All,Frozen rustic fries,130g,fryer 170-180°C 2 min 45 secs
+Food - Light Bites,Masala Chips,All,HQ seasoning,even coat,
+Food - Light Bites,Masala Chips,All,Chilli sauce,mix in,fully incorporate
+Food - Light Bites,Masala Chips,All,Spring onions,garnish,
+Food - Light Bites,Vegetable Momos (Dumplings),All,Vegetable dumplings (HQ frozen),portion,fryer 180°C 3 mins until golden brown
+Food - Light Bites,Vegetable Momos (Dumplings),All,Dumpling sauce,small pot,serve alongside
+Food - Light Bites,Vegetable Momos (Dumplings),All,Fresh chives + micro-herbs,garnish,
+Food - Light Bites,Chicken Momos (Dumplings),All,Chicken dumplings (HQ frozen),portion,fryer 180°C 3 mins until golden brown
+Food - Light Bites,Chicken Momos (Dumplings),All,Dumpling sauce,small pot,
+Food - Light Bites,Chicken Momos (Dumplings),All,Fresh chives + micro-herbs,garnish,
+Food - Light Bites,Spring Rolls,All,Spring rolls (HQ frozen),4 pcs,fryer 180°C 8-10 mins until golden brown
+Food - Light Bites,Spring Rolls,All,Chilli sauce,1 TBSP,spread on plate centre
+Food - Light Bites,Spring Rolls,All,Chives + micro-herbs,garnish,
+Food - Light Bites,Spring Rolls,All,Sauce dip (customer choice),separate container,
+Food - Light Bites,Hummus & Salad,All,Hummus,2 TBSP,spread to edges of bowl
+Food - Light Bites,Hummus & Salad,All,Chopped cucumber,garnish,
+Food - Light Bites,Hummus & Salad,All,Green olives (sliced),garnish,
+Food - Light Bites,Hummus & Salad,All,Red cherry tomatoes (chopped),garnish,
+Food - Light Bites,Hummus & Salad,All,Olive oil,1 TBSP,drizzle
+Food - Light Bites,Hummus & Salad,All,Fresh parsley (chopped),garnish,
+Food - Light Bites,Hummus & Salad,All,Sumac,pinch,garnish. Fork dipped in olive oil then sumac applied on hummus
+Food - Light Bites,Hummus & Salad,All,Flatbread,1 pc,toast on grill. Cut into 8 pieces
+Food - Light Bites,Hummus & Falafel,All,Hummus,2 TBSP,spread to edges of bowl
+Food - Light Bites,Hummus & Falafel,All,Chopped cucumber,garnish,
+Food - Light Bites,Hummus & Falafel,All,Green olives (sliced),garnish,
+Food - Light Bites,Hummus & Falafel,All,Red cherry tomatoes (chopped),garnish,
+Food - Light Bites,Hummus & Falafel,All,Olive oil,1 TBSP,drizzle
+Food - Light Bites,Hummus & Falafel,All,Fresh parsley (chopped),garnish,
+Food - Light Bites,Hummus & Falafel,All,Sumac,pinch,garnish
+Food - Light Bites,Hummus & Falafel,All,Falafels (HQ frozen),3 pcs,fryer 180°C 7 mins until dark brown
+Food - Light Bites,Hummus & Falafel,All,Flatbread,1 pc,toast on grill. Cut 8 pieces
+Food - Toasts,Smashed Avocado Toast,All,Sourdough bread,1 slice,brush melted butter each side. Toast flat top 1 min each side
+Food - Toasts,Smashed Avocado Toast,All,Guacamole paste,120g,batch: 10 avocados + 10g parsley + 2 TSP salt + 50g lemon juice — blend until smooth
+Food - Toasts,Smashed Avocado Toast,All,Mixed bell peppers,30g,
+Food - Toasts,Smashed Avocado Toast,All,Cucumber,15g,
+Food - Toasts,Smashed Avocado Toast,All,Cherry tomato,1 pc,cut 4 slices
+Food - Toasts,Smashed Avocado Toast,All,Salad leaves,10g,
+Food - Toasts,Smashed Avocado Toast,All,Feta cheese,10g,
+Food - Toasts,Smashed Avocado Toast,All,Turkish chilli flakes,sprinkle,
+Food - Toasts,Smashed Avocado Toast,All,Fresh parsley,sprinkle,
+Food - Toasts,Smashed Avocado Toast,All,Chilli oil (HQ mix),10g,drizzle
+Food - Toasts,Mediterranean Hummus On Toast,All,Sourdough bread,1 slice,brush melted butter each side. Toast flat top 1 min each side
+Food - Toasts,Mediterranean Hummus On Toast,All,Hummus,75g,spread on toast
+Food - Toasts,Mediterranean Hummus On Toast,All,Mixed bell peppers,30g,
+Food - Toasts,Mediterranean Hummus On Toast,All,Cucumber,15g,
+Food - Toasts,Mediterranean Hummus On Toast,All,Cherry tomato,1 pc,cut 4 slices
+Food - Toasts,Mediterranean Hummus On Toast,All,Salad leaves,10g,
+Food - Toasts,Mediterranean Hummus On Toast,All,Feta cheese,10g,
+Food - Toasts,Mediterranean Hummus On Toast,All,Turkish chilli flakes,sprinkle,
+Food - Toasts,Mediterranean Hummus On Toast,All,Fresh parsley,sprinkle,
+Food - Toasts,Mediterranean Hummus On Toast,All,Chilli oil (HQ mix),10g,drizzle
+Food - Toasts,Mediterranean Hummus On Toast,All,Zattar,sprinkle,
+Food - Toasts,Mediterranean Hummus On Toast,All,Fresh pomegranate seeds,10g,
+Food - Toasts,Grilled Veggies On Toast,All,Sourdough bread,1 slice,brush melted butter each side. Toast flat top 1 min each side
+Food - Toasts,Grilled Veggies On Toast,All,Hummus,75g,spread on toast
+Food - Toasts,Grilled Veggies On Toast,All,Mixed bell peppers (diced medium),75g,saute
+Food - Toasts,Grilled Veggies On Toast,All,Mushrooms (sliced into 4),75g,saute
+Food - Toasts,Grilled Veggies On Toast,All,TenderStem broccoli,20g,saute
+Food - Toasts,Grilled Veggies On Toast,All,Butter,10g,for sauteing
+Food - Toasts,Grilled Veggies On Toast,All,Oil,1 TSP,
+Food - Toasts,Grilled Veggies On Toast,All,Salt,pinch,
+Food - Toasts,Grilled Veggies On Toast,All,Pepper,pinch,
+Food - Toasts,Grilled Veggies On Toast,All,Turkish chilli flakes,pinch,saute 2 mins then 1 more min
+Food - Toasts,Grilled Veggies On Toast,All,Chilli oil (HQ mix),10ml,drizzle
+Food - Toasts,Grilled Veggies On Toast,All,Fresh parsley,pinch,garnish
+Food - Toasts,Cheese On Toast,All,Sourdough bread,1 slice,brush melted butter each side. Toast flat top 1 min each side
+Food - Toasts,Cheese On Toast,All,Mixed cheddar cheese,100g,on toast
+Food - Toasts,Cheese On Toast,All,Mixed bell peppers,30g,
+Food - Toasts,Cheese On Toast,All,Black olives (sliced),15g,
+Food - Toasts,Cheese On Toast,All,Green chilli,2 slices,
+Food - Toasts,Cheese On Toast,All,Red onion,6-7 slices,
+Food - Toasts,Cheese On Toast,All,COOKING: Oven grill 250°C,7-8 mins,
+Food - Toasts,Cheese On Toast,All,Chilli oil (HQ mix),10ml,drizzle
+Food - Toasts,Cheese On Toast,All,Fresh parsley,pinch,garnish
+Food - Toasts,Mushroom On Toast,All,Sourdough bread,1 slice,brush melted butter each side. Toast flat top 1 min each side
+Food - Toasts,Mushroom On Toast,All,Sliced mushrooms,150g,pan with 1 TSP oil. Cook 2-3 mins
+Food - Toasts,Mushroom On Toast,All,Mixed cheddar cheese,30g,add to mushrooms
+Food - Toasts,Mushroom On Toast,All,Chicken steak sauce,50g,add. Cook 60-90 secs
+Food - Toasts,Mushroom On Toast,All,COOKING: Oven grill 250°C,5 mins,after placing mushroom mix on toast
+Food - Toasts,Mushroom On Toast,All,Chilli oil (HQ mix),10ml,drizzle
+Food - Toasts,Mushroom On Toast,All,Fresh parsley,pinch,garnish
+French Toast,BATCH: French Toast Batter,Batch,French toast mix (HQ),500g,
+French Toast,BATCH: French Toast Batter,Batch,Fresh milk,150ml,
+French Toast,BATCH: French Toast Batter,Batch,Double cream,50ml,mix until dissolved. Strain through sieve
+French Toast,BATCH: French Toast Batter,All,Bread (large loaf),3.5mm thick slices,6 pieces per loaf. Dip both sides in batter. Cook on flat top 3 mins each side medium flame with butter + 1 TSP oil
+French Toast,Nutella Brownie French Toast,All,Cooked french toast,2 pcs,
+French Toast,Nutella Brownie French Toast,All,Nutella sauce (half-moon on plate),spread,
+French Toast,Nutella Brownie French Toast,All,Smashed brownie pieces,handful,on nutella
+French Toast,Nutella Brownie French Toast,All,Chocolate flakes,sprinkle,on nutella
+French Toast,Nutella Brownie French Toast,All,Mixed berries (1 strawberry halved + 1 blueberry),garnish,on plate
+French Toast,Nutella Brownie French Toast,All,Blueberries,4 pcs,on toast
+French Toast,Nutella Brownie French Toast,All,Strawberries (sliced),2 pcs,on toast
+French Toast,Nutella Brownie French Toast,All,Blackberry,1 pc,on toast
+French Toast,Nutella Brownie French Toast,All,Icing sugar,sprinkle,
+French Toast,Nutella Brownie French Toast,All,Nutella sauce (2oz pot),1 pot,serve on side
+French Toast,Nutella Brownie French Toast,All,Vanilla ice cream (4oz pot),1 pot,serve on side
+French Toast,Raspberry & Pistachio French Toast,All,Cooked french toast,2 pcs,
+French Toast,Raspberry & Pistachio French Toast,All,Pistachio dust,edges of plate,
+French Toast,Raspberry & Pistachio French Toast,All,Dried raspberry dust,edges of plate,
+French Toast,Raspberry & Pistachio French Toast,All,Raspberries,6 pcs,on plate
+French Toast,Raspberry & Pistachio French Toast,All,Pistachio sauce,drizzle between toasts + on top,
+French Toast,Raspberry & Pistachio French Toast,All,Strawberries (chopped),2 pcs,
+French Toast,Raspberry & Pistachio French Toast,All,Blueberries,2 pcs,
+French Toast,Raspberry & Pistachio French Toast,All,Blackberry,1 pc,
+French Toast,Raspberry & Pistachio French Toast,All,Pistachio sauce (2oz pot),1 pot,serve on side
+French Toast,Raspberry & Pistachio French Toast,All,Vanilla ice cream (4oz pot),1 pot,serve on side
+French Toast,Lotus Biscoff French Toast,All,Cooked french toast,2 pcs,
+French Toast,Lotus Biscoff French Toast,All,Lotus Biscoff crumbs,edges of plate,
+French Toast,Lotus Biscoff French Toast,All,Strawberries,2 pcs,
+French Toast,Lotus Biscoff French Toast,All,Blueberries,4 pcs,
+French Toast,Lotus Biscoff French Toast,All,Raspberry,1 pc,
+French Toast,Lotus Biscoff French Toast,All,Blackberry,1 pc,
+French Toast,Lotus Biscoff French Toast,All,Lotus sauce,drizzle between toasts + on top,
+French Toast,Lotus Biscoff French Toast,All,Lotus Biscoff biscuit (whole),1 pc,on top
+French Toast,Lotus Biscoff French Toast,All,Icing dust + chocolate flakes,garnish,
+French Toast,Lotus Biscoff French Toast,All,Vanilla ice cream (4oz pot),1 pot,serve on side

@@ -1,0 +1,501 @@
+Row,Item,Last Period Items Sold,This Period Items Sold,% Change
+1,None,1636,7814,378%
+2,Whipped Cream,546,3425,527%
+3,Vanilla Ice Cream,730,3002,311%
+4,Waffle Bites,442,2207,399%
+5,Chocobar Shakes,418,2174,420%
+6,Full,342,1690,394%
+7,Belgian Milk Chocolate,294,1451,394%
+8,No Topping,254,1373,441%
+9,Nutella,275,1278,365%
+10,Strawberries,288,1247,333%
+11,No Whipped Cream,350,1240,254%
+12,Kanafeh Strawberry Cup,276,1207,337%
+13,Belgian White Chocolate,207,1130,446%
+14,Chocolate Chip Cookie Dough,153,1056,590%
+15,Still Water,292,1048,259%
+16,Water & Juices,268,1042,289%
+17,Kinder,193,1014,425%
+18,Chocopuffs,197,894,354%
+19,Premium Shakes,183,893,388%
+20,Lotus Biscoff Milk Cake,139,762,448%
+21,Strawberry Dream Waffle,119,728,512%
+22,Banana Pudding,0,713,0
+23,Karak Chai,185,625,238%
+24,Strawberry Passion Crepe,132,601,355%
+25,Regular,153,575,276%
+26,Custard,143,559,291%
+27,Whippy,114,541,375%
+28,Half,104,537,416%
+29,Oreo,111,537,384%
+30,Belgian Milk Chocolate (6 Pcs),81,460,468%
+31,Can Drinks,86,449,422%
+32,Whipped Cream (4oz),119,444,273%
+33,Ice Cream,69,423,513%
+34,Luxury Fudge Cake,68,420,518%
+35,Pistachio Milk Cake,104,411,295%
+36,White Chocolate & Pistachio Kanafeh,97,406,319%
+37,Chicken,75,394,425%
+38,Belgian Chocolate Kanafeh,90,380,322%
+39,1 Scoop Ice Cream,92,373,305%
+40,Lotus Sauce,55,371,575%
+41,Strawberry,92,366,298%
+42,Orignal Churros,74,337,355%
+43,Strawberry Mojito,58,324,459%
+44,Fruitella Waffle,50,323,546%
+45,Kinder Bueno (Milk),61,313,413%
+46,Kinder Bueno (White),66,313,374%
+47,Chocolate Dream Cake,64,311,386%
+48,Oreo Dust,79,310,292%
+49,Lotus biscoff,41,305,644%
+50,Kulfi Falooda,86,293,241%
+51,Rubicon Mango,55,281,411%
+52,The Original Kanafeh,68,280,312%
+53,Original Milk Cake,66,270,309%
+54,Lava Cake,43,267,521%
+55,Pistachio Kanafeh Dream Cake,73,263,260%
+56,Ferrero Rocher,56,260,364%
+57,Iced Spanish Latte,17,256,1406%
+58,Nutella Classic Crepe,35,256,631%
+59,Assorted Strawberries (6 Pcs),48,251,423%
+60,Swiss Chocolate,82,250,205%
+61,Lazy Cat Cake,48,248,417%
+62,Pistachio Dust,50,237,374%
+63,Hot Chocolate,76,236,211%
+64,Tiramisu,8,233,2813%
+65,Mango Falooda,30,231,670%
+66,Salaam Cola,44,230,423%
+67,Bottle Drinks,37,228,516%
+68,Royal Ferrero Cookie Dough,33,227,588%
+69,Creamy White Pasta,42,224,433%
+70,Iced Vanilla Oat Matcha,14,224,1500%
+71,Lotus Biscoff Cookie Dough,50,222,344%
+72,Crunchie Chicken Burger,33,215,552%
+73,Nutella Loaded Kanafeh,42,214,410%
+74,Strawberry Cheesecake,51,214,320%
+75,Oreo & Ferrero,37,211,470%
+76,Chocolate Surprise Cookie Dough,38,210,453%
+77,Chocolate Explosion Waffle,47,207,340%
+78,Pistachio Sauce,50,206,312%
+79,Vanilla Dream,55,205,273%
+80,Oreo & Cream Milk Cake,26,204,685%
+81,Sesame Noodles,40,204,410%
+82,Vanilla,49,202,312%
+83,Oreo Overload Waffle,41,199,385%
+84,Extra Chocolate,32,193,503%
+85,Grilled Chicken Bagel,55,193,251%
+86,White Chocolate Chip Cookie Dough,58,192,231%
+87,Choocorocher Waffle,47,191,306%
+88,White Choc & Strawberry Waffle,53,191,260%
+89,Oreo-Tella Cookie Dough,44,190,332%
+90,Nutella Brownie French Toast,49,188,284%
+91,Lotus Biscoff Dust,29,181,524%
+92,Classic English Breakfast,31,180,481%
+93,Chocolate Strawberry Cup (12oz),0,177,0
+94,Milk Chocolate,28,177,532%
+95,Banana,31,170,448%
+96,Nutella Milk Cake,28,170,507%
+97,Lemon Mojito,31,169,445%
+98,Mixed Nuts,31,164,429%
+99,Fudge Brownie Sundae,38,163,329%
+100,Lotus Biscoff Cheesecake,32,163,409%
+101,Dubai's Kanafeh Chocolate Bar (SMALL),21,162,671%
+102,Passion Fruit Mojito,32,161,403%
+103,Iced Latte,17,159,835%
+104,Fresh Indulgence Crepe,21,158,652%
+105,Hot Fudge Brownie,31,158,410%
+106,Ferrero Rocher Cheesecake,26,151,481%
+107,Rose Falooda,43,146,240%
+108,Apple Crumble,39,141,262%
+109,Whippy Vanilla Ice Cream (8oz),4,141,3425%
+110,2 Scoops Ice Cream,36,140,289%
+111,San Sebastian Cheesecake (Milk Chocolate),32,138,331%
+112,Karak Chai,0,135,0
+113,Speciality Lattes,0,135,0
+114,Blue Hawaiian Mojito,32,133,316%
+115,South Asian Breakfast,31,133,329%
+116,Fire Cracker Chicken Bowl,29,130,348%
+117,Beef,28,129,361%
+118,Latte,31,129,316%
+119,Lotus Biscoff Waffle,33,123,273%
+120,Rubicon Passion Fruit,31,123,297%
+121,Extra Strawberries,14,122,771%
+122,Strawberry Shortbread Sundae,25,120,380%
+123,Chocoberry Waffle,28,118,321%
+124,Mango,25,110,340%
+125,Crispy Chicken Mountain Bowl,20,109,445%
+126,Lotus Biscoff French Toast,27,108,300%
+127,Masala Chips,14,108,671%
+128,Oreo Blossom Crepe,32,108,238%
+129,Milk Chocolate Lindt Cheesecake,26,107,312%
+130,Burger Bowl,18,106,489%
+131,Kanafeh Crepe,26,105,304%
+132,Raspberry Kiss Cookie Dough,21,105,400%
+133,Oreo Cheesecake,22,101,359%
+134,Chocolate,11,96,773%
+135,Cappuccino,16,95,494%
+136,Kanafeh Cookie Dough,16,95,494%
+137,Sticky Toffee Pudding,23,95,313%
+138,Banana Delight Waffle,16,94,488%
+139,Chopped Strawberries (4oz),18,94,422%
+140,Iced Strawberry Matcha,14,94,571%
+141,Kinder Chocolate Dipped Strawberries (6 Pcs),23,94,309%
+142,Nutella Chocolate (6 Pcs),17,94,453%
+143,Brownie Delight,13,92,608%
+144,Caramel,13,91,600%
+145,Chocoberry Special Kanafeh,18,91,406%
+146,English Tea,28,89,218%
+147,J20 Orange & Passion,11,89,709%
+148,Belgian White Chocolate (6 Pcs),9,88,878%
+149,Snickers,20,88,340%
+150,Seasoned Chips,13,86,562%
+151,Pomegranate Mojito,24,85,254%
+152,Chicken Steak,17,84,394%
+153,Extras,9,83,822%
+154,J20 Apple & Raspberry,22,83,277%
+155,Spanish Latte (Hot),5,80,1500%
+156,Aero Mint,13,79,508%
+157,Veg,9,78,767%
+158,Raspberry & Pistachio French Toast,17,77,353%
+159,Mint Chocolate,12,76,533%
+160,Royal Ferrero Sundae,10,76,660%
+161,Mint Tea,21,75,257%
+162,Chocolate Pudding,16,73,356%
+163,Luscious Lotus Crepe,10,73,630%
+164,Jam & Coconut Sponge Cake,22,72,227%
+165,Iced Mango Matcha,13,69,431%
+166,Lotus Biscoff Kanafeh,14,68,386%
+167,Cornflake Tart,20,67,235%
+168,Caramelita,15,66,340%
+169,3 Scoops Ice Cream,24,65,171%
+170,Hazel Nutter Crepe,13,64,392%
+171,Penne Arrabbiata,5,64,1180%
+172,Momos (Dumplings),11,63,473%
+173,Oreo Heaven Sundae,14,63,350%
+174,MangoMe Sundae,14,62,343%
+175,Pistachio Knafeh Swirl,10,62,520%
+176,Rubicon Guava,11,62,464%
+177,Large,13,60,362%
+178,Extra Fudge Brownies,7,57,714%
+179,Chicken Egg Paratha Roll,17,55,224%
+180,Cookies & Cream Churros,19,55,189%
+181,Movenpick Vanilla Dream,15,55,267%
+182,J20 Apple & Mango,4,53,1225%
+183,Raspberry Sensation Waffle,12,53,342%
+184,Small Chocolate Shot,17,53,212%
+185,Crunchie,11,52,373%
+186,Melty Egg Muffin Breakfast,8,52,550%
+187,Raspberry Temptation Crepe,10,52,420%
+188,Banoffee Crepe,12,49,308%
+189,Bubblegum,8,49,513%
+190,Iced Pistachio Latte,12,49,308%
+191,Mexican Chicken Grilled Burger,1,49,4800%
+192,Movenpick Swiss Chocolate,15,49,227%
+193,Americano (Black),9,48,433%
+194,Hot Custard (8oz),18,48,167%
+195,Chocoberry Swirl,6,46,667%
+196,Crunch Cake,0,43,0
+197,Pistachio Latte (Hot),10,42,320%
+198,Strawberry & Pistachio,4,41,925%
+199,1 Banana pudding 1 Tiramisu and 1 Pistachio milk cake,0,40,0
+200,Add Chicken,4,40,900%
+201,Dessert Share Box,0,40,0
+202,Cookie Crumb Swirl,6,39,550%
+203,Iced Mocha,5,39,680%
+204,Kanafeh Brownie,12,38,217%
+205,Cookie & Cream,12,37,208%
+206,One-Pot Skillet Breakfast,5,36,620%
+207,Blue Hawaiian Mocktail,0,35,0
+208,Milk Chocolate Shot 4oz,11,35,218%
+209,Pistachio,7,35,400%
+210,Caramel Syrup,8,34,325%
+211,Cookies & Cream,1,34,3300%
+212,Iced Chocolate,2,34,1600%
+213,Mango & Passion Breeze,7,34,386%
+214,Peach Frozen,4,33,725%
+215,Flat White,9,32,256%
+216,Add Extra Fruit,6,31,417%
+217,Hazelnut,5,31,520%
+218,Iced Spanish Latte (duplicate),0,30,0
+219,Mocha,9,30,233%
+220,Shakshuka Breakfast,9,30,233%
+221,Iced Strawberry Matcha (duplicate),0,29,0
+222,San Sebastian Cheesecake (Pistachio Sauce),5,29,480%
+223,Soya Milk,22,29,32%
+224,Strawberry Cup,14,29,107%
+225,Green Tea,4,28,600%
+226,Luna Latte,8,28,250%
+227,Pistachio Nuts,9,28,211%
+228,White Hot Chocolate,6,28,367%
+229,Mini Egg,0,25,0
+230,Double Espresso,5,24,380%
+231,Extra Oreo,4,24,500%
+232,Golden Bicoffee Swirl,4,23,475%
+233,Vanilla Syrup,10,23,130%
+234,White Chocolate,5,23,360%
+235,Extra Banana,3,22,633%
+236,Oat Milk,5,22,340%
+237,San Sebastian Cheesecake (White chocolate),7,22,214%
+238,French Macaroons,7,21,200%
+239,Movenpick Strawberry,8,21,163%
+240,Caramel Crush Sundae,2,19,850%
+241,Spanish Latte,25,19,-24%
+242,Millions Sundae,7,18,157%
+243,Dubai's Kanafeh Chocolate Bar (LARGE),24,17,-29%
+244,Large Chocolate Shot,1,17,1600%
+245,Pomegranate Mocktail,0,15,0
+246,Red Velvet Latte,3,15,400%
+247,Choco Crunch Swirl,3,14,367%
+248,White Chocolate Shot 4oz,2,13,550%
+249,Chocolate Indulgence,2,12,500%
+250,Kinder Shot 4oz,1,12,1100%
+251,Nutella Shot (4oz),2,11,450%
+252,Sausage (2 pcs),2,11,450%
+253,Terry Chocolate Orange,1,11,1000%
+254,Test,0,11,0
+255,Heritage Angus Beef Burger,2,10,400%
+256,Kit Kat,1,10,900%
+257,Pistachio cheesecake,1,10,900%
+258,Whipped cream,3,10,233%
+259,Hazelnut Syrup,1,9,800%
+260,Toast (2pcs),0,9,0
+261,Hash Browns (2pcs),0,8,0
+262,Iced Luna Latte,1,8,700%
+263,Iced Red Velvet Latte,3,8,167%
+264,Mi-Su Swirl,2,8,300%
+265,Pratha (2),0,8,0
+266,Chocolate Date Gift Box,0,7,0
+267,Redbull,0,7,0
+268,Baked Beans,0,6,0
+269,Icecream,3,6,100%
+270,Pistachio Sauce (4oz),2,6,200%
+271,Sticky Toffee Pudding,9,6,-33%
+272,Whipy,0,6,0
+273,16 Pcs,0,5,0
+274,Karak Large,0,5,0
+275,Kulfi,0,5,0
+276,Large spanish latte hot,0,5,0
+277,Mini Marshamallow Halal (4oz),3,5,67%
+278,Sausage,0,5,0
+279,Scrambled Eggs,0,5,0
+280,White Hot Chocolate,14,5,-64%
+281,Chicken Parmaeson,1,4,300%
+282,Egg Avocado Croissant,0,4,0
+283,Espresso,0,4,0
+284,Extra chicken,0,4,0
+285,Extra milk,1,4,300%
+286,T,0,4,0
+287,2 whippies,0,3,0
+288,Add banana,0,3,0
+289,Banana on cookie dough,0,3,0
+290,Banana pudding,0,3,0
+291,Big Bang Breakfast,2,3,50%
+292,Butter Chicken,1,3,200%
+293,Extra,1,3,200%
+294,Extra Mixed Nuts,1,3,200%
+295,Fried Eggs,0,3,0
+296,Irn Bru,0,3,0
+297,Karak Chai Large,1,3,200%
+298,Large Chai,0,3,0
+299,Large Karak,0,3,0
+300,Large karak,1,3,200%
+301,Masala Beans,0,3,0
+302,Orange Juice (Tropicana 12oz),1,3,200%
+303,Pista cheesecake,1,3,200%
+304,W,0,3,0
+305,Whippy icecream,16,3,-81%
+306,4 Pcs,0,2,0
+307,Add nutella,0,2,0
+308,C,0,2,0
+309,Classic French Omelette,0,2,0
+310,Coffee,1,2,100%
+311,Cream,0,2,0
+312,Custards,0,2,0
+313,D,0,2,0
+314,Ex mango for shake,0,2,0
+315,Extra Protein,0,2,0
+316,Grilled veggies on toast,0,2,0
+317,Guacomole,0,2,0
+318,Hot milk,0,2,0
+319,Karak chai large,0,2,0
+320,Large Karak Chai,0,2,0
+321,Large karak chai,1,2,100%
+322,Milk,1,2,100%
+323,N,0,2,0
+324,Pista,0,2,0
+325,Plain Chips,3,2,-33%
+326,Qwhippy,0,2,0
+327,Red bull,4,2,-50%
+328,Spanish Latte Large,0,2,0
+329,Sparkling Water,0,2,0
+330,Tiramisu cheesecake,0,2,0
+331,Veggie Burger,0,2,0
+332,Waffle,0,2,0
+333,Whpped cream,0,2,0
+334,Whipppy,0,2,0
+335,Wippy,1,2,100%
+336,.75,0,1,0
+337,0.01,0,1,0
+338,0.75,0,1,0
+339,1 custard takeout pls,0,1,0
+340,1 extra sausage,0,1,0
+341,1 paratha,0,1,0
+342,2 tiramisu,0,1,0
+343,2 whippie s,0,1,0
+344,2.0,0,1,0
+345,3 strawberries,0,1,0
+346,5,0,1,0
+347,5 extra whippies,0,1,0
+348,6,0,1,0
+349,6.00,0,1,0
+350,Add Espresso,0,1,0
+351,Add Strawberries,0,1,0
+352,Add brownie bites,0,1,0
+353,Add ferrero in aero mint,0,1,0
+354,Add fruit,0,1,0
+355,Add fudge brownie to cookie d.,0,1,0
+356,Add hazelnu t,0,1,0
+357,Add kinder choc,0,1,0
+358,Add kinder pieces,0,1,0
+359,Add milk choc,0,1,0
+360,Add mini eggs,0,1,0
+361,Add mixed njts,0,1,0
+362,Add mixed nuts,0,1,0
+363,Add mixed nuts on waffle,0,1,0
+364,Add oreo,0,1,0
+365,Add oreo to shake,0,1,0
+366,Add oreos,0,1,0
+367,Add pista,0,1,0
+368,Add pista nuts on top,0,1,0
+369,Add strawbs,0,1,0
+370,Add white choc,0,1,0
+371,Apple crumble,0,1,0
+372,B,0,1,0
+373,Banana on the shake,0,1,0
+374,Bananan pudding,0,1,0
+375,Bhai,0,1,0
+376,Big whippy,0,1,0
+377,Biscoff cheesecake,0,1,0
+378,Biscoff crumbs and sauce,0,1,0
+379,Biscoff crumbs on crepe,0,1,0
+380,Biscoff on shaken,0,1,0
+381,Biscoff on the shake,0,1,0
+382,Bp,0,1,0
+383,Breakfast Bowl,0,1,0
+384,Brownie in it,0,1,0
+385,Brownies on kunafeh cup,0,1,0
+386,Bubblegum Sauce,0,1,0
+387,Caramel frappe,0,1,0
+388,Caramel syrup,0,1,0
+389,Caramel syrup in 1,0,1,0
+390,Caramel syrup in 2 matchas,0,1,0
+391,Caramel syrup in bith and regular milk,0,1,0
+392,Cd,0,1,0
+393,Cg,0,1,0
+394,Chocolate explosion,0,1,0
+395,Cheese on the egg on south asian,0,1,0
+396,Cheese on toast,1,1,0%
+397,Chicken patty eat in,0,1,0
+398,Chickrn,0,1,0
+399,Choc sauce,0,1,0
+400,Chocoberry swirks,0,1,0
+401,Chocolate syrup and nuts,0,1,0
+402,Coffee shot,0,1,0
+403,Crunch cake,0,1,0
+404,Date box,0,1,0
+405,Db,0,1,0
+406,Dhfvg,0,1,0
+407,E,0,1,0
+408,E tra,0,1,0
+409,Eggs - ALLERGY,0,1,0
+410,Espresso shot,1,1,0%
+411,Ex 2 poundsvfor tiramisu,0,1,0
+412,Ex biscoff on shake,0,1,0
+413,Ex choc sauce on dough,0,1,0
+414,Ex choc sauce on the kanafeh,0,1,0
+415,Ex choc white,0,1,0
+416,Ex kinder sauce on kunafeh,0,1,0
+417,Ex kinder bueno piecees on the crepe,0,1,0
+418,Ex kunafeh,0,1,0
+419,Ex kunafeh on browni,0,1,0
+420,Ex kunafeh on the cup,0,1,0
+421,Ex milk,0,1,0
+422,Ex nutella on crepe,0,1,0
+423,Ex nutella oon crepe,0,1,0
+424,Ex nutella sauce on the dough,0,1,0
+425,Ex nutella sauce on waffle,0,1,0
+426,Ex pista choc,0,1,0
+427,Ex pistabcause on kunafeh,0,1,0
+428,Ex strawberries on one choc chip cookie dough,0,1,0
+429,Ex strawberries on top,0,1,0
+430,Ex white choc,0,1,0
+431,Ex white choc for the crepe,0,1,0
+432,Ex white choc sauce for the crepe,0,1,0
+433,Ex white choc sauce forbhurros on the side,0,1,0
+434,Ex white choc sauce on the cookie dough,0,1,0
+435,Ex white choc sauce on the wafflen,0,1,0
+436,Ex white sauce,0,1,0
+437,Expresso,0,1,0
+438,Expresso shit,0,1,0
+439,Extra banana,0,1,0
+440,Extra beef on noodles,0,1,0
+441,Extra biscoff,0,1,0
+442,Extra biscoff crumbs,0,1,0
+443,Extra caramel,0,1,0
+444,Extra hasbrown,0,1,0
+445,Extra hashbrown,0,1,0
+446,Extra katafi,0,1,0
+447,Extra katafi mix,0,1,0
+448,Extra kinder sauce,0,1,0
+449,Extra kunafeh,1,1,0%
+450,Extra milk and pista for cup,0,1,0
+451,Extra noodles in both,0,1,0
+452,Extra nutella on crepe,0,1,0
+453,Extra nutella on kunafa,0,1,0
+454,Extra nutella on the,0,1,0
+455,Extra pistachio nuts,0,1,0
+456,Extra sausage,2,1,-50%
+457,Extra strawberries,1,1,0%
+458,Extra strawberry,0,1,0
+459,Extra whippy,2,1,-50%
+460,Extravcustard,0,1,0
+461,F,0,1,0
+462,FREE Hot or Cold Drink with Sesame Noodles,0,1,0
+463,Frappe,0,1,0
+464,Fudge brownies on the cookie dough,0,1,0
+465,Full fruitella,0,1,0
+466,Full oreo waffle,0,1,0
+467,Gingerbread Latte,1,1,0%
+468,Grated cheese on top. Make it spicy.,0,1,0
+469,Grilled,0,1,0
+470,Hazelnut and vanilla syrup,0,1,0
+471,Hazelnut syrup,0,1,0
+472,Hg,0,1,0
+473,Hot pistachio spanish latte,1,1,0%
+474,Hot water with lemon,0,1,0
+475,I,0,1,0
+476,Iced cap frappe,0,1,0
+477,Iced capp frappe,0,1,0
+478,Iced cappucino frappe,0,1,0
+479,Iced chocolate,0,1,0
+480,Iced chocolate frappe,0,1,0
+481,Iced mocha,0,1,0
+482,Iced spanish latte,0,1,0
+483,Iced spanish late,0,1,0
+484,Iced spanish katte with oat,0,1,0
+485,Iced spanish latte (variant),6,1,-83%
+486,Kara L,0,1,0
+487,Karak,0,1,0
+488,Karak chai,0,1,0
+489,Karak chai Large,0,1,0
+490,Karak l,0,1,0
+491,Karak large,0,1,0
+492,Kinder choc,0,1,0
+493,Kinder pieces,0,1,0
+494,Kinder sauce on the cookie dough,0,1,0
+495,Lzy,0,1,0
+496,Large eng tea. No sugar hotmkilk,0,1,0
+497,Large hot spanish latte,0,1,0
+498,Large spanish katte,0,1,0
+499,Larhe,0,1,0
+500,Lava caken,0,1,0

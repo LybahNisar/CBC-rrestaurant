@@ -1,0 +1,52 @@
+Item Name,Current Stock,Min Threshold (Reorder Point),Unit,Supplier,Unit Cost (£),Stock_Item_Key,Total_Usage_G,Remaining_Stock,Status
+Lotus Cheesecake,1.0,3.0,Box (16 pcs),Head Office,42.0,LOTUSCHEESECAKE,0.0,1.0,🚨 REORDER
+Ferrero Cheesecake,3.5,2.0,Box (16 pcs),Head Office,42.0,FERREROCHEESECAKE,0.0,3.5,✅ OK
+Oreo Cheesecake,3.0,2.0,Box (16 pcs),Head Office,42.0,OREOCHEESECAKE,0.0,3.0,✅ OK
+Strawberry Cheesecake,1.0,2.0,Box (16 pcs),Head Office,42.0,STRAWBERRYCHEESECAKE,0.0,1.0,🚨 REORDER
+Milk Lindt Cheesecake,0.0,2.0,Box (16 pcs),Head Office,45.0,MILKLINDTCHEESECAKE,0.0,0.0,🚨 REORDER
+Pistachio Cheesecake,0.0,2.0,Box (12 pcs),Head Office,25.0,PISTACHIOCHEESECAKE,0.0,0.0,🚨 REORDER
+Vanilla Milk Cake,6.0,8.0,Tray (9 pcs),Head Office,20.0,VANILLAMILKCAKE,0.0,6.0,🚨 REORDER
+Lotus Milk Cake,0.0,8.0,Tray (9 pcs),Head Office,20.0,LOTUSMILKCAKE,0.0,0.0,🚨 REORDER
+Pistachio Milk Cake,6.0,6.0,Tray (9 pcs),Head Office,20.0,PISTACHIOMILKCAKE,0.0,6.0,✅ OK
+Nutella Milk Cake,3.0,3.0,Tray (9 pcs),Head Office,20.0,NUTELLAMILKCAKE,0.0,3.0,✅ OK
+Oreo Milk Cake,0.0,3.0,Tray (9 pcs),Head Office,20.0,OREOMILKCAKE,0.0,0.0,🚨 REORDER
+Dream Cake,5.0,30.0,Pcs,Head Office,2.95,DREAMCAKE,0.0,5.0,🚨 REORDER
+Jam & Coconut Cake,1.5,2.0,Tray,Head Office,33.0,JAMCOCONUTCAKE,0.0,1.5,🚨 REORDER
+Cornflake Tart,1.5,2.0,Tray,Head Office,29.0,CORNFLAKETART,0.0,1.5,🚨 REORDER
+Kunafa Dream Cake,15.0,30.0,Pcs,Head Office,3.5,KUNAFADREAMCAKE,0.0,15.0,🚨 REORDER
+Lazy Cat Cake,2.0,40.0,Pcs,Head Office,3.95,LAZYCATCAKE,0.0,2.0,🚨 REORDER
+Apple Crumble,1.0,2.0,Box,Head Office,23.0,APPLECRUMBLE,0.0,1.0,🚨 REORDER
+Sticky Toffee Pudding,2.0,2.0,Box,Head Office,19.5,STICKYTOFFEEPUDDING,0.0,2.0,✅ OK
+Sticky Chocolate Cake,3.0,2.0,Box,TBC,23.99,STICKYCHOCOLATECAKE,0.0,3.0,✅ OK
+Lava Cake,4.0,4.0,Box,Cr8 Foods,23.0,LAVACAKE,0.0,4.0,✅ OK
+Fudge Cake,3.0,4.0,Box,Head Office,25.0,FUDGECAKE,0.0,3.0,🚨 REORDER
+Brownie,2.0,3.0,Box,Head Office,22.0,BROWNIE,0.0,2.0,🚨 REORDER
+Milk Chocolate Chips,1.0,2.0,KG,Procurement,110.0,MILKCHOCOLATECHIPS,0.0,1.0,🚨 REORDER
+Water 24pk,11.0,21.0,Case,Bookers,2.99,WATER24PK,0.0,11.0,🚨 REORDER
+2ltr Whole Milk,5.0,12.0,Bottle,Freshways,1.5,2LTRWHOLEMILK,0.0,5.0,🚨 REORDER
+Eggs,1.0,1.0,Case,Freshways,15.0,EGGS,16.0,0.984,✅ OK
+Nutella 2btls,3.0,5.0,Tub (3kg),Procurement,40.0,NUTELLA2BTLS,0.0,3.0,🚨 REORDER
+Lotus Sauce 4pk,2.0,2.0,Case,Procurement,38.0,LOTUSSAUCE4PK,0.0,2.0,✅ OK
+Strawberry syrup,4.0,2.0,Bottle,Procurement,8.0,STRAWBERRYSYRUP,0.0,4.0,✅ OK
+Lemon Syrup,3.0,4.0,Bottle,Procurement,14.0,LEMONSYRUP,0.0,3.0,🚨 REORDER
+Passion Syrup,2.0,2.0,Bottle,Procurement,14.0,PASSIONSYRUP,0.0,2.0,✅ OK
+Pomergranate syrup,2.0,2.0,Bottle,Procurement,8.0,POMERGRANATESYRUP,0.0,2.0,✅ OK
+Blue Moon Syrup,2.0,2.0,Bottle,Procurement,8.0,BLUEMOONSYRUP,0.0,2.0,✅ OK
+Cookie Dough 20kg,2.0,45.0,KG,HQ,140.0,COOKIEDOUGH20KG,143700.0,-141.7,🚨 REORDER
+Kunafa 25pc,3.0,9.0,Box,HQ,57.5,KUNAFA25PC,0.0,3.0,🚨 REORDER
+Waffle Mix 6pkts,14.0,4.5,Case,HQ,45.0,WAFFLEMIX6PKTS,0.0,14.0,✅ OK
+Gelato Vanilla,3.0,6.0,Tub,Procurement,30.0,GELATOVANILLA,0.0,3.0,🚨 REORDER
+Gelato Strawberry,2.0,3.0,Tub,Procurement,30.0,GELATOSTRAWBERRY,0.0,2.0,🚨 REORDER
+Gelato Swiss Chocolate,2.0,3.0,Tub,Procurement,30.0,GELATOSWISSCHOCOLATE,0.0,2.0,🚨 REORDER
+Gelato Cookies n Cream,2.0,2.0,Tub,Procurement,22.0,GELATOCOOKIESNCREAM,0.0,2.0,✅ OK
+Kulfi Original,2.0,3.0,Tub,Procurement,19.0,KULFIORIGINAL,0.0,2.0,🚨 REORDER
+Kulfi Mango,0.0,2.0,Tub,Procurement,19.0,KULFIMANGO,0.0,0.0,🚨 REORDER
+Heinz Baked Beans,0.0,2.0,Case,Bookers,24.49,HEINZBAKEDBEANS,0.0,0.0,🚨 REORDER
+Whipped Cream,3.0,3.0,Unit,Freshways,5.0,WHIPPEDCREAM,0.0,3.0,✅ OK
+Rubicon Mango,5.0,10.0,Case,Global,10.0,RUBICONMANGO,0.0,5.0,🚨 REORDER
+Rubicon Passion,5.0,5.0,Case,Global,8.0,RUBICONPASSION,0.0,5.0,✅ OK
+Rubicon Guava,4.0,10.0,Case,Global,10.0,RUBICONGUAVA,0.0,4.0,🚨 REORDER
+Salam cola,2.0,2.0,Case,Global,5.0,SALAMCOLA,0.0,2.0,✅ OK
+Red Bull,0.0,5.0,Case,Global,15.0,REDBULL,0.0,0.0,🚨 REORDER
+J20 A&M,3.0,10.0,Case,Global,12.0,J20AM,0.0,3.0,🚨 REORDER
+Crunch Cake,0.5,3.0,Unit,Clares,15.0,CRUNCHCAKE,0.0,0.5,🚨 REORDER

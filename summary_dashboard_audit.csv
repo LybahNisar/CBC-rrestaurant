@@ -1,0 +1,22 @@
+CHOCOBERRY  |  RECIPE & PRODUCT SYSTEM — SUMMARY,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5
+,,,,,
+  SYSTEM STATUS AT A GLANCE,,,,,
+  Bought-In: ACTIVE (ready to enter system),,,,,20.0
+  Bought-In: CONFIRM NEEDED (cost/portions unclear),,,,,2.0
+  Bought-In: PENDING (not launched — do not add yet),,,,,6.0
+  In-Store: 🔴 CRITICAL issues (recipe conflicts/missing),,,,,8.0
+  In-Store: 🟠 HIGH priority (recipes not started),,,,,14.0
+  In-Store: 🟡 MEDIUM (Flipdish/data fixes needed),,,,,8.0
+  In-Store: 🟢 DONE (recipes complete in master),,,,,27.0
+,,,,,
+  QUESTIONS LOG — CONFIRMED ✅  |  PENDING ⏳  |  INVESTIGATE ⚠️,,,,,
+Q1,Milkshakes — ice cream base,✅ RESOLVED: Ice cream base = 350ml for all shakes. milkshakes_recipes.csv is the master,,,
+Q2,Oreo Shake,✅ RESOLVED: 3 Oreos confirmed. Update recipe master row 532,,,
+Q3,Nutella Shake,✅ RESOLVED: 2 tablespoons Nutella confirmed. Update recipe master row 576,,,
+Q4,Pistachio Shake,✅ RESOLVED: 1 scoop pistachio kulfi confirmed. Update recipe master row 510,,,
+Q5,Strawberry Cheesecake Shake,✅ RESOLVED: 2 pumps cheesecake syrup + Finishing = 'Top with whipped cream',,,
+Q6,Fudge Cake portions,✅ RESOLVED: 14 pcs per box confirmed by owner,,,
+Q7,San Sebastian cost,✅ RESOLVED: £23.80 per piece confirmed → £238.00 per box of 10,,,
+Q8,Sticky Chocolate Cake portions,⚠️ INVESTIGATE: Owner not familiar with 'Sticky Chocolate Cake' — verify if this is a real product,,,
+Q9,Tiramisu Cheesecake cost,"✅ RESOLVED: £45.00 per box, 16 pcs. SKU: CBH-ITC-028. Image confirmed",,,
+Q10,Freshways invoice A8486779,⏳ PENDING: Freshways double invoice — still needs checking. Risk of double payment,,,

@@ -1,0 +1,6 @@
+Date,Item_Name,Quantity,Unit,Reason,Staff_Member,Cost_Impact_GP
+2026-04-01,Original Milk Cake,2,pcs,Dropped / Damaged,Staff_A,4.44
+2026-04-01,Oreo Cheesecake,1,pcs,Expired (Shelf Life),Staff_B,2.63
+2026-04-02,Lotus Biscoff Milk Cake,3,pcs,Preparation Error,Staff_A,6.66
+2026-04-03,Strawberry Cheesecake,1.5,pcs,Customer Complaint / Replace,Staff_C,3.94
+2026-04-04,Vanilla Milk Cake,1,pcs,Dropped / Damaged,Staff_B,2.22

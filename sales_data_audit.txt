@@ -1,0 +1,20 @@
+﻿=== SALES_DATA.CSV FULL AUDIT ===
+Total lines including header: 5002
+Data rows: 5001
+
+--- HEADER (line 1) ---
+,Property name,Order ID,Sale number,Order time,Source,Dispatch type,Sales channel name,Sales channel type,Payment method,Is preorder,Refund status,Net sales,Tax on net sales,Tips,Delivery charges,Service charges,DRS charges,Packaging charges,Additional charges,Charges,Revenue,Refunds,Revenue after refunds,Discounts
+
+--- FIRST 5 DATA ROWS ---
+Row 1 : 1,20 - Chocoberry - Cafe Cardiff,954c2f8b-32ec-41cf-85a5-50af787e09c6,646,2026-04-02 00:50:00,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,34.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,34.00,0.00,34.00,0.00
+Row 2 : 2,20 - Chocoberry - Cafe Cardiff,8c1aa6d4-5539-4603-8a25-e194fd4d7423,640,2026-04-02 00:45:51,In store,Collection,Chocoberry Cardiff,POS,Credit,No,,21.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,21.00,0.00,21.00,0.00
+Row 3 : 3,20 - Chocoberry - Cafe Cardiff,1dcf5e32-6b30-40ff-8272-bcc66a525c18,645,2026-04-02 00:41:45,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,6.50,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,6.50,0.00,6.50,0.00
+Row 4 : 4,20 - Chocoberry - Cafe Cardiff,d07fe500-13a9-451c-9fa6-c96d4b2719bb,644,2026-04-02 00:32:41,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,7.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,7.00,0.00,7.00,0.00
+Row 5 : 5,20 - Chocoberry - Cafe Cardiff,d78c1174-49eb-4ab4-84e2-597400199c28,643,2026-04-02 00:26:47,In store,Dine In,Chocoberry Cardiff,POS,Credit,No,,6.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,6.00,0.00,6.00,0.00
+
+--- LAST 5 DATA ROWS ---
+Row 4997 : 4997,20 - Chocoberry - Cafe Cardiff,05dc347d-db13-4ed4-aafd-7457f080a065,330,2026-03-06 18:23:49,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,10.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,10.00,0.00,10.00,0.00
+Row 4998 : 4998,20 - Chocoberry - Cafe Cardiff,c347c72c-afd2-449a-9fdb-1f4fb055ca8c,329,2026-03-06 17:45:39,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,21.95,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,21.95,0.00,21.95,0.00
+Row 4999 : 4999,20 - Chocoberry - Cafe Cardiff,f08f653a-8275-4061-b971-5003a6b55d02,328,2026-03-06 17:08:00,In store,Take Away,Chocoberry Cardiff,POS,Credit,No,,9.00,1.80,0.00,0.00,0.00,0.00,0.00,0.00,0.00,10.80,0.00,10.80,-1.20
+Row 5000 : 5000,20 - Chocoberry - Cafe Cardiff,83740c94-5dda-4138-9562-13468268c047,327,2026-03-06 16:34:26,In store,Dine In,Chocoberry Cardiff,POS,Mix,No,,9.50,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,9.50,0.00,9.50,0.00
+Row 5001 : ,,,,,,,,,,,,"240,740.31","8,907.39",0.00,282.20,226.55,0.00,0.00,12.00,520.75,"250,199.20",-47.75,"250,168.45","-9,459.65"

@@ -1,0 +1,86 @@
+﻿Day,Department,Shift,Start,End,Duration,Name,Role,SBY,Date
+Monday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,20/04/2026
+Monday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,20/04/2026
+Monday,Kitchen,Evening,16:00,23:30,7.5,Chintan,Senior,No,20/04/2026
+Monday,Kitchen,Evening,16:00,23:30,7.5,Atharvkumar Sanjay,Senior,No,20/04/2026
+Monday,Kitchen,Evening,16:00,23:30,7.5,Damini Sharadchandra Aher,Senior,No,20/04/2026
+Monday,Kitchen,Evening,16:00,23:30,7.5,Rajesh Yadav,Junior,No,20/04/2026
+Monday,Front,Morning,11:30,18:00,6.5,Mellissa Teshali Leontia,Junior,No,20/04/2026
+Monday,Front,Morning,11:30,18:00,6.5,Dhriti Kulshrestha,Junior,No,20/04/2026
+Monday,Front,Evening,17:30,01:45,8.25,Supreme Gurung,Senior,No,20/04/2026
+Monday,Front,Evening,17:30,01:45,8.25,Tulika Das Adhikari,Junior,No,20/04/2026
+Monday,Front,Evening,17:30,01:45,8.25,Asma,Junior,No,20/04/2026
+Tuesday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,21/04/2026
+Tuesday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,21/04/2026
+Tuesday,Kitchen,Evening,16:00,23:30,7.5,Chintan,Senior,No,21/04/2026
+Tuesday,Kitchen,Evening,16:00,23:30,7.5,Atharvkumar Sanjay,Senior,No,21/04/2026
+Tuesday,Kitchen,Evening,16:00,23:30,7.5,Damini Sharadchandra Aher,Senior,No,21/04/2026
+Tuesday,Kitchen,Evening,16:00,23:30,7.5,Rajesh Yadav,Junior,No,21/04/2026
+Tuesday,Front,Morning,11:30,18:00,6.5,Mellissa Teshali Leontia,Junior,No,21/04/2026
+Tuesday,Front,Morning,11:30,18:00,6.5,Dhriti Kulshrestha,Junior,No,21/04/2026
+Tuesday,Front,Evening,17:30,01:45,8.25,Supreme Gurung,Senior,No,21/04/2026
+Tuesday,Front,Evening,17:30,01:45,8.25,Tulika Das Adhikari,Junior,No,21/04/2026
+Tuesday,Front,Evening,17:30,01:45,8.25,Asma,Junior,No,21/04/2026
+Wednesday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,22/04/2026
+Wednesday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,22/04/2026
+Wednesday,Kitchen,Evening,16:00,23:30,7.5,Atharvkumar Sanjay,Senior,No,22/04/2026
+Wednesday,Kitchen,Evening,16:00,23:30,7.5,Chintan,Senior,No,22/04/2026
+Wednesday,Kitchen,Evening,16:00,23:30,7.5,Nithin,Junior,No,22/04/2026
+Wednesday,Kitchen,Evening,16:00,23:30,7.5,Damini Sharadchandra Aher,Senior,No,22/04/2026
+Wednesday,Front,Morning,11:30,18:00,6.5,Mellissa Teshali Leontia,Junior,No,22/04/2026
+Wednesday,Front,Morning,11:30,18:00,6.5,Dhriti Kulshrestha,Junior,No,22/04/2026
+Wednesday,Front,Evening,17:30,01:45,8.25,Supreme Gurung,Senior,No,22/04/2026
+Wednesday,Front,Evening,17:30,01:45,8.25,Tulika Das Adhikari,Junior,No,22/04/2026
+Wednesday,Front,Evening,17:30,01:45,8.25,Asma,Junior,No,22/04/2026
+Thursday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,23/04/2026
+Thursday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,23/04/2026
+Thursday,Kitchen,Evening,16:00,01:30,9.5,Chintan,Senior,No,23/04/2026
+Thursday,Kitchen,Evening,16:00,01:30,9.5,Atharvkumar Sanjay,Senior,No,23/04/2026
+Thursday,Kitchen,Evening,16:00,01:30,9.5,Nithin,Junior,No,23/04/2026
+Thursday,Kitchen,Evening,16:00,01:30,9.5,Rajesh Yadav,Junior,No,23/04/2026
+Thursday,Kitchen,Evening,16:00,01:30,9.5,Damini Sharadchandra Aher,Senior,No,23/04/2026
+Thursday,Front,Morning,11:30,18:00,6.5,Mellissa Teshali Leontia,Junior,No,23/04/2026
+Thursday,Front,Morning,11:30,18:00,6.5,Dhriti Kulshrestha,Junior,No,23/04/2026
+Thursday,Front,Evening,17:30,01:45,8.25,Pamitha Perera,Junior,No,23/04/2026
+Thursday,Front,Evening,17:30,01:45,8.25,Munira,Junior,No,23/04/2026
+Thursday,Front,Evening,17:30,01:45,8.25,Bhoomika,Junior,No,23/04/2026
+Thursday,Front,Evening,17:30,01:45,8.25,Supreme Gurung,Senior,No,23/04/2026
+Friday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,24/04/2026
+Friday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,24/04/2026
+Friday,Kitchen,Morning,11:30,18:00,6.5,Rajesh Yadav,Junior,No,24/04/2026
+Friday,Kitchen,Morning,11:30,18:00,6.5,Damini Sharadchandra Aher,Senior,No,24/04/2026
+Friday,Kitchen,Evening,16:00,23:00,7.0,Atharvkumar Sanjay,Senior,No,24/04/2026
+Friday,Kitchen,Evening,16:00,23:00,7.0,Nithin,Junior,No,24/04/2026
+Friday,Kitchen,Evening,16:00,23:00,7.0,Chintan,Senior,No,24/04/2026
+Friday,Front,Morning,11:30,16:30,5.0,Dikshya,Junior,No,24/04/2026
+Friday,Front,Morning,11:30,16:30,5.0,Mellissa Teshali Leontia,Junior,No,24/04/2026
+Friday,Front,Evening,16:00,01:00,9.0,Munira,Junior,No,24/04/2026
+Friday,Front,Evening,16:00,01:00,9.0,Pamitha Perera,Junior,No,24/04/2026
+Friday,Front,Evening,16:00,01:00,9.0,Bhoomika,Junior,No,24/04/2026
+Friday,Front,Evening,16:00,01:00,9.0,Tulika Das Adhikari,Junior,No,24/04/2026
+Saturday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,25/04/2026
+Saturday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,25/04/2026
+Saturday,Kitchen,Morning,11:30,18:00,6.5,Rajesh Yadav,Junior,No,25/04/2026
+Saturday,Kitchen,Morning,11:30,18:00,6.5,Damini Sharadchandra Aher,Senior,No,25/04/2026
+Saturday,Kitchen,Evening,16:00,23:00,7.0,Chintan,Senior,No,25/04/2026
+Saturday,Kitchen,Evening,16:00,23:00,7.0,Atharvkumar Sanjay,Senior,No,25/04/2026
+Saturday,Kitchen,Evening,16:00,23:00,7.0,Nithin,Junior,No,25/04/2026
+Saturday,Front,Morning,10:30,16:30,6.0,Dikshya,Junior,No,25/04/2026
+Saturday,Front,Morning,10:30,16:30,6.0,Mellissa Teshali Leontia,Junior,No,25/04/2026
+Saturday,Front,Morning,10:30,16:30,6.0,Supreme Gurung,Senior,No,25/04/2026
+Saturday,Front,Evening,16:00,00:30,8.5,Bhoomika,Junior,No,25/04/2026
+Saturday,Front,Evening,16:00,00:30,8.5,Munira,Junior,No,25/04/2026
+Saturday,Front,Evening,16:00,00:30,8.5,Pamitha Perera,Junior,No,25/04/2026
+Saturday,Front,Evening,16:00,00:30,8.5,Tulika Das Adhikari,Junior,No,25/04/2026
+Sunday,Kitchen,Morning,11:30,18:00,6.5,Ravi Kishore,Senior,No,26/04/2026
+Sunday,Kitchen,Morning,11:30,18:00,6.5,Dhiraj Mangade,Senior,No,26/04/2026
+Sunday,Kitchen,Morning,11:30,18:00,6.5,Damini Sharadchandra Aher,Senior,No,26/04/2026
+Sunday,Kitchen,Morning,11:30,18:00,6.5,Chintan,Senior,No,26/04/2026
+Sunday,Kitchen,Evening,16:00,23:00,7.0,Atharvkumar Sanjay,Senior,No,26/04/2026
+Sunday,Kitchen,Evening,16:00,23:00,7.0,Nithin,Junior,No,26/04/2026
+Sunday,Front,Morning,10:30,16:30,6.0,Dikshya,Junior,No,26/04/2026
+Sunday,Front,Morning,10:30,16:30,6.0,Mellissa Teshali Leontia,Junior,No,26/04/2026
+Sunday,Front,Morning,10:30,16:30,6.0,Supreme Gurung,Senior,No,26/04/2026
+Sunday,Front,Evening,16:00,00:30,8.5,Munira,Junior,No,26/04/2026
+Sunday,Front,Evening,16:00,00:30,8.5,Bhoomika,Junior,No,26/04/2026
+Sunday,Front,Evening,16:00,00:30,8.5,Pamitha Perera,Junior,No,26/04/2026

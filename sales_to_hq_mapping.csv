@@ -1,0 +1,29 @@
+Flipdish Sales Name,HQ Product Name,Portions Used,Audit Note
+Lotus Biscoff Milk Cake,Lotus Biscoff Milk Cake,1.0,Direct Match
+Pistachio Milk Cake,Pistachio Milk Cake,1.0,Direct Match
+Original Milk Cake,Vanilla Milk Cake,1.0,Name Correction: Original = Vanilla
+Nutella Milk Cake,Nutella Milk Cake,1.0,Direct Match
+Oreo & Cream Milk Cake,Oreo Milk Cake,1.0,Name Correction: Oreo & Cream = Oreo
+Luxury Fudge Cake,Fudge Cake,1.0,Simplified Name Match
+Hot Fudge Brownie,Chocolate Brownie,1.0,Component Match: Brownie base
+Sticky Toffee Pudding,Sticky Toffee Pudding,1.0,Direct Match
+Lava Cake,Lava Cake,1.0,Direct Match
+The Original Kanafeh,Kanafeh (from HQ),1.0,HQ Core product mapping
+Lotus Biscoff Cheesecake,Lotus Biscoff Cheesecake,1.0,Direct Match
+Ferrero Rocher Cheesecake,Ferrero Rocher Cheesecake,1.0,Direct Match
+Oreo Cheesecake,Oreo Cheesecake,1.0,Direct Match
+Strawberry Cheesecake,Strawberry Cheesecake,1.0,Direct Match
+Milk Chocolate Lindt Cheesecake,Milk Lindt Cheesecake,1.0,Direct Match
+Pistachio Kanafeh Cheesecake,Pistachio Kanafeh Cheesecake (12pcs),1.0,HQ Box mapping
+San Sebastian Cheesecake (Milk Chocolate),San Sebastian Cheesecake,1.0,Base Match (Excludes sauce)
+San Sebastian Cheesecake (Pistachio Sauce),San Sebastian Cheesecake,1.0,Base Match (Excludes sauce)
+San Sebastian Cheesecake (White chocolate),San Sebastian Cheesecake,1.0,Base Match (Excludes sauce)
+Apple Crumble,Apple Crumble,1.0,Direct Match
+Original Churros,Churros,1.0,Weight/Piece mapping
+Tiramisu,Tiramisu Pudding - 30 pieces,1.0,HQ Case mapping
+Banana Pudding,Banana Pudding (30 Pcs),1.0,HQ Case mapping
+Chocolate Dream Cake,Chocolate Dream Cake,1.0,Pending Launch match
+Pistachio Kanafeh Chocolate Dream Cake,Pistachio Kanafeh Chocolate Dream Cake,1.0,Pending Launch match
+Tiramisu Cheesecake,Tiramisu Cheesecake,1.0,Direct Match
+Viral Banana Pudding,Viral Banana Pudding,1.0,Direct Match
+Lazy Cat Cake,Lazy Cat Cake,1.0,Direct Match

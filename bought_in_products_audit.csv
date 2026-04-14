@@ -1,0 +1,35 @@
+CHOCOBERRY  |  BOUGHT-IN FINISHED PRODUCTS,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9
+#,Category,Product Name,Purchase Unit,Box/Unit Cost (£),Portions/Box,Cost per Portion (£),Supplier,Status,Notes
+  CHEESECAKES,,,,,,,,,
+1,CHEESECAKES,Lotus Biscoff Cheesecake,Per box (16 pcs),42,16,,Head Office,✅ ACTIVE,✅ 16 pcs per box confirmed
+2,CHEESECAKES,Ferrero Rocher Cheesecake,Per box (16 pcs),42,16,,Head Office,✅ ACTIVE,✅ 16 pcs per box confirmed
+3,CHEESECAKES,Oreo Cheesecake,Per box (16 pcs),42,16,,Head Office,✅ ACTIVE,✅ 16 pcs per box confirmed
+4,CHEESECAKES,Strawberry Cheesecake,Per box (16 pcs),42,16,,Head Office,✅ ACTIVE,✅ 16 pcs per box confirmed
+5,CHEESECAKES,Milk Lindt Cheesecake,Per box (16 pcs),45,16,,Head Office,✅ ACTIVE,✅ 16 pcs per box confirmed
+6,CHEESECAKES,Pistachio Kanafeh Cheesecake,Per box (12 pcs),32,12,,Head Office,✅ ACTIVE,✅ 12 pcs per box confirmed
+7,CHEESECAKES,San Sebastian Cheesecake,Per box (10 pcs),238,10,,Head Office / T.Quality,✅ ACTIVE,✅ CONFIRMED: £23.80 per piece × 10 pcs = £238.00 per box
+  MILK CAKES,,,,,,,,,
+8,MILK CAKES,Vanilla Milk Cake,Per cake (9 pcs),20,9,,Head Office,✅ ACTIVE,9 pcs per cake confirmed
+9,MILK CAKES,Lotus Biscoff Milk Cake,Per cake (9 pcs),20,9,,Head Office,✅ ACTIVE,9 pcs per cake confirmed
+10,MILK CAKES,Pistachio Milk Cake,Per cake (9 pcs),20,9,,Head Office,✅ ACTIVE,9 pcs per cake confirmed
+11,MILK CAKES,Nutella Milk Cake,Per cake (9 pcs),20,9,,Head Office,✅ ACTIVE,9 pcs per cake confirmed
+12,MILK CAKES,Oreo Milk Cake,Per cake (9 pcs),20,9,,Head Office,✅ ACTIVE,9 pcs per cake confirmed
+  CAKES & TREATS,,,,,,,,,
+13,CAKES & TREATS,Apple Crumble,Per box (12 pcs),23,12,,Head Office,✅ ACTIVE,
+14,CAKES & TREATS,Chocolate Brownie,Per box (16 pcs),22,16,,Head Office,✅ ACTIVE,
+15,CAKES & TREATS,Chocolate Pudding,Per box (12 pcs),23.99,12,,Head Office,✅ ACTIVE,
+16,CAKES & TREATS,Fudge Cake,Per box (14 pcs),25,14,,Head Office,✅ ACTIVE,✅ CONFIRMED: 14 pcs per box
+17,CAKES & TREATS,Lava Cake,Per box (9 pcs),23,9,,Head Office,✅ ACTIVE,
+18,CAKES & TREATS,Sticky Toffee Pudding,Per box (12 pcs),19.5,12,,Head Office,✅ ACTIVE,
+19,CAKES & TREATS,Cornflake Tart,Per box (12 pcs),29,12,,Head Office,✅ ACTIVE,Cost from stock list
+20,CAKES & TREATS,Jam & Coconut Sponge,Per box (16 pcs),33,16,,Head Office,✅ ACTIVE,2 trays = 16 pcs
+21,CAKES & TREATS,Sticky Chocolate Cake,Per box — UNKNOWN,23.99,,TBC,Head Office,⚠️ INVESTIGATE,⚠️ Owner not familiar with this product. Verify if real item or stock list error. Do NOT add to system
+  KANAFEH,,,,,,,,,
+22,KANAFEH,Kanafeh (from HQ),Per box (25 pcs),57.5,25,,Head Office,✅ ACTIVE,Per stock list
+  PENDING – NOT LAUNCHED,,,,,,,,,
+23,PENDING – NOT LAUNCHED,Lazy Cat Cake,Per box (20 pcs),79,20,,Head Office,⏳ PENDING,Do NOT add to software until launched
+24,PENDING – NOT LAUNCHED,Tiramisu Pudding,Per box (30 pcs),60,30,,Head Office,⏳ PENDING,"✅ CONFIRMED: £60.00/box, 30 pcs. SKU: TP-1"
+25,PENDING – NOT LAUNCHED,Chocolate Dream Cake,Per pcs,2.95,,TBC,Head Office,⏳ PENDING,Do NOT add to software until launched
+26,PENDING – NOT LAUNCHED,Pistachio Kanafeh Chocolate Dream Cake,Per pcs,3.5,,TBC,Head Office,⏳ PENDING,Do NOT add to software until launched
+27,PENDING – NOT LAUNCHED,Tiramisu Cheesecake,Per box (16 pcs),45,16,,Head Office,⏳ PENDING,"✅ CONFIRMED: £45.00/box, 16 pcs. SKU: CBH-ITC-028. Currently In Stock = -14 (needs urgent order)"
+28,PENDING – NOT LAUNCHED,Viral Banana Pudding,Per box (30 pcs),60,30,,Head Office,⏳ PENDING,Do NOT add to software until launched

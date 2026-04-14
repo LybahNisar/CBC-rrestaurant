@@ -1,0 +1,25 @@
+﻿80 lines | 2.3 KB | Best-selling categories.csv
+111 lines | 2.2 KB | Least sold item modifiers.csv
+21 lines | 0.6 KB | Least sold items.csv
+111 lines | 2.2 KB | Most sold item modifiers.csv
+510 lines | 15.2 KB | Most sold items.csv
+21 lines | 0.8 KB | Refunded items.csv
+510 lines | 15.2 KB | Top items in category.csv
+11 lines | 0.3 KB | Worst-selling categories.csv
+501 lines | 14.7 KB | percentage_increase_item_sales.csv
+2 lines | 0.1 KB | charges_summary.csv
+3 lines | 0.1 KB | net_sales_by_dispatch_type.csv
+20 lines | 0.3 KB | net_sales_by_hour_of_day.csv
+3 lines | 0.1 KB | net_sales_by_payment_method.csv
+2 lines | 0.1 KB | net_sales_by_property.csv
+3 lines | 0.2 KB | net_sales_by_sales_channel.csv
+93 lines | 2.3 KB | net_sales_per_day.csv
+8 lines | 0.3 KB | net_sales_per_day_of_week.csv
+3 lines | 0.2 KB | revenue_after_refunds.csv
+2 lines | 0.1 KB | revenue_summary.csv
+5002 lines | 1085.4 KB | sales_data.csv
+94 lines | 6.4 KB | sales_overview.csv
+3 lines | 0.1 KB | total_charges.csv
+232 lines | 45.8 KB | chocoberry_menu_with_options_v3.csv
+997 lines | 77.7 KB | chocoberry_recipe_master.csv
+20 lines | 1 KB | rota_week_30mar_05apr_2026.csv
