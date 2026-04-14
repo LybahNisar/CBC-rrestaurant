@@ -1,0 +1,8 @@
+streamlit
+pandas
+plotly
+python-dotenv
+openpyxl
+xlsxwriter
+pillow
+fpdf
