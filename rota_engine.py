@@ -402,24 +402,31 @@ class RotaEngine:
 
     def get_hours_summary(self) -> pd.DataFrame:
         """Returns per-person hours summary with target comparison."""
+        if self.staff_df is None or self.staff_df.empty:
+            return pd.DataFrame(columns=["Name","Role","Department","Target Hrs","Scheduled Hrs","Delta","Status"])
+
         rows = []
         for _, s in self.staff_df[self.staff_df["Active"]].iterrows():
             name    = s["Name"]
             actual  = self._hours_worked.get(name, 0)
-            target  = float(s["Target Hours/Week"])
-            max_hrs = float(s["Max Hours/Week"])
+            target  = float(s.get("Target Hours/Week", 0))
+            max_hrs = float(s.get("Max Hours/Week", 48))
             delta   = actual - target
             flag    = "✅ On Target" if abs(delta) <= 2 else (
                       "🔴 Over"   if delta > 2 else "🟡 Under")
             rows.append({
                 "Name":           name,
-                "Role":           s["Role"],
-                "Department":     s["Department"],
+                "Role":           s.get("Role", "Junior"),
+                "Department":     s.get("Department", "Floor"),
                 "Target Hrs":     target,
                 "Scheduled Hrs":  round(actual, 1),
                 "Delta":          round(delta, 1),
                 "Status":         flag,
             })
+        
+        if not rows:
+            return pd.DataFrame(columns=["Name","Role","Department","Target Hrs","Scheduled Hrs","Delta","Status"])
+
         return pd.DataFrame(rows).sort_values("Delta", ascending=False)
 
     # ── Export ────────────────────────────────────────────────────────────────
