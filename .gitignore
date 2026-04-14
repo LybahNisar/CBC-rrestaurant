@@ -20,6 +20,16 @@ invoice_images/
 !stock_item_list.csv
 !stock_thresholds_master.csv
 !unit_conversion_master.csv
+# Sales Data Essentials
+!sales_overview.csv
+!net_sales_per_day.csv
+!sales_data.csv
+!net_sales_by_hour_of_day.csv
+!net_sales_by_dispatch_type.csv
+!net_sales_by_sales_channel.csv
+!net_sales_by_payment_method.csv
+!daily_waste_log.csv
+!generated_rota.csv
 *.xlsx
 *.pdf
 banner_b64.txt
