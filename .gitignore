@@ -1,18 +1,8 @@
 .env
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
-.db
-*.db
+.gemini/
+scratch/
 invoices/
 invoice_uploads/
 invoice_images/
-*.xlsx
-*.pdf
-.gemini/
-scratch/
-
-# ALLOW ALL CSV FILES (as requested by user)
-!*.csv
-!**/*.csv
