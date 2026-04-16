@@ -2607,22 +2607,74 @@ with tab8:
         if rota_df.empty:
             st.info("🕒 No shifts scheduled for the selected week/criteria.")
         else:
-            grid_pivot = rota_df.pivot_table(
-                index=["Name", "Role", "Department"],
-                columns="Day",
-                values="Shift",
-                aggfunc=lambda x: " | ".join(x)
-            ).reset_index()
+            # ── Day-by-Day Visual Display ───────────────────────────────────────
+            days_order = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+            DEPT_COLORS = {"Kitchen": "#e05c5c", "Front": "#3a9bd5"}
 
-            grid_pivot["role_sort"] = grid_pivot["Role"].map({"Senior": 0, "Junior": 1})
-            grid_pivot = grid_pivot.sort_values(["Department", "role_sort"]).drop(columns=["role_sort"])
+            for d_idx, day_name in enumerate(days_order):
+                day_date = (w_start + timedelta(days=d_idx)) if not isinstance(w_start, datetime) else (w_start + timedelta(days=d_idx))
+                try:
+                    date_label = day_date.strftime("%d %B %Y")
+                except:
+                    date_label = str(day_date)
 
-            day_cols = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-            final_cols = ["Name","Role","Department"] + [d for d in day_cols if d in grid_pivot.columns]
-            grid_display = grid_pivot[final_cols]
+                day_df = rota_df[rota_df["Day"] == day_name]
 
-            st.dataframe(grid_display, width="stretch", hide_index=True)
+                st.markdown(
+                    f'<div style="background:linear-gradient(90deg,#1a1a2e,#16213e);'
+                    f'border-left:4px solid #f5a623;border-radius:8px;padding:10px 18px;'
+                    f'margin:16px 0 8px;display:flex;align-items:center;gap:12px">'
+                    f'<span style="font-size:18px;font-weight:800;color:#f5a623;font-family:Syne,sans-serif">'
+                    f'{day_name.upper()}</span>'
+                    f'<span style="font-size:13px;color:#aab0d0;font-weight:500">— {date_label}</span>'
+                    f'{"<span style=&quot;margin-left:auto;background:#e05c5c;color:white;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700&quot;>⚠️ UNDERSTAFFED</span>" if day_df.empty else ""}'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
 
+                if day_df.empty:
+                    st.markdown('<div style="color:#888;font-size:13px;padding:6px 18px">No shifts scheduled</div>', unsafe_allow_html=True)
+                    continue
+
+                dcol1, dcol2 = st.columns(2)
+                for dept, dcol in [("Kitchen", dcol1), ("Front", dcol2)]:
+                    dept_df = day_df[day_df["Department"] == dept].sort_values(["Shift","Role"], ascending=[True, False])
+                    dept_icon = "🍳" if dept == "Kitchen" else "🛎️"
+                    dept_color = DEPT_COLORS[dept]
+
+                    with dcol:
+                        st.markdown(
+                            f'<div style="background:rgba(255,255,255,0.04);border-radius:8px;'
+                            f'border-top:3px solid {dept_color};padding:10px 14px;min-height:80px">'
+                            f'<div style="font-size:12px;font-weight:700;color:{dept_color};letter-spacing:1px;margin-bottom:8px">'
+                            f'{dept_icon} {dept.upper()} OF HOUSE' if dept == "Front" else f'{dept_icon} {dept.upper()}'
+                            f'</div>',
+                            unsafe_allow_html=True
+                        )
+                        if dept_df.empty:
+                            st.markdown('<div style="color:#888;font-size:12px;padding:4px">— No staff scheduled</div>', unsafe_allow_html=True)
+                        else:
+                            for _, row in dept_df.iterrows():
+                                role_badge_color = "#f5a623" if row["Role"] == "Senior" else "#3ecf8e"
+                                shift_s = str(row.get("Start","")).replace(":00","") if str(row.get("Start","")) != "nan" else ""
+                                shift_e = str(row.get("End","")).replace(":00","") if str(row.get("End","")) != "nan" else ""
+                                dur = row.get("Duration","")
+                                time_str = f"{shift_s}–{shift_e} ({dur}h)" if shift_s else row.get("Shift","")
+                                st.markdown(
+                                    f'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;'
+                                    f'border-bottom:1px solid rgba(255,255,255,0.05)">'
+                                    f'<span style="background:{role_badge_color};color:#000;border-radius:4px;'
+                                    f'font-size:9px;font-weight:800;padding:2px 6px;min-width:46px;text-align:center">'
+                                    f'{row["Role"].upper()}</span>'
+                                    f'<span style="font-size:13px;color:#e8e9f0;font-weight:600">{row["Name"]}</span>'
+                                    f'<span style="margin-left:auto;font-size:11px;color:#aab0d0">{time_str}</span>'
+                                    f'</div>',
+                                    unsafe_allow_html=True
+                                )
+                        st.markdown('</div>', unsafe_allow_html=True)
+
+            # ── Fairness & Constraints ─────────────────────────────────────────
+            st.markdown("---")
             m1, m2 = st.columns(2)
             with m1:
                 st.markdown("**🔍 Fairness & Hours Report**")
@@ -2638,19 +2690,20 @@ with tab8:
                 else:
                     st.success("✅ All shift constraints (Senior presence, headcount) satisfied.")
 
+            # ── Push / Download Buttons ───────────────────────────────────────
             st.markdown("---")
-            c_push, c_down = st.columns(2)
+            c_push, c_down_csv, c_down_pdf = st.columns(3)
+
             with c_push:
                 if st.button("🚀 Push to Tab 7 (Commit to Live Data)", width="stretch"):
                     output_dir = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}")
                     if not os.path.exists(output_dir): os.makedirs(output_dir)
-
                     rota_df.to_csv(os.path.join(output_dir, "detailed_rota_with_shifts.csv"), index=False)
-                    st.cache_data.clear() # Force Tab 7 to see the new file
+                    st.cache_data.clear()
                     st.balloons()
                     st.success(f"✅ Rota deployed to: {output_dir}")
-            
-            with c_down:
+
+            with c_down_csv:
                 csv_bytes = rota_df.to_csv(index=False).encode('utf-8')
                 st.download_button(
                     label="⬇️ Download Rota CSV",
@@ -2659,6 +2712,100 @@ with tab8:
                     mime="text/csv",
                     width="stretch"
                 )
+
+            with c_down_pdf:
+                try:
+                    from reportlab.lib import colors as rl_colors
+                    from reportlab.lib.pagesizes import A4
+                    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                    from reportlab.lib.units import cm
+                    from reportlab.lib.enums import TA_CENTER, TA_LEFT
+                    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, HRFlowable
+                    import io as _io
+
+                    def _build_rota_pdf(rdf, ws, we, cost_data):
+                        buf = _io.BytesIO()
+                        doc = SimpleDocTemplate(buf, pagesize=A4,
+                                                rightMargin=1.5*cm, leftMargin=1.5*cm,
+                                                topMargin=1.5*cm, bottomMargin=1.5*cm)
+                        styles = getSampleStyleSheet()
+                        title_s  = ParagraphStyle("T",  parent=styles["Heading1"], fontSize=18,
+                                                  textColor=rl_colors.HexColor("#1a1a2e"), spaceAfter=4,  alignment=TA_CENTER)
+                        sub_s    = ParagraphStyle("S",  parent=styles["Normal"],   fontSize=11,
+                                                  textColor=rl_colors.HexColor("#555555"), spaceAfter=10, alignment=TA_CENTER)
+                        day_s    = ParagraphStyle("D",  parent=styles["Normal"],   fontSize=13, fontName="Helvetica-Bold",
+                                                  textColor=rl_colors.white, backColor=rl_colors.HexColor("#1a1a2e"),
+                                                  spaceBefore=14, spaceAfter=4, leftIndent=6)
+                        dept_s   = ParagraphStyle("Dp", parent=styles["Normal"],   fontSize=10, fontName="Helvetica-Bold",
+                                                  textColor=rl_colors.HexColor("#333"), spaceBefore=6, spaceAfter=2)
+
+                        story = []
+                        story.append(Paragraph("CHOCOBERRY — Weekly Staff Rota", title_s))
+                        story.append(Paragraph(f"{ws.strftime('%A %d %B %Y') if hasattr(ws,'strftime') else ws}  →  {we.strftime('%A %d %B %Y') if hasattr(we,'strftime') else we}", sub_s))
+                        story.append(Paragraph(f"Estimated Weekly Wage: £{cost_data['total']:,.2f}", sub_s))
+                        story.append(HRFlowable(width="100%", thickness=2, color=rl_colors.HexColor("#1a1a2e"), spaceAfter=6))
+
+                        _days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+                        for d_i, dname in enumerate(_days):
+                            try:
+                                ddate = (ws + timedelta(days=d_i))
+                                dlabel = f"  {dname}  —  {ddate.strftime('%d %B %Y')}"
+                            except:
+                                dlabel = f"  {dname}"
+                            story.append(Paragraph(dlabel, day_s))
+
+                            day_sub = rdf[rdf["Day"] == dname]
+                            if day_sub.empty:
+                                story.append(Paragraph("No shifts scheduled", dept_s))
+                                continue
+
+                            for dept in ["Kitchen", "Front"]:
+                                dept_sub = day_sub[day_sub["Department"] == dept].sort_values(["Shift","Role"], ascending=[True, False])
+                                if dept_sub.empty: continue
+                                icon = "Kitchen" if dept == "Kitchen" else "Front of House"
+                                story.append(Paragraph(f"  {icon}", dept_s))
+                                tdata = [["Name", "Role", "Shift", "Start", "End", "Hrs"]]
+                                for _, r in dept_sub.iterrows():
+                                    tdata.append([r["Name"], r["Role"], r.get("Shift",""),
+                                                  str(r.get("Start","")), str(r.get("End","")),
+                                                  f"{r.get('Duration','')}h"])
+                                hdr_col = rl_colors.HexColor("#e05c5c") if dept == "Kitchen" else rl_colors.HexColor("#3a9bd5")
+                                tbl = Table(tdata, colWidths=[5.5*cm,2*cm,2*cm,2*cm,2*cm,1.5*cm], repeatRows=1)
+                                tbl.setStyle(TableStyle([
+                                    ("BACKGROUND",  (0,0),(-1,0), hdr_col),
+                                    ("TEXTCOLOR",   (0,0),(-1,0), rl_colors.white),
+                                    ("FONTNAME",    (0,0),(-1,0), "Helvetica-Bold"),
+                                    ("FONTSIZE",    (0,0),(-1,-1), 9),
+                                    ("ALIGN",       (0,0),(-1,-1), "LEFT"),
+                                    ("VALIGN",      (0,0),(-1,-1), "MIDDLE"),
+                                    ("ROWBACKGROUNDS",(0,1),(-1,-1),[rl_colors.HexColor("#f7f7f7"), rl_colors.white]),
+                                    ("GRID",        (0,0),(-1,-1), 0.4, rl_colors.HexColor("#cccccc")),
+                                    ("TOPPADDING",  (0,0),(-1,-1), 4),
+                                    ("BOTTOMPADDING",(0,0),(-1,-1), 4),
+                                    ("LEFTPADDING", (0,0),(-1,-1), 6),
+                                ]))
+                                story.append(tbl)
+                                story.append(Spacer(1, 0.15*cm))
+                            story.append(Spacer(1, 0.3*cm))
+
+                        story.append(HRFlowable(width="100%", thickness=1, color=rl_colors.HexColor("#cccccc")))
+                        story.append(Paragraph(f"Total: {len(rdf)} shifts  |  Generated: {datetime.now().strftime('%d %b %Y %H:%M')}", sub_s))
+                        doc.build(story)
+                        buf.seek(0)
+                        return buf.read()
+
+                    cost_est = engine.estimate_weekly_cost(rota_df)
+                    pdf_data  = _build_rota_pdf(rota_df, w_start, w_end, cost_est)
+                    st.download_button(
+                        label="📄 Download Rota PDF",
+                        data=pdf_data,
+                        file_name=f"chocoberry_rota_{w_start.strftime('%d_%b_%Y') if hasattr(w_start,'strftime') else w_start}.pdf",
+                        mime="application/pdf",
+                        width="stretch"
+                    )
+                except Exception as pdf_err:
+                    st.error(f"PDF generation error: {pdf_err}")
+
 
 
 # ════════════════════════════════════════════════════════════════════

@@ -1,17 +1,18 @@
 Name,Role,Max Hours/Week,Target Hours/Week,Availability,Shift Preference,Active,Department
-Dhiraj Mangade,Senior,60,40,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,Yes,Kitchen
+Dhiraj Mangade,Senior,60,40,"Wed,Thu,Fri,Sat",Any,Yes,Kitchen
 Damini Sharadchandra Aher,Senior,55,35,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,Yes,Kitchen
-Rajesh Yadav,Senior,45,30,"Mon,Tue,Wed,Thu,Fri,Sat",Any,Yes,Kitchen
-Mellissa Teshali Leontia,Senior,45,30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Morning,Yes,Front
-Supreme Gurung,Senior,55,35,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Evening,Yes,Front
+Rajesh Yadav,Senior,45,30,"Mon,Tue,Wed,Thu,Fri,Sat",Morning,Yes,Kitchen
+Mellissa Teshali Leontia,Senior,45,30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,Yes,Front
+Supreme Gurung,Senior,55,35,"Mon,Wed,Thu,Fri,Sat",Evening,Yes,Front
 Tulika Das Adhikari,Senior,45,30,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Evening,Yes,Front
 Atharvkumar Sanjay,Senior,55,35,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Evening,Yes,Kitchen
 Chintan,Senior,55,35,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Evening,Yes,Kitchen
-Nithin,Junior,40,20,"Wed,Thu,Fri,Sat,Sun",Evening,Yes,Kitchen
-Munira,Junior,20,16,"Thu,Fri,Sat,Sun",Evening,Yes,Front
-Pamitha Perera,Junior,20,16,"Thu,Fri,Sat,Sun",Evening,Yes,Kitchen
+Nithin,Junior,40,20,"Mon,Tue,Wed,Thu,Fri,Sun",Evening,Yes,Kitchen
+Munira,Junior,35,20,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Evening,Yes,Front
+Pamitha Perera,Junior,20,16,"Fri,Sat,Sun",Evening,Yes,Kitchen
 Ravi Kishore,Senior,60,45,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,Yes,Kitchen
 Dikshya,Junior,45,17,"Fri,Sat,Sun",Morning,Yes,Front
 Bhoomika,Junior,20,16,"Thu,Fri,Sat,Sun",Evening,Yes,Front
 Dhriti Kulshrestha,Junior,40,25,"Mon,Tue,Wed,Thu,Fri",Morning,Yes,Front
 Asma,Junior,40,20,"Mon,Tue,Wed,Thu,Fri",Morning,Yes,Front
+Abuzar,Junior,40,20,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,No,Kitchen
