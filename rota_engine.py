@@ -236,9 +236,8 @@ class RotaEngine:
 
         # Randomize candidates with same score to ensure variety
         random.shuffle(candidates)
-        # Sort by score descending, then use a random tiebreaker for variety
-        # This prevents the 'same candidates always win' issue
-        candidates.sort(key=lambda x: (-x["score"], random.random()))
+        # Sort primarily by lowest fairness score (most under target), then by preference, then random tiebreaker
+        candidates.sort(key=lambda x: (x["fairness"], -x["score"], random.random()))
         return candidates
 
     def _assign(self, name: str, day: str, shift_row: pd.Series,
@@ -309,14 +308,14 @@ class RotaEngine:
             cand_name = candidates[0]["name"]
             cand_row  = self.staff_df[self.staff_df["Name"] == cand_name].iloc[0]
             
-            # Weekend Coverage Override: Ignore Target Hours for Saturdays/Sundays
-            # to ensure busy weekend shifts are always filled to max if staff are available.
-            is_weekend = day in ["Saturday", "Sunday"]
             current_hrs = self._hours_worked.get(cand_name, 0)
             
-            if is_weekend or current_hrs < cand_row["Target Hours/Week"]:
-                self._assign(cand_name, day, shift_row)
-                picked.append(cand_name)
+            if current_hrs < cand_row["Target Hours/Week"]:
+                if (current_hrs + shift_row["Duration"]) <= float(cand_row["Max Hours/Week"]):
+                    self._assign(cand_name, day, shift_row)
+                    picked.append(cand_name)
+                else:
+                    break
             else:
                 break
 
@@ -330,11 +329,12 @@ class RotaEngine:
         forecast_scaling: {DayName: ForecastValue, ...}
         If provided, shift templates will be dynamically adjusted based on Sales per Staff Hour logic.
         """
+        random.seed(42)  # Ensure deterministic, reproducible schedules and wage estimates
+        
         if week_start is None:
             today = datetime.today()
             days_ahead = (7 - today.weekday()) % 7
             week_start = today + timedelta(days=days_ahead if days_ahead else 7)
-        # ADD these two lines right after:
         if not isinstance(week_start, datetime):
             week_start = datetime.combine(week_start, dt_time.min)
 

@@ -11,6 +11,7 @@ Generate Excel:  python app_dashboard.py --report
 
 import sys
 import os
+import logging
 import re as _re
 import json
 import pandas as pd
@@ -24,8 +25,21 @@ from openpyxl.utils import get_column_letter
 from pathlib import Path   
 import sqlite3
 import streamlit as st
+st.set_page_config(
+    page_title="Chocoberry Intelligence",
+    layout="wide",
+    page_icon="🍫",
+    initial_sidebar_state="expanded",
+)
+
 from dotenv import load_dotenv
 load_dotenv()
+
+# Import the sync logic directly
+try:
+    from sync_portal_invoices import sync_from_portal
+except ImportError:
+    sync_from_portal = None
 
 # ══════════════════════════════════════════════════════════════════════════════
 # ██  AUTHENTICATION SYSTEM
@@ -327,7 +341,6 @@ DAILY_DATA = [
     {"date":"2026-04-10","label":"10 Apr","day":"Friday",    "net":2795.04,"orders":188,"revenue":2898.72,"tax":103.68,"refunds":0.0,  "rolling7":2860.91},
     {"date":"2026-04-11","label":"11 Apr","day":"Saturday",  "net":3446.30,"orders":222,"revenue":3566.70,"tax":120.40,"refunds":0.0,  "rolling7":2921.70},
     {"date":"2026-04-12","label":"12 Apr","day":"Sunday",    "net":3582.86,"orders":220,"revenue":3722.64,"tax":139.78,"refunds":0.0,  "rolling7":2808.71},
-    {"date":"2026-04-12","label":"12 Apr","day":"Sunday",    "net":3582.86,"orders":220,"revenue":3722.64,"tax":139.78,"refunds":0.0,  "rolling7":2808.71},
 
 ]
 
@@ -399,7 +412,7 @@ HOURLY_TOTAL = {
     17:  9685.77, 18: 17564.17, 19: 30166.44, 20: 35952.63,
     21: 37477.92, 22: 32565.99, 23: 26144.93,
 }
-HOURLY_AVG = {h: round(v / 91, 2) for h, v in HOURLY_TOTAL.items()}
+HOURLY_AVG = {h: round(v / 102, 2) for h, v in HOURLY_TOTAL.items()}
 
 # ── Forecast ──────────────────────────────────────────────────────────────────
 
@@ -415,11 +428,11 @@ FORECAST_DATA = {
 WEEK_FORECAST_TOTAL = sum(FORECAST_DATA.values())
 
 FORECAST_HISTORY = {
-    "Week of 9 Mar":  {"forecast": 18800.0,             "actual": None},
-    "Week of 16 Mar": {"forecast": 19100.0,             "actual": None},
-    "Week of 23 Mar": {"forecast": 20500.0,             "actual": None},
-    "Week of 30 Mar": {"forecast": 18900.0,             "actual": None},
-    "Week of 6 Apr":  {"forecast": WEEK_FORECAST_TOTAL, "actual": None},
+    "Week of 9 Mar":  {"forecast": 18800.0,             "actual": 19290.99},
+    "Week of 16 Mar": {"forecast": 19100.0,             "actual": 21132.93},
+    "Week of 23 Mar": {"forecast": 20500.0,             "actual": 15570.34},
+    "Week of 30 Mar": {"forecast": 18900.0,             "actual": 19454.19},
+    "Week of 6 Apr":  {"forecast": WEEK_FORECAST_TOTAL, "actual": 19661.42},
     "Week of 13 Apr": {"forecast": WEEK_FORECAST_TOTAL, "actual": None},
 }
 
@@ -516,7 +529,7 @@ def calc_hourly_overlay(live_hourly_dict=None, data=None):
         sby_staff  = round(dyn_sby_count[h] / 7, 1)
         total_staff = conf_staff + sby_staff
 
-        avg_rate = 8.69
+        avg_rate = 11.44
         if data and "personnel" in data:
             rates = [float(p.get("Hourly Rate", 0)) for p in data["personnel"].values()]
             if rates: avg_rate = sum(rates) / len(rates)
@@ -1097,7 +1110,8 @@ def load_data():
                     for col in ["Net sales", "Revenue", "Refunds", "Tax on net sales"]:
                         if col in raw_df.columns: raw_df[col] = raw_df[col].apply(clean)
                     all_orders_detail.append(raw_df)
-                except: pass
+                except Exception as e:
+                    logging.warning(f"Failed to load detailed order file {f_name}: {e}")
 
             # B. Daily summary exports (exactly one file wins per date via dedup)
             for f_name in DAILY_SUMMARY_FILES:
@@ -1112,7 +1126,8 @@ def load_data():
                     for c in ["Net sales","Revenue","Orders","Tax on net sales","Refunds"]:
                         if c in raw_ov.columns: raw_ov[c] = raw_ov[c].apply(clean)
                     all_daily_summaries.append(raw_ov[["date","Net sales","Revenue","Orders","Tax on net sales","Refunds"] if "Orders" in raw_ov.columns else ["date","Net sales","Revenue","Tax on net sales","Refunds"]])
-                except: pass
+                except Exception as e:
+                    logging.warning(f"Failed to load daily summary file {f_name}: {e}")
 
             # 2. Pull hourly / dispatch / channel from detailed orders or fallback CSVs
             detailed_kpis = {"hourly": {}}
@@ -1156,21 +1171,24 @@ def load_data():
                     hr_df = pd.read_csv(hr_path)
                     for _, r in hr_df.iterrows():
                         try: detailed_kpis["hourly"][int(r.iloc[1])] = clean(r.iloc[2])
-                        except: pass
+                        except Exception as e:
+                            logging.warning(f"Failed to parse row in hourly CSV: {e}")
 
                 dispatch_path = os.path.join(base, "net_sales_by_dispatch_type.csv")
                 if os.path.exists(dispatch_path):
                     disp_df = pd.read_csv(dispatch_path)
                     for key, col_idx in [("Collection",1),("Delivery",2),("Dine In",3),("Take Away",4)]:
                         try: dispatch_map[key]["revenue"] = clean(disp_df.iloc[-1, col_idx])
-                        except: pass
+                        except Exception as e:
+                            logging.warning(f"Failed to parse row in dispatch CSV: {e}")
 
                 ch_path = os.path.join(base, "net_sales_by_sales_channel.csv")
                 if os.path.exists(ch_path):
                     ch_df = pd.read_csv(ch_path)
                     for i, std in enumerate(["Deliveroo","Just Eat","POS","Uber Eats","Web"]):
                         try: channel_dict[std] = clean(ch_df.iloc[-1, i+1])
-                        except: pass
+                        except Exception as e:
+                            logging.warning(f"Failed to parse row in channel CSV: {e}")
 
             hourly_map = {h: detailed_kpis["hourly"].get(h, 0.0) for h in range(24)}
 
@@ -1258,13 +1276,6 @@ def load_data():
 # ══════════════════════════════════════════════════════════════════════════════
 
 import streamlit as st
-
-st.set_page_config(
-    page_title="Chocoberry Intelligence",
-    layout="wide",
-    page_icon="🍫",
-    initial_sidebar_state="expanded",
-)
 
 st.markdown("""
 <style>
@@ -1383,11 +1394,11 @@ with st.sidebar:
     if "portal_url_input" not in st.session_state:
         st.session_state["portal_url_input"] = os.environ.get("PORTAL_URL", "http://localhost:5050")
     
-    portal_url = st.text_input("Invoice Portal URL", 
+    portal_url_val = st.text_input("Invoice Portal URL", 
                                value=st.session_state["portal_url_input"],
                                placeholder="e.g. https://portal.render.com",
                                help="Paste your Render or Streamlit Portal URL here to sync invoices from staff.")
-    st.session_state.portal_url = portal_url.rstrip("/")
+    st.session_state["portal_url"] = portal_url_val.rstrip("/")
     st.markdown('<div style="font-size:10px; color:#6b7094">Syncs staff uploads from your phone-friendly portal into this system.</div>', unsafe_allow_html=True)
 
 # ── KPI computation ───────────────────────────────────────────────────────
@@ -2505,8 +2516,9 @@ with tab8:
     # Check if week changed and clear stale rota
     if "last_w_start" not in st.session_state or st.session_state["last_w_start"] != w_start:
         st.session_state["last_w_start"] = w_start
-        if "active_rota" in st.session_state:
-            del st.session_state["active_rota"]
+        for k in ["active_rota", "active_rota_summary", "active_rota_warnings"]:
+            if k in st.session_state:
+                del st.session_state[k]
 
     rota_path = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}", "detailed_rota_with_shifts.csv")
 
@@ -2552,6 +2564,8 @@ with tab8:
                 engine.load_historical_hours(weeks_back=3)
                 new_rota = engine.generate_week(week_start=w_start)
                 st.session_state["active_rota"] = new_rota
+                st.session_state["active_rota_summary"] = engine.get_hours_summary()
+                st.session_state["active_rota_warnings"] = list(engine.warnings)
                 st.session_state["last_w_start"] = w_start
             st.success(f"✅ {len(new_rota)} shift assignments generated.")
 
@@ -2570,6 +2584,8 @@ with tab8:
                     forecast_scaling=_fs
                 )
                 st.session_state["active_rota"] = new_rota
+                st.session_state["active_rota_summary"] = engine.get_hours_summary()
+                st.session_state["active_rota_warnings"] = list(engine.warnings)
                 st.session_state["last_w_start"] = w_start
             st.success(f"✅ Smart Rota generated.")
 
@@ -2607,25 +2623,39 @@ with tab8:
             m1, m2 = st.columns(2)
             with m1:
                 st.markdown("**🔍 Fairness & Hours Report**")
-                summary = engine.get_hours_summary()
+                summary = st.session_state.get("active_rota_summary", pd.DataFrame())
                 st.dataframe(summary, height=300, width="stretch", hide_index=True)
 
             with m2:
                 st.markdown("**⚠️ Constraints Check (Warnings)**")
-                if engine.warnings:
-                    for w in engine.warnings:
+                warnings_list = st.session_state.get("active_rota_warnings", [])
+                if warnings_list:
+                    for w in warnings_list:
                         st.warning(w)
                 else:
                     st.success("✅ All shift constraints (Senior presence, headcount) satisfied.")
 
             st.markdown("---")
-            if st.button("🚀 Push to Tab 7 (Commit to Live Data)", width="stretch"):
-                output_dir = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}")
-                if not os.path.exists(output_dir): os.makedirs(output_dir)
+            c_push, c_down = st.columns(2)
+            with c_push:
+                if st.button("🚀 Push to Tab 7 (Commit to Live Data)", width="stretch"):
+                    output_dir = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}")
+                    if not os.path.exists(output_dir): os.makedirs(output_dir)
 
-                rota_df.to_csv(os.path.join(output_dir, "detailed_rota_with_shifts.csv"), index=False)
-                st.balloons()
-                st.success(f"✅ Rota deployed to live data directory: {output_dir}")
+                    rota_df.to_csv(os.path.join(output_dir, "detailed_rota_with_shifts.csv"), index=False)
+                    st.cache_data.clear() # Force Tab 7 to see the new file
+                    st.balloons()
+                    st.success(f"✅ Rota deployed to: {output_dir}")
+            
+            with c_down:
+                csv_bytes = rota_df.to_csv(index=False).encode('utf-8')
+                st.download_button(
+                    label="⬇️ Download Rota CSV",
+                    data=csv_bytes,
+                    file_name=f"chocoberry_rota_{w_start.strftime('%d_%b_%Y')}.csv",
+                    mime="text/csv",
+                    width="stretch"
+                )
 
 
 # ════════════════════════════════════════════════════════════════════
@@ -3249,9 +3279,10 @@ with tab12:
     try:
         import urllib.request as _ur
         portal_secret = os.environ.get("PORTAL_SECRET", "chocoberry2026")
-        check_url = f"{portal_base}/api/pending?secret={portal_secret}"
+        check_url = f"{portal_base}/api/pending"
         
-        with _ur.urlopen(check_url, timeout=3) as _r:
+        _req = _ur.Request(check_url, headers={"Authorization": f"Bearer {portal_secret}"})
+        with _ur.urlopen(_req, timeout=3) as _r:
             _pending = json.loads(_r.read())
         
         if _pending:
@@ -3263,18 +3294,15 @@ with tab12:
             </div>""", unsafe_allow_html=True)
             
             if st.button("🔄 Sync Staff Uploads Now", type="primary", key="portal_sync"):
-                # Pass the dynamic URL to the sync script
-                import subprocess, sys as _sys
-                os.environ["PORTAL_URL"] = portal_base
-                result = subprocess.run(
-                    [_sys.executable, "sync_portal_invoices.py"],
-                    capture_output=True, text=True
-                )
-                if result.returncode == 0:
-                    st.success("✅ Staff uploads synced into ledger.")
-                    st.rerun()
+                if sync_from_portal:
+                    with st.spinner("Syncing latest uploads..."):
+                        # Use the local secret from env or default
+                        p_secret = os.environ.get("PORTAL_SECRET", "chocoberry2026")
+                        sync_from_portal(portal_base=portal_base, portal_secret=p_secret)
+                        st.success("✅ Staff uploads synced into ledger.")
+                        st.rerun()
                 else:
-                    st.error(f"Sync failed: {result.stderr}")
+                    st.error("Sync module (sync_portal_invoices.py) not found.")
         else:
             st.markdown("""
             <div style="background:#102a18;border:1px solid #3ecf8e;
@@ -3581,13 +3609,18 @@ with tab13:
     st.markdown("**🛠️ Manual SQL Query (Advanced)**")
     query = st.text_area("Enter SQL Query", "SELECT * FROM suppliers", key="sql_query_area")
     if st.button("Execute Query", key="sql_exec_btn"):
-        try:
-            with sqlite3.connect(selected_db) as conn:
-                res_df = pd.read_sql_query(query, conn)
-                st.success("Query executed successfully.")
-                st.dataframe(res_df, width="stretch")
-        except Exception as e:
-            st.error(f"SQL Error: {e}")
+        if not query.strip():
+            st.warning("Please enter a query.")
+        elif not query.strip().upper().startswith("SELECT"):
+            st.error("🚫 Security Restriction: Only SELECT queries are allowed in the Database Explorer.")
+        else:
+            try:
+                with sqlite3.connect(selected_db) as conn:
+                    res_df = pd.read_sql_query(query, conn)
+                    st.success("Query executed successfully.")
+                    st.dataframe(res_df, width="stretch")
+            except Exception as e:
+                st.error(f"SQL Error: {e}")
 
 
 

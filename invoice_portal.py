@@ -415,12 +415,20 @@ function resetForm() {
 </html>"""
 
 
+ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".pdf"}
+
 @app.route("/parse", methods=["POST"])
 def parse_invoice():
     """AI-parse an uploaded invoice image. Returns extracted fields as JSON."""
     file = request.files.get("invoice_image")
     if not file:
         return jsonify({})
+    
+    if file.filename:
+        ext = Path(file.filename).suffix.lower()
+        if ext not in ALLOWED_EXTENSIONS:
+            return jsonify({"success": False, "error": "Invalid file type. Only JPG, PNG, and PDF are allowed."})
+
     data = file.read()
     b64  = base64.b64encode(data).decode()
     mime = file.content_type or "image/jpeg"
@@ -432,7 +440,13 @@ def parse_invoice():
 def upload_invoice():
     """Save invoice data + image to DB and disk."""
     try:
-        f          = request.files.get("invoice_image")
+        f = request.files.get("invoice_image")
+        
+        if f and f.filename:
+            ext = Path(f.filename).suffix.lower()
+            if ext not in ALLOWED_EXTENSIONS:
+                return jsonify({"success": False, "error": "Invalid file type. Only JPG, PNG, and PDF are allowed."})
+
         staff_name = request.form.get("staff_name", "").strip()
         supplier   = request.form.get("supplier", "").strip()
         inv_date   = request.form.get("invoice_date", "").strip()
@@ -556,7 +570,9 @@ def admin_view():
 @app.route("/api/pending")
 def api_pending():
     """JSON endpoint — returns all unsynced uploads for the main dashboard to pull."""
-    if request.args.get("secret") != PORTAL_SECRET:
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header.replace("Bearer ", "").strip()
+    if token != PORTAL_SECRET:
         return jsonify({"error": "unauthorized"}), 401
 
     with sqlite3.connect(DB_PATH) as conn:
@@ -574,7 +590,9 @@ def api_pending():
 @app.route("/api/mark_synced", methods=["POST"])
 def api_mark_synced():
     """Mark portal uploads as synced once the main dashboard has imported them."""
-    if request.json.get("secret") != PORTAL_SECRET:
+    auth_header = request.headers.get("Authorization", "")
+    token = auth_header.replace("Bearer ", "").strip()
+    if token != PORTAL_SECRET:
         return jsonify({"error": "unauthorized"}), 401
 
     ids = request.json.get("ids", [])

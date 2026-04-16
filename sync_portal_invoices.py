@@ -71,18 +71,31 @@ def ensure_tables(conn):
 
 # ── Main sync ─────────────────────────────────────────────────────
 
-def sync_from_portal():
+def sync_from_portal(portal_base=None, portal_secret=None):
     """Pull pending uploads from portal API and insert into main DB."""
+    
+    # Use provided args or fall back to environment
+    p_secret = portal_secret if portal_secret else os.environ.get("PORTAL_SECRET", "chocoberry2026")
+    p_base   = portal_base if portal_base else os.environ.get("PORTAL_URL", "http://localhost:5050").rstrip("/")
+    
+    p_api = f"{p_base}/api/pending"
+    m_api = f"{p_base}/api/mark_synced"
+
     print("\n" + "=" * 50)
     print("  CHOCOBERRY — Invoice Portal Sync")
+    print(f"  Target: {p_base}")
     print("=" * 50)
 
     # Fetch pending from portal
     try:
-        with urllib.request.urlopen(PORTAL_API, timeout=5) as resp:
+        req = urllib.request.Request(
+            p_api,
+            headers={"Authorization": f"Bearer {p_secret}"}
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
             pending = json.loads(resp.read())
     except Exception as e:
-        print(f"\n  ERROR: Could not reach portal at {PORTAL_API}")
+        print(f"\n  ERROR: Could not reach portal at {p_api}")
         print(f"  Make sure invoice_portal.py is running first.")
         print(f"  Detail: {e}")
         return
@@ -144,17 +157,20 @@ def sync_from_portal():
             ))
             synced_ids.append(row["id"])
             print(f"  ✅  {row['supplier']} — £{row['total_amount']:.2f}"
-                  f"  [{row.get('staff_name','?')}] -> {new_relative_path}")
+                   f"  [{row.get('staff_name','?')}] -> {new_relative_path}")
 
         conn.commit()
 
     # Mark as synced in portal
     try:
-        data = json.dumps({"ids": synced_ids, "secret": PORTAL_SECRET}).encode()
+        data = json.dumps({"ids": synced_ids}).encode()
         req  = urllib.request.Request(
-            MARK_API,
+            m_api,
             data=data,
-            headers={"Content-Type": "application/json"},
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {p_secret}"
+            },
             method="POST",
         )
         with urllib.request.urlopen(req, timeout=5) as resp:
