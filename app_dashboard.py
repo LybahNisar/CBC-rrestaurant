@@ -72,8 +72,9 @@ def check_password():
         if not valid_pass:
             valid_pass = os.environ.get("DASHBOARD_PASSWORD")
 
-        # 3. Verify
-        # Get input and strip spaces
+        # 3. Verify — guard against callback firing before widget renders
+        if "password_input" not in st.session_state:
+            return
         user_input = str(st.session_state["password_input"]).strip()
         actual_pass = str(valid_pass).strip() if valid_pass else None
 
@@ -231,7 +232,7 @@ OVERSTAFFING_THRESHOLD  = 20     # £/hr daily avg revenue — too many staff
 
 SBY_STAFF = {
     "Munira":   {"max_sby_hrs": 4, "hourly_rate": 6.00},  # matches CSV £6
-    "Bhoomika": {"max_sby_hrs": 4, "hourly_rate": 6.00},  # matches CSV £6
+    "Dikshya":  {"max_sby_hrs": 4, "hourly_rate": 7.00},  # matches CSV £7
     "Dhiraj":   {"max_sby_hrs": 4, "hourly_rate": 9.00},  # matches CSV £9
 }
 
@@ -2723,7 +2724,7 @@ with tab8:
                     from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, HRFlowable
                     import io as _io
 
-                    def _build_rota_pdf(rdf, ws, we, cost_data):
+                    def _build_rota_pdf(rdf, ws, we, cost_data, warnings):
                         buf = _io.BytesIO()
                         doc = SimpleDocTemplate(buf, pagesize=A4,
                                                 rightMargin=1.5*cm, leftMargin=1.5*cm,
@@ -2738,6 +2739,10 @@ with tab8:
                                                   spaceBefore=14, spaceAfter=4, leftIndent=6)
                         dept_s   = ParagraphStyle("Dp", parent=styles["Normal"],   fontSize=10, fontName="Helvetica-Bold",
                                                   textColor=rl_colors.HexColor("#333"), spaceBefore=6, spaceAfter=2)
+                        warn_h   = ParagraphStyle("WH", parent=styles["Normal"],   fontSize=12, fontName="Helvetica-Bold",
+                                                  textColor=rl_colors.HexColor("#e05c5c"), spaceBefore=12, spaceAfter=4)
+                        warn_s   = ParagraphStyle("WS", parent=styles["Normal"],   fontSize=10,
+                                                  textColor=rl_colors.HexColor("#333"), leftIndent=10, spaceAfter=3)
 
                         story = []
                         story.append(Paragraph("CHOCOBERRY — Weekly Staff Rota", title_s))
@@ -2788,14 +2793,25 @@ with tab8:
                                 story.append(Spacer(1, 0.15*cm))
                             story.append(Spacer(1, 0.3*cm))
 
-                        story.append(HRFlowable(width="100%", thickness=1, color=rl_colors.HexColor("#cccccc")))
+                        # ── Warnings Section in PDF ────────────────────────────────────
+                        if warnings:
+                            story.append(Spacer(1, 0.5*cm))
+                            story.append(HRFlowable(width="100%", thickness=1.5, color=rl_colors.HexColor("#e05c5c")))
+                            story.append(Paragraph("⚠️ Staffing Warnings & Insights", warn_h))
+                            for w in warnings:
+                                story.append(Paragraph(f"• {w}", warn_s))
+                            story.append(Paragraph("<i>Suggestion: Consider activating 'Abuzar' or increasing 'Max Hours' for existing staff to resolve these weekend gaps.</i>", warn_s))
+                            story.append(HF1 := HRFlowable(width="100%", thickness=0.5, color=rl_colors.HexColor("#e05c5c"), spaceBefore=4))
+
+                        story.append(HRFlowable(width="100%", thickness=1, color=rl_colors.HexColor("#cccccc"), spaceBefore=10))
                         story.append(Paragraph(f"Total: {len(rdf)} shifts  |  Generated: {datetime.now().strftime('%d %b %Y %H:%M')}", sub_s))
                         doc.build(story)
                         buf.seek(0)
                         return buf.read()
 
-                    cost_est = engine.estimate_weekly_cost(rota_df)
-                    pdf_data  = _build_rota_pdf(rota_df, w_start, w_end, cost_est)
+                    cost_est  = engine.estimate_weekly_cost(rota_df)
+                    warn_list = st.session_state.get("active_rota_warnings", [])
+                    pdf_data  = _build_rota_pdf(rota_df, w_start, w_end, cost_est, warn_list)
                     st.download_button(
                         label="📄 Download Rota PDF",
                         data=pdf_data,

@@ -277,10 +277,20 @@ class RotaEngine:
                 self._assign(candidates[0]["name"], day, shift_row)
                 picked.append(candidates[0]["name"])
             else:
-                self.warnings.append(
-                    f"⚠️ {day} {shift_row['Department']} {shift_row['Shift Name']}: "
-                    f"Could not fill Senior slot — no eligible Senior available."
-                )
+                # FIXED: Try Any role if no Senior available (graceful degradation)
+                fallback = self._pick_staff(day, shift_row, "Any", picked)
+                if fallback:
+                    self._assign(fallback[0]["name"], day, shift_row)
+                    picked.append(fallback[0]["name"])
+                    self.warnings.append(
+                        f"⚠️ {day} {shift_row['Department']} {shift_row['Shift Name']}: "
+                        f"No Senior available — filled with Junior as fallback."
+                    )
+                else:
+                    self.warnings.append(
+                        f"⚠️ {day} {shift_row['Department']} {shift_row['Shift Name']}: "
+                        f"Could not fill Senior slot — no staff available at all."
+                    )
 
         # Step 2: Fill remaining slots with any eligible staff (Junior preferred for fairness)
         while len(picked) < min_total:
@@ -304,20 +314,48 @@ class RotaEngine:
             candidates = self._pick_staff(day, shift_row, "Any", picked)
             if not candidates:
                 break
-            # Only assign if they have remaining capacity
-            cand_name = candidates[0]["name"]
-            cand_row  = self.staff_df[self.staff_df["Name"] == cand_name].iloc[0]
             
-            current_hrs = self._hours_worked.get(cand_name, 0)
-            
-            if current_hrs < cand_row["Target Hours/Week"]:
+            # FIXED: Allow assignment up to Max Hours even if Target is reached
+            assigned_this_loop = False
+            for cand in candidates:
+                cand_name = cand["name"]
+                cand_row  = self.staff_df[self.staff_df["Name"] == cand_name].iloc[0]
+                current_hrs = self._hours_worked.get(cand_name, 0)
+                
+                # Check Max Hours strictly
                 if (current_hrs + shift_row["Duration"]) <= float(cand_row["Max Hours/Week"]):
                     self._assign(cand_name, day, shift_row)
                     picked.append(cand_name)
-                else:
-                    break
-            else:
-                break
+                    assigned_this_loop = True
+                    break # Slot filled, move to next slot in 'while' loop
+            
+            if not assigned_this_loop:
+                break # No more candidates can fit this shift without hitting Max Hours
+
+    def _check_week_viability(self) -> list:
+        """Pre-flight check before generation to warn about staff shortages."""
+        issues = []
+        try:
+            # Calculate total shift slots needed (Min Total Staff)
+            # Add Duration column to staff_df for easy multiplication if needed, but it's in shifts_df
+            
+            # Estimate total shift hours needed
+            demand_hours = (self.shifts_df["Duration"] * self.shifts_df["Min Total Staff"]).sum()
+            
+            # Calculate total active staff capacity
+            active_staff = self.staff_df[self.staff_df["Active"]]
+            total_capacity = active_staff["Max Hours/Week"].sum()
+            
+            if total_capacity < (demand_hours * 0.95): # 5% buffer
+                shortfall_hrs = demand_hours - total_capacity
+                issues.append(
+                    f"🚨 CRITICAL STAFF SHORTAGE: Total staff capacity ({total_capacity:.1f}h) "
+                    f"is less than shift demand ({demand_hours:.1f}h). "
+                    f"Expected shortfall: ~{shortfall_hrs:.1f} hours. Add staff to fix."
+                )
+        except:
+            pass
+        return issues
 
     # ── Main Generator ────────────────────────────────────────────────────────
 
@@ -344,6 +382,11 @@ class RotaEngine:
         self._days_assigned = {}
         self._assignments   = []
         self.warnings       = []
+        
+        # Pre-flight viability check
+        viability_issues = self._check_week_viability()
+        for issue in viability_issues:
+            self.warnings.append(issue)
 
         day_names   = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
         departments = ["Kitchen", "Front"]
