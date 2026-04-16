@@ -1022,11 +1022,14 @@ def load_data():
 
             nickname_map = {
                 "DHIRAJ": "Dhiraj Mangade", "ATHARAV": "Atharvkumar Sanjay", "ATHARV": "Atharvkumar Sanjay",
-                "CHINTAN": "Chintan", "DAMINI": "Damini Sharadchandra Aher", "NITIN": "Nithin",
-                "PAMITHA": "Pamitha Perera", "MELLISSA": "Mellissa Teshali Leontia", "DIKSHA": "Dikshya",
+                "CHINTAN": "Chintan", "CHINTHAN": "Chintan",  # both spellings
+                "DAMINI": "Damini Sharadchandra Aher", "NITIN": "Nithin", "NITHIN": "Nithin",
+                "PAMITHA": "Pamitha Perera",
+                "MELLISSA": "Mellissa Teshali Leontia", "MELLISA": "Mellissa Teshali Leontia",  # both spellings
+                "DIKSHA": "Dikshya", "DIKSHYA": "Dikshya",
                 "SUPREME": "Supreme Gurung", "TULIKA": "Tulika Das Adhikari", "MUNIRA": "Munira",
-                "BHOOMIKA": "Bhoomika", "REWATHI": "Dhriti Kulshrestha", "RAVI": "Ravi Kishore",
-                "RAJESH": "Rajesh Yadav", "ASMA": "Asma"
+                "BHOOMIKA": "Bhoomika", "REWATHI": "Dhriti Kulshrestha", "DHRITI": "Dhriti Kulshrestha",
+                "RAVI": "Ravi Kishore", "RAJESH": "Rajesh Yadav", "ASMA": "Asma"
             }
 
             for r_idx in range(len(r_lines)):
