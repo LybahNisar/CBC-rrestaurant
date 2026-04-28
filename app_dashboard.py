@@ -3348,7 +3348,7 @@ with tab8:
     st.markdown("---")
     st.markdown('<div class="section-title">Schedule Generation</div>', unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns([2, 1, 1])
+    c1, c2 = st.columns([2, 1])
     with c1:
         st.markdown("**1. Configure Parameters**")
         w_start = st.date_input("Week Start Date (Monday recommended)", value=w_start_val)
@@ -3412,11 +3412,6 @@ with tab8:
                 st.session_state["last_w_start"] = w_start
             st.success(f"✅ Smart Rota generated.")
 
-    with c3:
-        st.markdown("**3. Cost Estimate**")
-        if "active_rota" in st.session_state:
-            cost = engine.estimate_weekly_cost(st.session_state["active_rota"])
-            st.markdown(f'<div class="status-box">💎 Weekly Wage Est: <b>£{cost["total"]:,.2f}</b></div>', unsafe_allow_html=True)
 
     if "active_rota" in st.session_state:
         st.markdown("---")
@@ -3576,6 +3571,20 @@ with tab8:
                         st.warning(w)
                 else:
                     st.success("✅ All shift constraints (Management cover, headcount) satisfied.")
+
+            # ── Confidential Financial Data (Option C) ────────────────────────
+            with st.expander("🔒 Manager Only — Financial Data", expanded=False):
+                st.warning("⚠️ This section contains confidential wage information. Ensure no staff are viewing the screen.")
+                if "active_rota" in st.session_state:
+                    _cost_data = engine.estimate_weekly_cost(st.session_state["active_rota"])
+                    st.metric("Estimated Weekly Wage", f"£{_cost_data['total']:,.2f}")
+                    
+                    st.markdown("**Breakdown per Person:**")
+                    # Create a simple table for the breakdown
+                    _br_data = [{"Staff Member": k, "Est. Wage": f"£{v:,.2f}"} for k, v in _cost_data["breakdown"].items()]
+                    st.table(_br_data)
+                else:
+                    st.info("Generate a rota to see the wage estimate.")
 
             # ── Push / Download Buttons ───────────────────────────────────────
             st.markdown("---")
