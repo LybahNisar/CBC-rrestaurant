@@ -3489,6 +3489,44 @@ with tab8:
                                 )
                         st.markdown('</div>', unsafe_allow_html=True)
 
+            # ── Editable Rota ────────────────────────────────────────────────
+            st.markdown("---")
+            st.markdown('<div class="section-title">✏️ Edit Rota — Swap Names</div>', unsafe_allow_html=True)
+            st.markdown('<div class="insight-box">Click any cell in the <b>Name</b> column to manually swap a staff member. Press <b>💾 Save Edits</b> when done to lock in changes.</div>', unsafe_allow_html=True)
+
+            # Build name list from staff profiles for dropdown
+            _staff_names = []
+            try:
+                _sp = pd.read_csv(os.path.join(BASE_DIR, "staff_profiles.csv"), encoding="utf-8-sig")
+                _sp.columns = [c.strip() for c in _sp.columns]
+                _sp = _sp[_sp["Active"].astype(str).str.lower().isin(["yes","true","1"])]
+                _staff_names = sorted(_sp["Name"].dropna().unique().tolist())
+            except Exception:
+                _staff_names = []
+
+            _edit_cols = ["Day", "Date", "Department", "Shift", "Start", "End", "Name", "Role", "SBY"]
+            _edit_df   = rota_df[[c for c in _edit_cols if c in rota_df.columns]].copy()
+
+            _col_config = {"Name": st.column_config.SelectboxColumn(
+                "Name",
+                help="Select a staff member",
+                options=_staff_names if _staff_names else _edit_df["Name"].unique().tolist(),
+                required=True,
+            )} if _staff_names else {}
+
+            edited_rota = st.data_editor(
+                _edit_df,
+                column_config=_col_config,
+                width="stretch",
+                hide_index=True,
+                key="rota_editor",
+                use_container_width=True,
+            )
+
+            if st.button("💾 Save Edits to Rota", key="save_rota_edits"):
+                st.session_state["active_rota"] = edited_rota
+                st.success("✅ Rota updated with your manual changes! Re-generate to recalculate hours summary.")
+
             # ── Fairness & Constraints ─────────────────────────────────────────
             st.markdown("---")
             m1, m2 = st.columns(2)
