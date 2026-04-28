@@ -2871,14 +2871,14 @@ with tab6:
     # Render table
     _hdr = ["Day", "Date", "Forecast", "Actual", "Orders", "Diff", "Achievement"]
     _tbl_html = f"""
-    <table style="width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:13px;margin-top:8px">
-    <thead>
-      <tr style="background:#1a1d26;color:#f5a623;text-transform:uppercase;font-size:11px;letter-spacing:1px">
-        {"".join(f'<th style="padding:10px 12px;text-align:left">{h}</th>' for h in _hdr)}
-      </tr>
-    </thead>
-    <tbody>
-    """
+<table style="width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:13px;margin-top:8px">
+<thead>
+<tr style="background:#1a1d26;color:#f5a623;text-transform:uppercase;font-size:11px;letter-spacing:1px">
+{"".join(f'<th style="padding:10px 12px;text-align:left">{h}</th>' for h in _hdr)}
+</tr>
+</thead>
+<tbody>
+"""
 
     for r in _avf_rows:
         if r["act"] is not None:
@@ -2899,16 +2899,16 @@ with tab6:
             _ord_str  = "—"
 
         _tbl_html += f"""
-        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);background:{_bg}">
-          <td style="padding:10px 12px;color:#e8e9f0;font-weight:600">{r["day"]}</td>
-          <td style="padding:10px 12px;color:#6b7094">{r["date"]}</td>
-          <td style="padding:10px 12px;color:#a0a3b8;font-family:Syne,sans-serif">£{r["fc"]:,.2f}</td>
-          <td style="padding:10px 12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:700">{_act_str}</td>
-          <td style="padding:10px 12px;color:#6b7094">{_ord_str}</td>
-          <td style="padding:10px 12px;color:{_color};font-weight:600">{_diff_str}</td>
-          <td style="padding:10px 12px;color:{_color};font-weight:700">{_pct_str}</td>
-        </tr>
-        """
+<tr style="border-bottom:1px solid rgba(255,255,255,0.04);background:{_bg}">
+<td style="padding:10px 12px;color:#e8e9f0;font-weight:600">{r["day"]}</td>
+<td style="padding:10px 12px;color:#6b7094">{r["date"]}</td>
+<td style="padding:10px 12px;color:#a0a3b8;font-family:Syne,sans-serif">£{r["fc"]:,.2f}</td>
+<td style="padding:10px 12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:700">{_act_str}</td>
+<td style="padding:10px 12px;color:#6b7094">{_ord_str}</td>
+<td style="padding:10px 12px;color:{_color};font-weight:600">{_diff_str}</td>
+<td style="padding:10px 12px;color:{_color};font-weight:700">{_pct_str}</td>
+</tr>
+"""
 
     # Totals row
     if _avf_tot_act > 0:
@@ -2916,23 +2916,23 @@ with tab6:
         _tot_diff  = _avf_tot_act - _avf_tot_fc
         _tot_color = "#3ecf8e" if _tot_pct >= 100 else "#f5a623" if _tot_pct >= 90 else "#e05c5c"
         _tbl_html += f"""
-        <tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
-          <td style="padding:12px;color:#f5a623;font-weight:800;font-family:Syne,sans-serif" colspan="2">TOTAL WEEK</td>
-          <td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
-          <td style="padding:12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:800">£{_avf_tot_act:,.2f}</td>
-          <td style="padding:12px;color:#6b7094">{_avf_tot_ord:,}</td>
-          <td style="padding:12px;color:{_tot_color};font-weight:700">{"+" if _tot_diff >= 0 else ""}£{_tot_diff:,.0f}</td>
-          <td style="padding:12px;color:{_tot_color};font-weight:800;font-size:15px">{_tot_pct:.1f}%</td>
-        </tr>
-        """
+<tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
+<td style="padding:12px;color:#f5a623;font-weight:800;font-family:Syne,sans-serif" colspan="2">TOTAL WEEK</td>
+<td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
+<td style="padding:12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:800">£{_avf_tot_act:,.2f}</td>
+<td style="padding:12px;color:#6b7094">{_avf_tot_ord:,}</td>
+<td style="padding:12px;color:{_tot_color};font-weight:700">{"+" if _tot_diff >= 0 else ""}£{_tot_diff:,.0f}</td>
+<td style="padding:12px;color:{_tot_color};font-weight:800;font-size:15px">{_tot_pct:.1f}%</td>
+</tr>
+"""
     else:
         _tbl_html += f"""
-        <tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
-          <td style="padding:12px;color:#f5a623;font-weight:800" colspan="2">TOTAL WEEK</td>
-          <td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
-          <td style="padding:12px;color:#6b7094" colspan="4">No actuals yet for this week</td>
-        </tr>
-        """
+<tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
+<td style="padding:12px;color:#f5a623;font-weight:800" colspan="2">TOTAL WEEK</td>
+<td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
+<td style="padding:12px;color:#6b7094" colspan="4">No actuals yet for this week</td>
+</tr>
+"""
 
     _tbl_html += "</tbody></table>"
     st.markdown(_tbl_html, unsafe_allow_html=True)
