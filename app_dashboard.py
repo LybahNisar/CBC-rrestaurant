@@ -1699,8 +1699,11 @@ with st.sidebar:
     calendar_max = date(2026, 12, 31)
     
     # Use session state to keep the UI from resetting while clicking
-    default_start = all_df["date"].min().date() if not all_df.empty else calendar_min
-    default_end   = all_df["date"].max().date() if not all_df.empty else calendar_max
+    # Default to the most recent week of data instead of the entire history
+    # This ensures that when you open the system, it land on the "Live" rota week you just pushed
+    latest_avail = all_df["date"].max().date() if not all_df.empty else date.today()
+    default_start = latest_avail - timedelta(days=6)
+    default_end   = latest_avail
     
     dr = st.date_input(
         "Date Range", 
