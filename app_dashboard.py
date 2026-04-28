@@ -3345,6 +3345,50 @@ with tab8:
                 edited_df.to_csv(profiles_path, index=False, encoding="utf-8-sig")
                 st.success("✅ Staff profiles updated successfully.")
                 st.cache_data.clear()
+            
+            st.markdown("---")
+            st.markdown("**📥 Mobile Portal Sync**")
+            if st.button("🔄 Sync Staff Availability Submissions", help="Pull latest responses from the mobile portal for the selected week"):
+                avail_path = os.path.join(os.getcwd(), "staff_availability.csv")
+                if os.path.exists(avail_path):
+                    try:
+                        avail_df = pd.read_csv(avail_path)
+                        # Calculate the week label to match against (e.g. "04 May - 10 May 2026")
+                        w_end_val = w_start_val + timedelta(days=6)
+                        target_label = f"{w_start_val.strftime('%d %b')} - {w_end_val.strftime('%d %b %Y')}"
+                        
+                        # Filter for the correct week
+                        week_subs = avail_df[avail_df["Week"] == target_label]
+                        
+                        if not week_subs.empty:
+                            # Use the latest submission per person
+                            latest_subs = week_subs.sort_values("Timestamp").groupby("Name").tail(1)
+                            
+                            updated_count = 0
+                            for _, sub in latest_subs.iterrows():
+                                s_name = sub["Name"]
+                                s_days = sub["Days"]
+                                s_pref = sub["Preference"]
+                                
+                                # Update in our current dataframe
+                                idx = curr_prof_df[curr_prof_df["Name"] == s_name].index
+                                if not idx.empty:
+                                    curr_prof_df.loc[idx, "Availability"] = s_days
+                                    curr_prof_df.loc[idx, "Shift Preference"] = s_pref
+                                    updated_count += 1
+                            
+                            if updated_count > 0:
+                                curr_prof_df.to_csv(profiles_path, index=False, encoding="utf-8-sig")
+                                st.success(f"✅ Successfully synced availability for {updated_count} staff members for the week of {target_label}.")
+                                st.rerun()
+                            else:
+                                st.info(f"No submissions found in the portal for {target_label} yet.")
+                        else:
+                            st.info(f"No submissions found for the week of {target_label}.")
+                    except Exception as e:
+                        st.error(f"Error syncing availability: {e}")
+                else:
+                    st.warning("No availability submissions found yet. Ask staff to use the portal link.")
         else:
             st.error("Missing staff_profiles.csv")
 

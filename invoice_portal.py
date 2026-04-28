@@ -162,6 +162,154 @@ def show_guide():
 </body></html>"""
 
 
+@app.route("/availability")
+def availability_form():
+    """Form for staff to submit their availability for next week."""
+    # Load active staff names from CSV
+    staff_names = []
+    try:
+        import pandas as pd
+        p_path = BASE_DIR / "staff_profiles.csv"
+        if p_path.exists():
+            sdf = pd.read_csv(p_path)
+            staff_names = sorted(sdf[sdf["Active"].astype(str).str.lower().isin(["true","yes","1"])]["Name"].tolist())
+    except: pass
+    
+    if not staff_names:
+        staff_names = ["Atharvkumar Sanjay", "Chintan", "Damini Sharadchandra Aher", "Mellissa Teshali Leontia", "Supreme Gurung"]
+
+    # Calculate next week's date range
+    from datetime import timedelta
+    today = datetime.now()
+    next_mon = today + timedelta(days=(7 - today.weekday()))
+    next_sun = next_mon + timedelta(days=6)
+    week_label = f"{next_mon.strftime('%d %b')} - {next_sun.strftime('%d %b %Y')}"
+
+    staff_opts = "".join(f'<option value="{n}">{n}</option>' for n in staff_names)
+    
+    return r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Availability — Chocoberry</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#0a0b0f;color:#e8e9f0;font-family:sans-serif;padding:20px}
+  .card{background:#12141a;border:1px solid #252836;border-radius:12px;padding:20px;margin-bottom:16px}
+  h1{color:#f5a623;font-size:20px;margin-bottom:4px}
+  .week-tag{display:inline-block;background:rgba(245,166,35,0.1);color:#f5a623;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:15px}
+  label{display:block;font-size:12px;color:#6b7094;margin-bottom:6px;margin-top:12px}
+  select,textarea{width:100%;background:#0d0f14;border:1px solid #252836;border-radius:8px;padding:12px;color:#e8e9f0;font-size:15px;outline:none}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .day-box{background:#0d0f14;border:1px solid #252836;border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px;cursor:pointer}
+  .day-box input{width:18px;height:18px;accent-color:#f5a623}
+  .day-label{font-size:14px;font-weight:600}
+  .submit-btn{display:block;width:100%;background:#f5a623;color:#0a0b0f;border:none;border-radius:10px;padding:16px;font-size:16px;font-weight:700;margin-top:20px}
+  .success{display:none;background:#102a18;border:1px solid #3ecf8e;border-radius:12px;padding:20px;text-align:center;color:#3ecf8e}
+</style>
+</head>
+<body>
+  <div id="formBox">
+    <h1>📅 Submit Availability</h1>
+    <div class="week-tag">Target Week: """ + week_label + r"""</div>
+    
+    <form id="availForm">
+      <div class="card">
+        <label>Your Name</label>
+        <select name="name" required>
+          <option value="">Select your name...</option>
+          """ + staff_opts + r"""
+        </select>
+        
+        <label>Which days can you work?</label>
+        <div class="grid">
+          <label class="day-box"><input type="checkbox" name="days" value="Monday"> <span class="day-label">Mon</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Tuesday"> <span class="day-label">Tue</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Wednesday"> <span class="day-label">Wed</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Thursday"> <span class="day-label">Thu</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Friday"> <span class="day-label">Fri</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Saturday"> <span class="day-label">Sat</span></label>
+          <label class="day-box"><input type="checkbox" name="days" value="Sunday"> <span class="day-label">Sun</span></label>
+        </div>
+
+        <label>Shift Preference</label>
+        <select name="preference">
+          <option value="Any">Any Shift</option>
+          <option value="Morning">Mornings Only</option>
+          <option value="Evening">Evenings Only</option>
+          <option value="Late">Late Shifts Only</option>
+        </select>
+
+        <label>Notes / Holidays (optional)</label>
+        <textarea name="notes" rows="2" placeholder="e.g. Can't do Sunday night..."></textarea>
+      </div>
+      
+      <input type="hidden" name="week" value="""" + week_label + r"""">
+      <button type="submit" class="submit-btn" id="subBtn">Submit Availability</button>
+    </form>
+  </div>
+
+  <div class="success" id="successBox">
+    <h2>✅ Submitted!</h2>
+    <p>Thank you. The manager will use this to build next week's rota.</p>
+    <br><a href="/" style="color:#f5a623">Back to Home</a>
+  </div>
+
+  <script>
+    document.getElementById('availForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('subBtn');
+      btn.disabled = true;
+      btn.textContent = 'Saving...';
+      
+      const formData = new FormData(e.target);
+      const data = {
+        name: formData.get('name'),
+        week: formData.get('week'),
+        preference: formData.get('preference'),
+        notes: formData.get('notes'),
+        days: formData.getAll('days').join(',')
+      };
+
+      try {
+        const res = await fetch('/submit_availability', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+        if (res.ok) {
+          document.getElementById('formBox').style.display = 'none';
+          document.getElementById('successBox').style.display = 'block';
+        }
+      } catch (err) { alert('Error submitting. Try again.'); btn.disabled = false; }
+    });
+  </script>
+</body></html>"""
+
+
+@app.route("/submit_availability", methods=["POST"])
+def submit_availability():
+    """Save submission to CSV."""
+    data = request.json
+    import csv
+    file_path = BASE_DIR / "staff_availability.csv"
+    file_exists = file_path.exists()
+    
+    with open(file_path, "a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        if not file_exists:
+            writer.writerow(["Timestamp", "Name", "Week", "Days", "Preference", "Notes"])
+        writer.writerow([
+            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            data.get("name"),
+            data.get("week"),
+            data.get("days"),
+            data.get("preference"),
+            data.get("notes")
+        ])
+    return jsonify({"success": True})
+
+
 # ── Routes ────────────────────────────────────────────────────────
 
 @app.route("/")
@@ -217,6 +365,21 @@ def index():
 
   <div class="ai-badge">
     &#10024; AI auto-reads amount &amp; supplier from your photo
+  </div>
+
+  <div style="margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    <a href="/availability" style="text-decoration:none">
+      <div class="card" style="margin-bottom:0;text-align:center;padding:15px;background:rgba(245,166,35,0.05);border-color:rgba(245,166,35,0.3)">
+        <div style="font-size:24px">📅</div>
+        <div style="font-size:12px;font-weight:700;color:#f5a623;margin-top:5px">Submit Availability</div>
+      </div>
+    </a>
+    <a href="/guide" style="text-decoration:none">
+      <div class="card" style="margin-bottom:0;text-align:center;padding:15px">
+        <div style="font-size:24px">📘</div>
+        <div style="font-size:12px;font-weight:700;color:#e8e9f0;margin-top:5px">Upload Guide</div>
+      </div>
+    </a>
   </div>
 
   <form id="uploadForm" enctype="multipart/form-data">
