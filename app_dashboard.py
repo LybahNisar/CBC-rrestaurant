@@ -3493,9 +3493,42 @@ with tab8:
             st.markdown("---")
             m1, m2 = st.columns(2)
             with m1:
-                st.markdown("**🔍 Fairness & Hours Report**")
-                summary = st.session_state.get("active_rota_summary", pd.DataFrame())
-                st.dataframe(summary, height=300, width="stretch", hide_index=True)
+                st.markdown("**👥 Weekly Hours Summary**")
+                hours_summary = st.session_state.get("active_rota_summary", pd.DataFrame())
+                if not hours_summary.empty:
+                    for _, row in hours_summary.iterrows():
+                        name   = row["Name"]
+                        hrs    = row["Scheduled Hrs"]
+                        target = row["Target Hrs"]
+                        delta  = row["Delta"]
+                        status = row.get("Status", "")
+                        sby    = row.get("SYB Hrs", 0.0)
+                        pct    = (hrs / target * 100) if target > 0 else 0
+                        bar_w  = min(100, int(pct))
+
+                        color = "#3ecf8e" if abs(delta) <= 2 else \
+                                "#f5a623" if delta > 2 else "#e05c5c"
+                        label = "✅ On Target" if abs(delta) <= 2 else \
+                                "🔼 Over" if delta > 2 else "🔽 Under"
+
+                        sby_html = f'<span style="font-size:10px;color:#7c5cbf;margin-left:8px">+{sby}h SBY</span>' if sby > 0 else ""
+
+                        st.markdown(f"""
+                        <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+                          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+                            <span style="color:#e8e9f0;font-weight:700;font-size:13px">{name}{sby_html}</span>
+                            <span style="color:{color};font-weight:700;font-size:13px">{hrs}h
+                              <span style="color:#6b7094;font-size:11px;font-weight:400"> / {target}h target</span>
+                              <span style="color:{color};font-size:11px;margin-left:6px">{label}</span>
+                            </span>
+                          </div>
+                          <div style="height:5px;background:#252836;border-radius:3px;overflow:hidden">
+                            <div style="width:{bar_w}%;height:100%;background:linear-gradient(90deg,{color}88,{color});border-radius:3px;transition:width 0.3s"></div>
+                          </div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                else:
+                    st.info("Generate a rota above to see the hours summary.")
 
             with m2:
                 st.markdown("**⚠️ Constraints Check (Warnings)**")
