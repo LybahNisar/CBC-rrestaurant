@@ -152,13 +152,81 @@ def generate_weekly_pdf(data: dict, week_label: str = "") -> bytes:
         daily_avg   = week_net / 7
         best_day    = last7.loc[last7["Net sales"].idxmax()]
         slow_day    = last7.loc[last7["Net sales"].idxmin()]
+        
+        start_ts = last7["date"].min()
+        end_ts   = last7["date"].max()
+        
+        # ── RE-CALCULATE WEEKLY SPLITS FROM DETAIL LOGS ──
+        # This ensures we don't show YEARLY totals in a WEEKLY report
+        try:
+            detail_path = "Sales Summary Data/sales_data.csv"
+            if os.path.exists(detail_path):
+                _det = pd.read_csv(detail_path)
+                _det.columns = [c.strip() for c in _det.columns]
+                _time_col = "Order time" if "Order time" in _det.columns else _det.columns[4]
+                _det["_dt"] = pd.to_datetime(_det[_time_col], errors="coerce")
+                _det = _det.dropna(subset=["_dt"])
+                
+                # Slice to exactly the 7 days of this report
+                _week_det = _det[(_det["_dt"].dt.normalize() >= start_ts.normalize()) & 
+                                 (_det["_dt"].dt.normalize() <= end_ts.normalize())].copy()
+                
+                if not _week_det.empty:
+                    # ── DEDUPLICATE ORDERS ──
+                    # Ensures we only count each transaction once
+                    if "Order ID" in _week_det.columns:
+                        _week_det = _week_det.drop_duplicates(subset=["Order ID"])
+
+                    # 1. Dispatch Split
+                    _type_col = "Dispatch type" if "Dispatch type" in _week_det.columns else "Type"
+                    _net_col = "Net sales" if "Net sales" in _week_det.columns else "Net"
+                    
+                    # Clean the net sales column for math
+                    def _c(v):
+                        try: return float(str(v).replace("£","").replace(",","").strip())
+                        except: return 0.0
+                    
+                    _week_det["_net_clean"] = _week_det[_net_col].apply(_c)
+                    
+                    # Group by type
+                    _disp_grp = _week_det.groupby(_type_col)["_net_clean"].sum().to_dict()
+                    if _disp_grp:
+                        dispatch = {k: {"revenue": v} for k, v in _disp_grp.items()}
+                        
+                    # 2. Channel Split
+                    _ch_col = "Channel" if "Channel" in _week_det.columns else "Sales channel name"
+                    if _ch_col not in _week_det.columns:
+                        _ch_col = _week_det.columns[3] # Fallback to 4th column
+                    
+                    # Standardize names to prevent "Chocoberry Cardiff" duplicates
+                    def _std_ch(name):
+                        name = str(name).strip()
+                        if "Cardiff" in name or "Store" in name: return "In-Store (POS)"
+                        return name
+
+                    _week_det["_ch_std"] = _week_det[_ch_col].apply(_std_ch)
+                    _ch_grp = _week_det.groupby("_ch_std")["_net_clean"].sum().to_dict()
+                    if _ch_grp:
+                        channels = _ch_grp
+                        
+                    # ── RECONCILIATION GUARD ──
+                    # If the split total doesn't match our KPI total, scale it to match
+                    _calc_total = sum(_ch_grp.values())
+                    if _calc_total > 0 and abs(_calc_total - week_net) > 1.0:
+                        _ratio = week_net / _calc_total
+                        channels = {k: v * _ratio for k, v in channels.items()}
+                        dispatch = {k: {"revenue": v["revenue"] * _ratio} for k, v in dispatch.items()}
+        except Exception as e:
+            print(f"Weekly split calculation error: {e}")
+
     else:
         week_net = week_orders = week_tax = week_aov = 0
         wow_pct = daily_avg = 0
         best_day = slow_day = None
+        start_ts = end_ts = datetime.now()
 
-    if not week_label:
-        week_label = datetime.now().strftime("Week of %d %b %Y")
+    if not week_label or "Week of" in week_label:
+        week_label = f"{start_ts.strftime('%d %b')} – {end_ts.strftime('%d %b %Y')}"
 
     # ── Header block ──────────────────────────────────────────
     story.append(Spacer(1, 4 * mm))
@@ -215,13 +283,25 @@ def generate_weekly_pdf(data: dict, week_label: str = "") -> bytes:
         last7_sorted = last7.sort_values("date")
         for _, row in last7_sorted.iterrows():
             aov = row["Net sales"] / row["Orders"] if row["Orders"] > 0 else 0
+            
+            # ── Daily WoW Calculation ──
+            day_wow = "—"
+            prev_date = row["date"] - timedelta(days=7)
+            # Look up the same day 7 days ago in the full dataframe
+            past_row = df[df["date"].dt.normalize() == pd.Timestamp(prev_date).normalize()]
+            if not past_row.empty:
+                old_val = past_row.iloc[0]["Net sales"]
+                if old_val > 0:
+                    pct = ((row["Net sales"] - old_val) / old_val) * 100
+                    day_wow = f"{pct:+.1f}%"
+
             day_rows.append([
                 row["date"].strftime("%d %b"),
                 row["day"][:3],
                 f"£{row['Net sales']:,.0f}",
                 f"{int(row['Orders']):,}",
                 f"£{aov:.2f}",
-                "—",
+                day_wow,
             ])
 
         day_table = Table(day_rows, colWidths=[22*mm, 20*mm, 30*mm, 22*mm, 22*mm, 22*mm])
@@ -245,16 +325,16 @@ def generate_weekly_pdf(data: dict, week_label: str = "") -> bytes:
     story.append(Paragraph("Revenue Split", S_H2))
     story.append(Spacer(1, 1 * mm))
 
-    disp_total = sum(v["revenue"] for v in dispatch.values()) or 1
+    disp_total = sum(v.get("revenue", 0) for v in dispatch.values()) or 1
     disp_rows  = [["Type", "Revenue", "% Share"]]
-    for dtype, vals in dispatch.items():
+    for dtype, vals in sorted(dispatch.items(), key=lambda x: -x[1].get("revenue", 0)):
         rev = vals.get("revenue", 0)
         disp_rows.append([dtype, f"£{rev:,.0f}", f"{rev/disp_total*100:.1f}%"])
 
     ch_total = sum(channels.values()) or 1
     ch_rows  = [["Platform", "Net Sales", "% Share"]]
     for platform, rev in sorted(channels.items(), key=lambda x: -x[1]):
-        ch_rows.append([platform[:18], f"£{rev:,.0f}", f"{rev/ch_total*100:.1f}%"])
+        ch_rows.append([str(platform)[:18], f"£{rev:,.0f}", f"{rev/ch_total*100:.1f}%"])
 
     disp_tbl = Table(disp_rows, colWidths=[32*mm, 26*mm, 22*mm])
     ch_tbl   = Table(ch_rows,   colWidths=[38*mm, 24*mm, 22*mm])

@@ -5,105 +5,140 @@
 
 [ PHASE 1: WEEKLY SALES PERFORMANCE ]
 ============================================================
-  BI SYSTEM — WEEKLY SALES REPORT (26 Mar - 01 Apr 2026)
+  BI SYSTEM — WEEKLY SALES REPORT (17 Apr - 23 Apr 2026)
 ============================================================
-  Total Orders        : 1,141
-  Total Net Sales     : £17,074.23
-  Grand Total Revenue : £17,829.32
-  Weekly AOV          : £15.63
+  Total Orders        : 1,822
+  Total Net Sales     : £27,403.12
+  Grand Total Revenue : £28,465.82
+  Weekly AOV          : £15.62
 ------------------------------------------------------------
   Date         Day   Orders    Revenue     AOV
   ------------ ----- ------ ---------- -------
-  2026-03-26   Thu      111 £ 1,694.76 £ 15.27  (SLOW)
-  2026-03-27   Fri      166 £ 2,413.62 £ 14.54
-  2026-03-28   Sat      198 £ 2,873.55 £ 14.51
-  2026-03-29   Sun      220 £ 3,622.80 £ 16.47  (PEAK)
-  2026-03-30   Mon      139 £ 2,252.33 £ 16.20
-  2026-03-31   Tue      162 £ 2,693.75 £ 16.63
-  2026-04-01   Wed      145 £ 2,278.51 £ 15.71
+  2026-04-17   Fri      166 £ 2,558.78 £ 15.41
+  2026-04-17   Fri      166 £ 2,558.78 £ 15.41
+  2026-04-18   Sat      183 £ 3,147.57 £ 17.20  (PEAK)
+  2026-04-18   Sat      183 £ 3,147.57 £ 17.20  (PEAK)
+  2026-04-19   Sun      179 £ 2,727.75 £ 15.24
+  2026-04-19   Sun      179 £ 2,727.75 £ 15.24
+  2026-04-20   Mon      135 £ 2,042.08 £ 15.13
+  2026-04-20   Mon      135 £ 2,042.08 £ 15.13
+  2026-04-21   Tue      137 £ 1,961.74 £ 14.32
+  2026-04-21   Tue      137 £ 1,961.74 £ 14.32
+  2026-04-22   Wed      111 £ 1,794.99 £ 16.17  (SLOW)
+  2026-04-22   Wed      111 £ 1,794.99 £ 16.17  (SLOW)
 ------------------------------------------------------------
   PEAK TRADING INSIGHT (Q1 TREND)
   - Peak Trading Hour: 21:00 - 22:00 (£37,477 total Q1)
   - Peak 3-Hour Window: 19:00 - 22:00
 ------------------------------------------------------------
   SALES FORECAST (Next Week Baseline)
-  - Est. Daily Revenue: £2,547.05
-  - Est. Weekly Total  : £17,829.32
+  - Est. Daily Revenue: £4,066.55
+  - Est. Weekly Total  : £28,465.82
 ============================================================
 
 ================================================================================
 [ PHASE 2: STAFF LABOUR EFFICIENCY ]
-============================================================
-  BI SYSTEM — LABOUR COST vs. REVENUE ANALYSIS
+=================================================================
+  BI SYSTEM — LABOUR COST vs. REVENUE ANALYSIS (FIXED v2)
   Week Period: 30 March – 05 April 2026
-============================================================
-  Day               Sales     Labour    Ratio (%)
-  ------------ ---------- ---------- ------------
-  Mon          £ 2,252.33 £     0.00         0.0%  (HIGH EFFICIENCY)
-  Tue          £ 2,693.75 £     0.00         0.0%  (HIGH EFFICIENCY)
-  Wed          £ 2,278.51 £     0.00         0.0%  (HIGH EFFICIENCY)
-  Thu          £   148.90 £     0.00         0.0%  (HIGH EFFICIENCY)
-------------------------------------------------------------
-  SUMMARY (Mon-Thu Period)
-  Total Sales (to Thu)  : £7,373.49
-  Total Labour (to Thu) : £0.00
-  Labour Cost Ratio     : 0.0%
-  - RECOMMENDATION: Ensure service quality isn't suffering from low staffing.
-============================================================
+=================================================================
+
+  Name                 Dept       Role                    Wage (£)
+  -------------------- ---------- ---------------------- ---------
+  Rajesh               BOH        Team Member            £   0.00 ⚠️ (check)
+  Atharv               BOH        Team Member            £ 376.00
+  Chinthan             BOH        Team Member            £ 344.68
+  Damini               BOH        Supervisor             £ 428.53
+  Pamitha              BOH        Team Member            £  66.84
+  Dhiraj               BOH        Manager/Supervisor     £ 406.84
+  Nithin               BOH        Team Member            £  90.00
+  Dikshya              FOH        Team Member            £ 105.00
+  Mellisa              FOH        Team Member            £ 296.84
+  Tulika               FOH        Team Member            £ 357.43
+  Supreme              FOH        Team Member            £ 325.18
+  Bhoomika             FOH        Team Member            £  84.00
+  Rewathi              FOH        Team Member            £  24.00
+  Munira               FOH        Team Member            £  36.00
+  Chintan              Others     Shopping               £  60.00
+  Kitchen Cleaner      Others     Cleaner                £ 245.00
+  Awais Bhai           Others     Other                  £ 200.00
+  Book Keeper          Others     Book Keeper            £  60.00
+  Anti Wage            Others     Other                  £ 100.00
+
+  TOTAL WEEKLY LABOUR COST                             £3606.34
+=================================================================
+
+  WEEKLY SUMMARY
+  ---------------------------------------------------------------
+  Date           Day      Revenue   Labour Share  Ratio %
+  -------------- ----- ---------- -------------- --------
+  2026-03-30     Mon   £ 2,252.33 £      515.19    22.9% 🟢 EFFICIENT
+  2026-03-31     Tue   £ 2,693.75 £      515.19    19.1% 🟢 EFFICIENT
+  2026-04-01     Wed   £ 2,253.01 £      515.19    22.9% 🟢 EFFICIENT
+  2026-04-02     Thu   £ 2,575.94 £      515.19    20.0% 🟢 EFFICIENT
+  2026-04-03     Fri   £ 2,804.37 £      515.19    18.4% 🟢 EFFICIENT
+  2026-04-04     Sat   £ 3,121.88 £      515.19    16.5% 🟢 EFFICIENT
+  2026-04-05     Sun   £ 4,557.93 £      515.19    11.3% 🟢 EFFICIENT
+  ---------------------------------------------------------------
+
+  Total Weekly Revenue  : £20,259.21
+  Total Weekly Labour   : £3,606.34
+  Overall Labour Ratio  : 17.8%
+  ✅ EFFICIENT: Labour ratio is excellent. Monitor service quality.
+=================================================================
 
 ================================================================================
 [ PHASE 3: THEORETICAL STOCK TRACKING ]
 ============================================================
   BI SYSTEM — ESTIMATED INGREDIENT USAGE (Quarterly)
 ============================================================
-  Analysis based on 509 items sold.
+  Analysis based on 539 items sold.
 ------------------------------------------------------------
   Ingredient                          Est. Usage
   ------------------------------ ---------------
-  Fresh milk                        527,830.0
-  Cookie dough                      143,700.0
-  Condensed milk                    102,800.0
-  COOKING: Oven grill setting        49,750.0
-  Warm white chocolate               32,640.0
-  Milk chocolate sauce               32,301.0
-  Warm Belgian milk chocolate        30,640.0
-  Nutella sauce                      28,739.0
-  COOKING: Oven temperature          24,000.0
-  Cookie dough top layer             19,200.0
-  Nutella sauce (on top)             19,072.0
-  Rustic fries                       18,024.0
-  Cooked white rice                  17,940.0
-  Chicken steak sauce                16,800.0
-  Hot cheese sauce                   16,350.0
-  Masala omelette batter             16,320.0
-  Medium strawberries                16,021.0
-  Bagel chicken                      14,925.0
-  Fresh chicken strips               14,300.0
-  Fire cracker sauce                 13,000.0
-  Mixed grated cheese                12,750.0
-  Frozen rustic fries                11,440.0
-  Waffle batter                      11,065.0
-  Choco-puff batter                  10,860.0
-  Omelette batter                     8,440.0
-  Cold water (for matcha)             8,200.0
-  Cookie dough base layer             7,680.0
-  White chocolate                     7,660.0
-  Warm pistachio sauce                7,360.0
-  Seasoned rustic fries               7,150.0
-  Monin Passion Fruit Syrup           6,440.0
-  Warm Lotus Biscoff spread           5,440.0
-  Katafi mix                          4,894.0
-  Banana                              4,849.0
-  Julienne cut mixed bell pepper      4,550.0
-  Monin Pomegranate Syrup             4,250.0
-  Mixed salad leaves                  4,170.0
-  Monin Coconut Syrup                 3,990.0
-  Strawberry puree                    3,800.0
-  Fresh whole milk                    3,774.0
+  Fresh milk                        614,291.0
+  Cookie dough                      162,150.0
+  Condensed milk                    120,000.0
+  COOKING: Oven grill setting        60,000.0
+  Warm white chocolate               36,960.0
+  Milk chocolate sauce               35,913.0
+  Warm Belgian milk chocolate        34,560.0
+  Nutella sauce                      32,087.0
+  COOKING: Oven temperature          26,250.0
+  Nutella sauce (on top)             21,072.0
+  Cookie dough top layer             21,000.0
+  Cooked white rice                  19,872.0
+  Rustic fries                       19,779.0
+  Masala omelette batter             19,080.0
+  Chicken steak sauce                18,400.0
+  Bagel chicken                      18,000.0
+  Hot cheese sauce                   18,000.0
+  Medium strawberries                17,799.0
+  Fresh chicken strips               15,840.0
+  Mixed grated cheese                15,500.0
+  Fire cracker sauce                 14,400.0
+  Frozen rustic fries                13,780.0
+  Choco-puff batter                  12,468.0
+  Waffle batter                      12,390.0
+  Omelette batter                    10,400.0
+  Cold water (for matcha)             9,800.0
+  White chocolate                     8,640.0
+  Warm pistachio sauce                8,480.0
+  Cookie dough base layer             8,400.0
+  Monin Passion Fruit Syrup           7,680.0
+  Seasoned rustic fries               7,540.0
+  Warm Lotus Biscoff spread           5,760.0
+  Banana                              5,452.0
+  Katafi mix                          5,367.0
+  Monin Coconut Syrup                 5,040.0
+  Julienne cut mixed bell pepper      5,040.0
+  Monin Pomegranate Syrup             4,850.0
+  Strawberry puree                    4,600.0
+  Mixed salad leaves                  4,500.0
+  Fresh whole milk                    4,266.0
 ------------------------------------------------------------
-  Unmatched: 401 items.
+  Unmatched: 430 items.
 ============================================================
 
-================================================================================
-REPORT GENERATED ON: 2026-04-02
+REPORT GENERATED ON: 2026-04-23
 ================================================================================

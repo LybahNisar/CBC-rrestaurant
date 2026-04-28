@@ -1,8 +1,8 @@
-,Order time,Net sales,Tax on net sales
-1,Monday,"30,129.91","1,243.86"
-2,Tuesday,"31,764.92","1,301.64"
-3,Wednesday,"29,935.89","1,139.70"
-4,Thursday,"34,756.65","1,225.78"
-5,Friday,"43,679.10","1,552.64"
-6,Saturday,"49,667.56","1,776.09"
-7,Sunday,"52,949.36","1,909.17"
+,Day of week,Net sales,Avg order value
+1,Monday,"34,119.20",14.58
+2,Tuesday,"35,421.30",14.95
+3,Wednesday,"34,064.91",14.36
+4,Thursday,"36,407.53",14.52
+5,Friday,"46,149.48",14.41
+6,Saturday,"52,675.91",14.52
+7,Sunday,"55,575.79",15.46

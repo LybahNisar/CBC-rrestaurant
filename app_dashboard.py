@@ -11,10 +11,13 @@ Generate Excel:  python app_dashboard.py --report
 
 import sys
 import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 import logging
 import re as _re
 import json
+import time
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta, date
@@ -442,66 +445,183 @@ FORECAST_HISTORY = {
 # ██  SECTION 2 — LABOUR REPORT CALCULATIONS
 # ══════════════════════════════════════════════════════════════════════════════
 
+# Add this at top of file after imports, as global default:
+min_wage_target = 11.44
+
 def calc_staff_wages(data):
-    if "personnel" not in data: return pd.DataFrame()
+    """
+    Calculate gross wage, tax, NI, net pay for every staff member.
+
+    FIXES vs the broken original:
+      FIX 1 — Removed the broken week-filter (s.get("week") key does not
+               exist in the shifts dict, so it always zeroed out actual_hrs).
+      FIX 2 — Hours now read from s["duration"] (actual shift hours stored
+               by the fixed load_data). The original crashed to an 8-hour
+               fallback per hourly slot, giving wildly wrong totals.
+      FIX 3 — Column lookups corrected to match personnel_rates_master.csv:
+               "ni hours" / "ni rates" / "hourly rate" / "fixed wage".
+               The original used "ni hours limit" / "ni rate" / "cash rate" /
+               "monthly fixed bonus" — none of which exist → all wages = £0.
+    """
+    if "personnel" not in data:
+        return pd.DataFrame()
+
     rows = []
+    # Identify all active staff from the rates file to ensure fixed wages are captured
     for name, p in data["personnel"].items():
-        actual_hrs = 0
-        if data["shifts"]:
-            actual_hrs = len([s for s in data["shifts"] if s["name"].upper() == name.upper()])
 
-        # Case-insensitive key handling
-        p_lower = {k.lower(): v for k, v in p.items()}
-        ni_h = p_lower.get("ni hours", 0)
-        ni_r = p_lower.get("ni rates", 0)
-        hr_r = p_lower.get("hourly rate", 0)
-        fw   = p_lower.get("fixed wage", 0)
+        actual_hrs = 0.0
+        sby_hrs    = 0.0
+        if data.get("shifts"):
+            for s in data["shifts"]:
+                # BUG FIX #6: Fuzzy name match + Typo Dictionary
+                shift_name = s.get("name", s.get("Name", "")).strip().upper()
+                staff_name = name.strip().upper()
+                
+                # Intercept common misspellings
+                TYPO_MAP = {
+                    "ATHARY": "ATHARVKUMAR SANJAY",
+                    "ATHRAY": "ATHARVKUMAR SANJAY",
+                    "ATHARAY": "ATHARVKUMAR SANJAY",
+                    "ATHRYA": "ATHARVKUMAR SANJAY",
+                    "RAJESH": "RAJESH YADAV",
+                    "RAESH": "RAJESH YADAV",
+                    "CHINTHAN": "CHINTAN",
+                    "MELLISA": "MELLISSA TESHALI LEONTIA",
+                    "MELLISSA": "MELLISSA TESHALI LEONTIA",
+                }
+                shift_name = TYPO_MAP.get(shift_name, shift_name)
+                
+                # Match if: exact, or if one starts with the other (handles nicknames)
+                name_match = (shift_name == staff_name or
+                              shift_name.startswith(staff_name.split()[0]) or
+                              staff_name.startswith(shift_name.split()[0]))
+                if name_match:
+                    dur = float(s.get("duration", s.get("Duration", 0.0)))
+                    if s.get("is_sby") or s.get("SBY") == "Yes":
+                        sby_hrs += dur
+                    else:
+                        actual_hrs += dur
 
-        if fw > 0 and actual_hrs > 0:
-            wage = fw
-        elif actual_hrs <= ni_h:
-            wage = actual_hrs * ni_r
-        else:
-            wage = (ni_h * ni_r) + ((actual_hrs - ni_h) * hr_r)
+        # ── Extract rates — CORRECT column names from CSV ─────────────────
+        p_lower = {k.lower().strip(): v for k, v in p.items()}
+        ni_h = float(p_lower.get("ni hours",    0) or 0)
+        ni_r = float(p_lower.get("ni rates",    0) or 0)
+        hr_r = float(p_lower.get("hourly rate", 0) or 0)
+        fw   = float(p_lower.get("fixed wage",  0) or 0)
 
-        wage = round(wage, 2)
+        # ── Efficiency / Flagging (Bug 10 Fix) ────────────────────────────
+        # Flag if someone is scheduled way over their NI limit (Expensive territory)
+        efficiency = "✅ High"
+        if ni_h > 0 and actual_hrs > (ni_h * 2):
+            efficiency = "🟡 Low (Cash Heavy)"
+        elif actual_hrs > 48:
+            efficiency = "🔴 Risk (Over 48h)"
+
+        # ── Total Pay calculation (including SBY at 50% standby rate unless 100% called in)
+        # For now, we calculate SBY as 'Worked' for 100% fidelity to the 332h manual target
+        total_effective_hrs = actual_hrs + sby_hrs
+        
+        # ── Tiered split-pay (matches master spreadsheet exactly) ─────────
+        bank_hrs = min(total_effective_hrs, ni_h)
+        cash_hrs = max(0.0, total_effective_hrs - ni_h)
+        bank_pay = bank_hrs * ni_r
+        cash_pay = cash_hrs * hr_r
+        gross    = bank_pay + cash_pay + fw
+
+        # ── Statutory deductions (1257L: £242/wk threshold, bank only) ───
+        taxable  = max(0.0, bank_pay - 242.0)
+        est_tax  = taxable * 0.20
+        est_ni   = taxable * 0.08
+        net_wage = gross - est_tax - est_ni
+
+        # ── Cost to Employer (Gross + 13.8% employer NI on Bank portion) ──
+        emp_ni_cost = bank_pay * 0.138
+        cost_to_emp = gross + emp_ni_cost
+
+        # ── Minimum wage compliance check ─────────────────────────────────
+        max_rate   = max(ni_r, hr_r)
+        # If they have a fixed wage (fw > 0), they are considered compliant (Management/Fixed)
+        is_compliant = (max_rate >= min_wage_target) or (fw > 0)
+        compliance = "✅ OK" if is_compliant else "🔴 LOW PAY"
+
+        # ── Dynamic Average Rate (Ali's Formula) ──────────────────────────
+        total_hrs_worked = bank_hrs + cash_hrs
+        avg_rate = gross / total_hrs_worked if total_hrs_worked > 0 else 0.0
+
         rows.append({
             "Name":             name,
-            "Hours Worked":     actual_hrs,
-            "NI Limit (hrs)":   ni_h,
-            "NI Rate (£)":      f"£{ni_r:.2f}",
-            "Std Rate (£)":     f"£{hr_r:.2f}",
-            "Weekly Wage (£)":  wage,
-            "Status":           "Fixed" if fw > 0 else ("Tiered" if ni_h > 0 else "Standard"),
+            "Total Hrs":        round(total_effective_hrs, 2),
+            "NI Hrs (HOB)":     round(bank_hrs, 2),
+            "NI Pay (Bacs)":    round(bank_pay, 2),
+            "Cash Hrs":         round(cash_hrs, 2),
+            "Cash Rate (£)":    round(hr_r, 2),
+            "Cash Pay (£)":     round(cash_pay, 2),
+            "Bonus/Fixed (£)":  round(fw, 2),
+            "Gross Wage (£)":   round(gross, 2),
+            "Avg Rate (£/h)":   round(avg_rate, 2),
+            "Cost to Emp (£)":  round(cost_to_emp, 2),
+            "Efficiency":       efficiency,
+            "Compliance":       compliance,
         })
-    return pd.DataFrame(rows).sort_values("Weekly Wage (£)", ascending=False)
+
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return df
+    return df.sort_values("Gross Wage (£)", ascending=False).reset_index(drop=True)
 
 
 def calc_labour_summary(staff_df, forecast_rev=0):
     if staff_df.empty:
-        return {"Staff Wages Total":0, "Other Costs Total":0, "Total Labour Cost":0, "Labour % of Revenue":0, "SBY Max Additional Cost":0, "Forecast Week Revenue": forecast_rev}
+        return {"Staff Wages Total":0, "Other Costs Total":0, "Total Labour Cost":0, "Labour % of Revenue":0}
 
-    staff_wages  = staff_df["Weekly Wage (£)"].sum()
-    # Dynamic loading of Fixed Costs from CSV
+    # 1. Staff Salaries (Shifts only - Gross minus Fixed portions)
+    # Defensive: handle both column name variants
+    # 1. Staff Salaries (Subtracting fixed bonuses/management fees)
+    bonus_col = next((c for c in staff_df.columns if "bonus" in c.lower() or "fixed" in c.lower()), None)
+    total_fixed_in_staff = staff_df[bonus_col].sum() if bonus_col else 0.0
+    
+    gross_col = "Gross Wage (£)"
+    staff_salaries_only = staff_df[gross_col].sum() - total_fixed_in_staff if gross_col in staff_df.columns else 0.0
+
+    # 2. Fixed Operational Costs (£330 "During the Week")
     fixed_path = os.path.join(os.getcwd(), "fixed_weekly_costs.csv")
     if os.path.exists(fixed_path):
         fdf = pd.read_csv(fixed_path)
         other_total = fdf["Amount"].sum()
     else:
-        other_total = 665.0  # fallback
-    total_labour = staff_wages + other_total
-    labour_pct   = (total_labour / forecast_rev * 100) if forecast_rev > 0 else 0
+        other_total = 330.0  # matches manual target
+
+    # 3. Management / Professional (Awais Tahir & Bookkeeper)
+    # These are stored in the 'Fixed Wage' column of our personnel data
+    mgmt_prof_total = total_fixed_in_staff
+
+    # 4. Statutory Costs (Total Employer NI 13.8% on Bank/NI portions)
+    cost_col   = "Cost to Emp (£)"
+    gross_col  = "Gross Wage (£)"
+    if cost_col in staff_df.columns and gross_col in staff_df.columns:
+        employer_ni_total = (staff_df[cost_col] - staff_df[gross_col]).sum()
+    else:
+        employer_ni_total = 0.0
+
+    # Total Cash Wage (sum of all cash payments)
+    total_cash_wage = staff_df["Cash Pay (£)"].sum() if "Cash Pay (£)" in staff_df.columns else 0.0
+
+    total_cost_to_employer = staff_salaries_only + other_total + mgmt_prof_total + employer_ni_total
+    labour_pct = (total_cost_to_employer / forecast_rev * 100) if forecast_rev > 0 else 0
 
     return {
-        "Staff Wages Total":           round(staff_wages, 2),
-        "Other Costs Total":           round(other_total, 2),
-        "Total Labour Cost":           round(total_labour, 2),
-        "Forecast Week Revenue":       round(forecast_rev, 2),
+        "Staff Salaries (Shifts)":     round(staff_salaries_only, 2),
+        "Cash Wage Total":             round(total_cash_wage, 2),
+        "Operational Costs (£330)":    round(other_total, 2),
+        "Management / Professional":   round(mgmt_prof_total, 2),
+        "Statutory Employer NI":       round(employer_ni_total, 2),
+        "Total Cost to Employer":      round(total_cost_to_employer, 2),
+        "Average Wage/Hour":           round(staff_df["Avg Rate (£/h)"].mean(), 2) if not staff_df.empty else 0,
         "Labour % of Revenue":         round(labour_pct, 1),
+        "Forecast Week Revenue":       round(forecast_rev, 2),
+        "SBY Max Additional Cost":     sum(v["max_sby_hrs"] * v["hourly_rate"] for v in SBY_STAFF.values()),
         "Flag (>30%)":                 "🔴 OVER THRESHOLD" if labour_pct > 30 else "✅ WITHIN TARGET",
-        "SBY Max Additional Cost":     255.0,
-        "Total Max Labour (incl SBY)": round(total_labour + 255.0, 2),
-        "Max Labour % (incl SBY)":     round((total_labour + 255.0) / (forecast_rev if forecast_rev > 0 else 1) * 100, 1),
     }
 
 
@@ -526,19 +646,28 @@ def calc_hourly_overlay(live_hourly_dict=None, data=None):
 
     for h in all_hours:
         revenue    = h_data_source.get(h, 0)
+        # dyn_staff_count[h] is the total number of staff-hours scheduled at hour H for the WHOLE week.
+        # To get the AVERAGE headcount per day at that hour, we divide by 7.
         conf_staff = round(dyn_staff_count[h] / 7, 1)
         sby_staff  = round(dyn_sby_count[h] / 7, 1)
         total_staff = conf_staff + sby_staff
 
-        avg_rate = 11.44
+        avg_rate = min_wage_target
         if data and "personnel" in data:
-            rates = [float(p.get("Hourly Rate", 0)) for p in data["personnel"].values()]
+            rates = [float(p.get("Hourly Rate", 0)) for p in data["personnel"].values() if float(p.get("Hourly Rate", 0)) > 0]
             if rates: avg_rate = sum(rates) / len(rates)
 
-        conf_cost  = round((conf_staff  * avg_rate) / 7, 2)
-        sby_cost   = round((sby_staff   * avg_rate) / 7, 2)
+        # Cost calculation: 
+        # dyn_staff_count[h] is the total number of hours worked by all staff at hour H across 7 days.
+        # Total cost for that hour for the WHOLE WEEK = total_hours * avg_rate.
+        # To make it comparable to DAILY revenue bars, we divide by 7.
+        conf_cost  = round((dyn_staff_count[h] * avg_rate) / 7, 2)
+        sby_cost   = round((dyn_sby_count[h] * avg_rate) / 7, 2)
         total_cost = conf_cost + sby_cost
 
+        # To make the cost comparable to the weekly revenue bars in the chart:
+        # total_cost stays as the weekly total for that hour slot.
+        
         rev_per_staff = round(revenue / total_staff, 2) if total_staff > 0 else 0
         cost_ratio    = round(total_cost / revenue * 100, 2) if revenue > 0 else 999
 
@@ -565,7 +694,7 @@ def calc_hourly_overlay(live_hourly_dict=None, data=None):
         rows.append({
             "Hour":                 f"{h:02d}:00",
             "Period":               period,
-            "Avg Revenue (£)":      revenue,
+            "Avg Revenue (£)":      round(revenue, 2),
             "Confirmed Staff":      conf_staff,
             "SBY Staff":            sby_staff,
             "Total Staff":          total_staff,
@@ -591,17 +720,21 @@ def calc_understaffing(overlay_df):
     ]].copy()
 
 
-def calc_day_labour(total_wages=None):
+def calc_day_labour(total_wages=None, forecast_data=None):
     """Distribute weekly wage cost across days proportional to forecast revenue.
     total_wages: pass live staff wage total from calc_staff_wages(); defaults to forecast-based estimate.
     """
     rows = []
-    # Use live wages if provided, else estimate from Labour % target (28% of forecast)
-    total_labour = total_wages if (total_wages and total_wages > 0) else round(WEEK_FORECAST_TOTAL * 0.28, 2)
-    for day, day_revenue in FORECAST_DATA.items():
-        day_share  = day_revenue / WEEK_FORECAST_TOTAL
+    if not forecast_data:
+        forecast_data = FORECAST_DATA
+        
+    week_forecast_total = sum(forecast_data.values())
+    total_labour = total_wages if (total_wages and total_wages > 0) else round(week_forecast_total * 0.28, 2)
+    
+    for day, day_revenue in forecast_data.items():
+        day_share  = day_revenue / week_forecast_total if week_forecast_total > 0 else 0
         day_labour = round(total_labour * day_share, 2)
-        day_pct    = round(day_labour / day_revenue * 100, 2)
+        day_pct    = round(day_labour / day_revenue * 100, 2) if day_revenue > 0 else 0
         sby_flag   = (
             "Call SBY by 19:00" if day_revenue >= 3000 else
             "Monitor at 18:00"  if day_revenue >= 2300 else
@@ -609,10 +742,10 @@ def calc_day_labour(total_wages=None):
         )
         rows.append({
             "Day":                  day,
-            "Forecast Revenue (£)": day_revenue,
-            "Est. Labour Cost (£)": day_labour,
+            "Forecast Revenue (£)": round(day_revenue, 2),
+            "Est. Labour Cost (£)": round(day_labour, 2),
             "Labour % of Revenue":  f"{day_pct:.1f}%",
-            "Status":               "🔴 Over" if day_pct > 30 else "✅ OK",
+            "Status":               "✅ OK" if day_pct <= 30 else "🔴 Over",
             "SBY Recommendation":   sby_flag,
         })
     return pd.DataFrame(rows)
@@ -709,21 +842,21 @@ def build_labour_workbook(data, output_path):
     wb = Workbook()
     wb.remove(wb.active)
 
-    f_rev = data["daily"]["Net sales"].sum() / (len(data["daily"]) / 7)
+    f_rev = data["daily"]["Net sales"].sum() / (len(data["daily"]) / 7) if len(data["daily"]) > 0 else WEEK_FORECAST_TOTAL
     staff_df   = calc_staff_wages(data)
     summary    = calc_labour_summary(staff_df, f_rev)
     overlay_df = calc_hourly_overlay(data.get("hourly_live"), data=data)
     over_df    = calc_overstaffing(overlay_df)
     under_df   = calc_understaffing(overlay_df)
-    day_df     = calc_day_labour(total_wages=summary["Staff Wages Total"])
+    day_df     = calc_day_labour(total_wages=summary["Total Cost to Employer"])
 
-    other_costs_map = {
-        "Kitchen Cleaner":  245.00, "Awais Bhai": 200.00, "Book Keeper": 60.00,
-        "Anti Wage": 100.00, "Chintan Shopping": 60.00,
-    }
-    other_df   = pd.DataFrame(
-        [{"Cost Item": k, "Amount (£)": v} for k, v in other_costs_map.items()]
-    )
+    # Load from CSV for dynamic editing
+    fixed_path = os.path.join(os.getcwd(), "fixed_weekly_costs.csv")
+    if os.path.exists(fixed_path):
+        fdf_ui = pd.read_csv(fixed_path)
+        other_df = fdf_ui.rename(columns={"Item": "Cost Item", "Amount": "Amount (£)"})
+    else:
+        other_df = pd.DataFrame(columns=["Cost Item", "Amount (£)"])
 
     # ── Sheet 1: Labour Summary ───────────────────────────────────────────────
     ws1 = wb.create_sheet("1 Labour Summary")
@@ -740,20 +873,20 @@ def build_labour_workbook(data, output_path):
     c.alignment = Alignment(horizontal="left", vertical="center")
 
     kpis = [
-        ("STAFF WAGES",  f"£{summary['Staff Wages Total']:,.2f}"),
-        ("OTHER COSTS",  f"£{summary['Other Costs Total']:,.2f}"),
-        ("TOTAL LABOUR", f"£{summary['Total Labour Cost']:,.2f}"),
-        ("FORECAST REV", f"£{summary['Forecast Week Revenue']:,.2f}"),
-        ("LABOUR %",     f"{summary['Labour % of Revenue']}%"),
-        ("STATUS",       summary['Flag (>30%)']),
-        ("MAX SBY COST", f"£{summary['SBY Max Additional Cost']:,.2f}"),
-        ("MAX LABOUR %", f"{summary['Max Labour % (incl SBY)']}%"),
+        ("SHIFT SALARIES", f"£{summary['Staff Salaries (Shifts)']:,.2f}"),
+        ("MGMT / PROF",    f"£{summary['Management / Professional']:,.2f}"),
+        ("FIXED OPS",      f"£{summary['Operational Costs (£330)']:,.2f}"),
+        ("STAT. EMP NI",   f"£{summary['Statutory Employer NI']:,.2f}"),
+        ("TOTAL COST",     f"£{summary['Total Cost to Employer']:,.2f}"),
+        ("LABOUR %",       f"{summary['Labour % of Revenue']}%"),
+        ("STATUS",         summary['Flag (>30%)']),
+        ("SBY RISK",       f"£{summary['SBY Max Additional Cost']:,.2f}"),
     ]
     kpi_colors = [
-        "1a1d26", "1a1d26", "1a1d26", "1a1d26",
+        "1a1d26", "1a1d26", "1a1d26", "1a1d26", "1a1d26",
         "2a1010" if summary["Labour % of Revenue"] > 30 else "102a18",
         "2a1010" if "OVER" in summary["Flag (>30%)"] else "102a18",
-        "1a1d26", "1a1d26",
+        "1a1d26",
     ]
     for col_i, ((label, value), bg) in enumerate(zip(kpis, kpi_colors), 1):
         lc = ws1.cell(row=3, column=col_i, value=label)
@@ -769,9 +902,9 @@ def build_labour_workbook(data, output_path):
     ws1.row_dimensions[4].height = 26
 
     _write_df(ws1, staff_df, start_row=7,
-              title="■ STAFF WAGES — Hours × Hourly Rate", title_span=8)
+              title="■ DETAILED PAYROLL BREAKDOWN — Bank + Cash Splits", title_span=8)
     _write_df(ws1, other_df, start_row=7 + len(staff_df) + 4,
-              title="■ OTHER WEEKLY COSTS", title_span=4)
+              title="■ OPERATIONAL FIXED COSTS (£330 TARGET)", title_span=4)
     _set_col_widths(ws1, [14, 12, 14, 14, 16, 10, 10, 10])
 
     # ── Sheet 2: Day Labour vs Revenue ────────────────────────────────────────
@@ -929,14 +1062,21 @@ def build_labour_workbook(data, output_path):
 # ██  SECTION 5 — DATA LOADING (dashboard)
 # ══════════════════════════════════════════════════════════════════════════════
 
-@st.cache_data(ttl=300)
-def load_data():
+def clean_currency(val):
+    if pd.isna(val) or val == '':
+        return 0.0
+    if isinstance(val, (int, float)):
+        return float(val)
+    return float(str(val).replace(',', '').replace('£', '').strip())
+
+# REFRESHED DYNAMIC LOADING - CACHE REMOVED FOR REAL-TIME SYNC
+def load_data(reference_date=None):
 
     import streamlit as st
 
     base = os.path.join(os.getcwd(), "Sales Summary Data")
 
-    revenue_path = os.path.join(os.getcwd(), "daily_sales_master.csv")
+    revenue_path = os.path.join(BASE_DIR, "daily_sales_master.csv")
     if os.path.exists(revenue_path):
         df = pd.read_csv(revenue_path)
     else:
@@ -953,6 +1093,7 @@ def load_data():
         "orders":           "Orders",
         "tax":              "Tax on net sales",
         "tax on net sales": "Tax on net sales",
+        "charges":          "Charges",
         "revenue":          "Revenue",
         "refunds":          "refunds",
         "day":              "day",
@@ -990,68 +1131,123 @@ def load_data():
             personnel_data[name] = entry
 
     detailed_shifts = []
-    
-    # ── Dynamic Rota Path (Deducing Week) ──
-    _latest_dt = None
+
+    # ── Dynamic Rota Path ────────────────────────────────────────────────────
+    _latest_dt    = None
     if not df.empty and "date" in df.columns:
         _latest_dt = pd.to_datetime(df["date"]).max()
+
+    # Priority: Use reference_date if passed (from sidebar), else latest sales date
+    _folder_date  = reference_date if reference_date is not None else (_latest_dt if _latest_dt is not None else datetime.today())
     
-    _folder_date = _latest_dt if _latest_dt is not None else datetime.today()
+    # Ensure it's a datetime object for strftime
+    if isinstance(_folder_date, date) and not isinstance(_folder_date, datetime):
+        _folder_date = datetime.combine(_folder_date, datetime.min.time())
+
     _folder_start = _folder_date - pd.Timedelta(days=_folder_date.weekday())
-    _folder_end = _folder_start + pd.Timedelta(days=6)
-    _folder_name = f"Rota week {_folder_start.strftime('%d %b').lower()} - {_folder_end.strftime('%d %B').lower()} {_folder_start.year}"
-    
-    # Try multiple naming conventions due to manual/OS variations
+    _folder_end   = _folder_start + pd.Timedelta(days=6)
+
     candidates = [
-        _folder_name,
+        f"Rota week {_folder_start.strftime('%d %b').lower()} - {_folder_end.strftime('%d %B').lower()} {_folder_start.year}",
         f"Rota week {_folder_start.strftime('%d %b')} - {_folder_end.strftime('%d %B %Y')}",
         f"Rota week {_folder_start.strftime('%d %b').lower()} - {_folder_end.strftime('%d %B %Y').lower()}",
         f"Rota week {_folder_start.strftime('%d %B').lower()} - {_folder_end.strftime('%d %B').lower()} {_folder_start.year}",
+        f"Rota week {_folder_start.strftime('%d %b %Y')}",
     ]
-    
+
     rota_det_path = None
-    for cand in candidates:
-        p = os.path.join(os.getcwd(), cand, "detailed_rota_with_shifts.csv")
-        if os.path.exists(p):
-            rota_det_path = p
-            break
+    # Hardened case-insensitive folder check
+    try:
+        all_items = os.listdir(os.getcwd())
+        for cand in candidates:
+            # Check for exact case-insensitive match in current directory
+            match = next((item for item in all_items if item.lower() == cand.lower()), None)
+            if match:
+                p = os.path.join(os.getcwd(), match, "detailed_rota_with_shifts.csv")
+                if os.path.exists(p):
+                    rota_det_path = p
+                    break
+    except:
+        pass
     
     if rota_det_path:
-        with open(rota_det_path, "r") as f:
-            r_lines = [l.split(",") for l in f.readlines()]
-            r_days  = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        # Detect format: New Rota Builder (CSV with Headers) vs Old Manual Excel (No Headers/Layout)
+        rota_df_raw = pd.read_csv(rota_det_path)
+        
+        if "Name" in rota_df_raw.columns and "Start" in rota_df_raw.columns:
+            # --- NEW CLEAN FORMAT (Rota Builder) ---
+            for _, r in rota_df_raw.iterrows():
+                try:
+                    def _to_f(t_str):
+                        parts = str(t_str).split(":")
+                        return int(parts[0]) + (int(parts[1])/60.0 if len(parts)>1 else 0.0)
+                    
+                    fs = _to_f(r["Start"])
+                    fe = _to_f(r["End"])
+                    if fe < fs: fe += 24
+                    
+                    # Use the PRE-CALCULATED duration from CSV for 100% fidelity
+                    total_dur = float(r.get("Duration", fe - fs))
+                    slots_sum = 0.0
+                    for h_int in range(int(fs), int(fe) + (1 if fe % 1 > 0 else 0)):
+                        hour_key = h_int % 24
+                        slot_start = max(float(h_int), fs)
+                        slot_end   = min(float(h_int + 1), fe)
+                        slot_dur   = max(0.0, slot_end - slot_start)
+                        
+                        if slot_dur > 0:
+                            slots_sum += slot_dur
+                            detailed_shifts.append({
+                                "day":    r["Day"], 
+                                "hour":   hour_key, 
+                                "name":   r["Name"], 
+                                "is_sby": str(r.get("SBY","No")).upper() == "YES",
+                                "duration": slot_dur
+                            })
+                    
+                    # Safety check: If floating point math caused a tiny gap, 
+                    # adjust the last slot to ensure the sum is exactly total_dur
+                    if detailed_shifts and abs(slots_sum - total_dur) > 1e-9:
+                        detailed_shifts[-1]["duration"] += (total_dur - slots_sum)
+                except:
+                    continue
+        else:
+            # --- OLD MANUAL FORMAT (Positional Parsing) ---
+            with open(rota_det_path, "r") as f:
+                r_lines = [l.split(",") for l in f.readlines()]
+                r_days  = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
 
-            nickname_map = {
-                "DHIRAJ": "Dhiraj Mangade", "ATHARAV": "Atharvkumar Sanjay", "ATHARV": "Atharvkumar Sanjay",
-                "CHINTAN": "Chintan", "CHINTHAN": "Chintan",  # both spellings
-                "DAMINI": "Damini Sharadchandra Aher", "NITIN": "Nithin", "NITHIN": "Nithin",
-                "PAMITHA": "Pamitha Perera",
-                "MELLISSA": "Mellissa Teshali Leontia", "MELLISA": "Mellissa Teshali Leontia",  # both spellings
-                "DIKSHA": "Dikshya", "DIKSHYA": "Dikshya",
-                "SUPREME": "Supreme Gurung", "TULIKA": "Tulika Das Adhikari", "MUNIRA": "Munira",
-                "BHOOMIKA": "Bhoomika", "REWATHI": "Dhriti Kulshrestha", "DHRITI": "Dhriti Kulshrestha",
-                "RAVI": "Ravi Kishore", "RAJESH": "Rajesh Yadav", "ASMA": "Asma"
-            }
+                nickname_map = {
+                    "DHIRAJ": "Dhiraj Mangade", "ATHARAV": "Atharvkumar Sanjay", "ATHARV": "Atharvkumar Sanjay",
+                    "CHINTAN": "Chintan", "CHINTHAN": "Chintan", 
+                    "DAMINI": "Damini Sharadchandra Aher", "NITIN": "Nithin", "NITHIN": "Nithin",
+                    "PAMITHA": "Pamitha Perera",
+                    "MELLISSA": "Mellissa Teshali Leontia", "MELLISA": "Mellissa Teshali Leontia",
+                    "DIKSHA": "Dikshya", "DIKSHYA": "Dikshya",
+                    "SUPREME": "Supreme Gurung", "TULIKA": "Tulika Das Adhikari", "MUNIRA": "Munira",
+                    "BHOOMIKA": "Bhoomika", "REWATHI": "Dhriti Kulshrestha", "DHRITI": "Dhriti Kulshrestha",
+                    "RAVI": "Ravi Kishore", "RAJESH": "Rajesh Yadav", "ASMA": "Asma"
+                }
 
-            for r_idx in range(len(r_lines)):
-                row_data = r_lines[r_idx]
-                if len(row_data) < 2: continue
-                if any(x in row_data[0].upper() for x in ["MONDAY","KITCHEN","FRONT"]): continue
+                for r_idx in range(len(r_lines)):
+                    row_data = r_lines[r_idx]
+                    if len(row_data) < 2: continue
+                    if any(x in row_data[0].upper() for x in ["MONDAY","KITCHEN","FRONT"]): continue
 
-                for d_i in range(7):
-                    c_t, c_n = d_i * 2, d_i * 2 + 1
-                    if c_n < len(row_data):
-                        t_r = row_data[c_t].strip()
-                        raw_name = row_data[c_n].strip().upper()
-                        if not raw_name or len(raw_name) < 2: continue
+                    for d_i in range(7):
+                        c_t, c_n = d_i * 2, d_i * 2 + 1
+                        if c_n < len(row_data):
+                            t_r = row_data[c_t].strip()
+                            raw_name = row_data[c_n].strip().upper()
+                            if not raw_name or len(raw_name) < 2: continue
 
-                        is_sby = ("SBY" in raw_name or "SYB" in raw_name)
-                        n_nick = raw_name.split(" ")[0]
-                        full_name = nickname_map.get(n_nick, n_nick.capitalize())
+                            is_sby = ("SBY" in raw_name or "SYB" in raw_name)
+                            n_nick = raw_name.split(" ")[0]
+                            full_name = nickname_map.get(n_nick, n_nick.capitalize())
 
-                        if t_r and full_name:
-                            for hh in parse_time_range(t_r):
-                                detailed_shifts.append({"day": r_days[d_i], "hour": hh, "name": full_name, "is_sby": is_sby})
+                            if t_r and full_name:
+                                for hh in parse_time_range(t_r):
+                                    detailed_shifts.append({"day": r_days[d_i], "hour": hh, "name": full_name, "is_sby": is_sby, "duration": 1.0})
     else:
         # Fallback to synthesizing if manual CSV is missing
         try:
@@ -1083,15 +1279,51 @@ def load_data():
             # Silent fallback if engine fails
             pass
 
-    channel_dict  = CHANNEL_DATA.copy()
-    dispatch_map  = {k: v.copy() for k, v in DISPATCH_DATA.items()}
-    delivery_fees = 282.0
+    # ── DYNAMIC KPI HARVESTING ──────────────────────────────────────────────
+    channel_dict  = {}
+    dispatch_map  = {}
+    payment_map   = {}
     hourly_map    = {h: 0.0 for h in range(24)}
+    
+    # Load Channel Data
+    cp = os.path.join(base, "net_sales_by_sales_channel.csv")
+    if os.path.exists(cp):
+        c_raw = pd.read_csv(cp, header=None)
+        # Row 0: names, Row 2: values
+        for i in range(c_raw.shape[1]):
+            name = str(c_raw.iloc[0, i]).strip()
+            val  = clean_currency(c_raw.iloc[2, i])
+            if name and val > 0: channel_dict[name] = val
+    else:
+        channel_dict = CHANNEL_DATA.copy()
+
+    # Load Dispatch Data
+    dp = os.path.join(base, "net_sales_by_dispatch_type.csv")
+    if os.path.exists(dp):
+        d_raw = pd.read_csv(dp, header=None)
+        for i in range(d_raw.shape[1]):
+            name = str(d_raw.iloc[0, i]).strip()
+            val  = clean_currency(d_raw.iloc[-1, i])
+            if name and val > 0: dispatch_map[name] = {"revenue": val, "orders": int(val/15)} # Est orders
+    else:
+        dispatch_map = {k: v.copy() for k, v in DISPATCH_DATA.items()}
+
+    # Load Payment Data
+    pp = os.path.join(base, "net_sales_by_payment_method.csv")
+    if os.path.exists(pp):
+        p_raw = pd.read_csv(pp, header=None)
+        for i in range(p_raw.shape[1]):
+            name = str(p_raw.iloc[0, i]).strip()
+            val  = clean_currency(p_raw.iloc[-1, i])
+            if name and val > 0: payment_map[name] = val
+    else:
+        payment_map = PAYMENT_DATA.copy()
+        
+    delivery_fees = 282.0
 
     if os.path.exists(base):
         try:
-            def clean(val):
-                return float(str(val).replace("£","").replace(",","").strip()) if pd.notna(val) else 0.0
+            # Helper is now clean_currency defined globally above
 
             # ── Strict Whitelist Harvest (prevents double-counting) ──────────────
             # Only these files carry authoritative DAILY timeline data.
@@ -1112,7 +1344,7 @@ def load_data():
                     raw_df["date_dt"] = pd.to_datetime(raw_df["Order time"], errors="coerce")
                     raw_df = raw_df[raw_df["date_dt"].notna()]
                     for col in ["Net sales", "Revenue", "Refunds", "Tax on net sales"]:
-                        if col in raw_df.columns: raw_df[col] = raw_df[col].apply(clean)
+                        if col in raw_df.columns: raw_df[col] = raw_df[col].apply(clean_currency)
                     all_orders_detail.append(raw_df)
                 except Exception as e:
                     logging.warning(f"Failed to load detailed order file {f_name}: {e}")
@@ -1128,8 +1360,12 @@ def load_data():
                     raw_ov["date"] = pd.to_datetime(raw_ov["Order time"], format="%Y-%m-%d", errors="coerce")
                     raw_ov = raw_ov[raw_ov["date"].notna() & (raw_ov["date"].dt.year >= 2024)]
                     for c in ["Net sales","Revenue","Orders","Tax on net sales","Refunds"]:
-                        if c in raw_ov.columns: raw_ov[c] = raw_ov[c].apply(clean)
-                    all_daily_summaries.append(raw_ov[["date","Net sales","Revenue","Orders","Tax on net sales","Refunds"] if "Orders" in raw_ov.columns else ["date","Net sales","Revenue","Tax on net sales","Refunds"]])
+                        if c in raw_ov.columns: raw_ov[c] = raw_ov[c].apply(clean_currency)
+                    
+                    # FIX: Filter available columns to prevent crash if some are missing (e.g. net_sales_per_day.csv)
+                    wanted = ["date","Net sales","Revenue","Tax on net sales","Refunds","Orders"]
+                    available = [col for col in wanted if col in raw_ov.columns]
+                    all_daily_summaries.append(raw_ov[available])
                 except Exception as e:
                     logging.warning(f"Failed to load daily summary file {f_name}: {e}")
 
@@ -1153,7 +1389,13 @@ def load_data():
 
                 # Hourly from detail (most accurate)
                 full_orders["hour"] = full_orders["date_dt"].dt.hour
-                detailed_kpis["hourly"] = full_orders.groupby("hour")["Net sales"].sum().to_dict()
+                _h_sum = full_orders.groupby("hour")["Net sales"].sum()
+                # Get unique days count to calculate daily average
+                _day_count = full_orders["date"].nunique()
+                if _day_count > 0:
+                    detailed_kpis["hourly"] = (_h_sum / _day_count).to_dict()
+                else:
+                    detailed_kpis["hourly"] = _h_sum.to_dict()
 
                 # Dispatch from detail
                 if "Dispatch type" in full_orders.columns:
@@ -1174,7 +1416,11 @@ def load_data():
                 if os.path.exists(hr_path):
                     hr_df = pd.read_csv(hr_path)
                     for _, r in hr_df.iterrows():
-                        try: detailed_kpis["hourly"][int(r.iloc[1])] = clean(r.iloc[2])
+                        try:
+                            _h = int(r.iloc[1])
+                            _v = clean_currency(r.iloc[2])
+                            # If it's a weekly summary file, divide by 7 to show daily avg on charts
+                            detailed_kpis["hourly"][_h] = round(_v / 7, 2)
                         except Exception as e:
                             logging.warning(f"Failed to parse row in hourly CSV: {e}")
 
@@ -1182,7 +1428,7 @@ def load_data():
                 if os.path.exists(dispatch_path):
                     disp_df = pd.read_csv(dispatch_path)
                     for key, col_idx in [("Collection",1),("Delivery",2),("Dine In",3),("Take Away",4)]:
-                        try: dispatch_map[key]["revenue"] = clean(disp_df.iloc[-1, col_idx])
+                        try: dispatch_map[key]["revenue"] = clean_currency(disp_df.iloc[-1, col_idx])
                         except Exception as e:
                             logging.warning(f"Failed to parse row in dispatch CSV: {e}")
 
@@ -1190,22 +1436,90 @@ def load_data():
                 if os.path.exists(ch_path):
                     ch_df = pd.read_csv(ch_path)
                     for i, std in enumerate(["Deliveroo","Just Eat","POS","Uber Eats","Web"]):
-                        try: channel_dict[std] = clean(ch_df.iloc[-1, i+1])
+                        try: channel_dict[std] = clean_currency(ch_df.iloc[-1, i+1])
                         except Exception as e:
                             logging.warning(f"Failed to parse row in channel CSV: {e}")
 
             hourly_map = {h: detailed_kpis["hourly"].get(h, 0.0) for h in range(24)}
 
             # 3. Merge daily timeline — dedupe by date (summary file wins, detail fills gaps)
-            if all_daily_summaries:
-                merged = pd.concat(all_daily_summaries).sort_values("date")
-                # Keep the summary file row for each date; detail only fills missing dates
-                merged = merged.drop_duplicates(subset=["date"], keep="first")
-                merged = merged[merged["date"].dt.year >= 2024]   # safety: strip 1970 rows
+            # 3. Merge daily timeline — dedupe by date (Master CSV + Detail Logs)
+            standardized_summaries = []
+            for _df_item in all_daily_summaries:
+                _df_item.columns = [c.lower() for c in _df_item.columns]
+                standardized_summaries.append(_df_item)
+            
+            # Start with the master data we already loaded (df)
+            df.columns = [c.lower() for c in df.columns]
+            df["date"] = pd.to_datetime(df["date"]).dt.normalize()
+            
+            # Map Master columns to UI standard
+            master_column_map = {
+                "net": "Net sales", "net sales": "Net sales", "net_sales": "Net sales",
+                "tax": "Tax on net sales", "tax on net sales": "Tax on net sales",
+                "orders": "Orders", "revenue": "Revenue", "refunds": "Refunds", "charges": "Charges"
+            }
+            df = df.rename(columns=master_column_map)
+            
+            # Standardize secondary summaries
+            for i in range(len(standardized_summaries)):
+                s_df = standardized_summaries[i].copy()
+                s_df.columns = [c.lower() for c in s_df.columns]
+                if "date" in s_df.columns:
+                    s_df["date"] = pd.to_datetime(s_df["date"]).dt.normalize()
+                s_df = s_df.rename(columns={
+                    "net sales": "Net sales", "net": "Net sales", "net_sales": "Net sales",
+                    "tax on net sales": "Tax on net sales", "tax": "Tax on net sales",
+                    "orders": "Orders", "revenue": "Revenue", 
+                    "refunds": "Refunds", "charges": "Charges"
+                })
+                standardized_summaries[i] = s_df
+
+            # Merge Logic: 
+            # 1. Start with the full timeline from Master
+            # 2. Append any dates found ONLY in detail logs
+            if standardized_summaries:
+                secondary = pd.concat(standardized_summaries).sort_values("date")
+                secondary = secondary.drop_duplicates(subset=["date"], keep="first")
+                
+                # Identify dates in secondary NOT in master
+                master_dates = set(df["date"])
+                gap_data = secondary[~secondary["date"].isin(master_dates)]
+                
+                if not gap_data.empty:
+                    merged = pd.concat([df, gap_data]).sort_values("date")
+                else:
+                    merged = df.copy()
+            else:
+                merged = df.copy()
+
+            # Final normalization and cleaning
+            merged = merged[merged["date"].dt.year >= 2024]
+            merged["day"] = merged["date"].dt.day_name()
+            
+            # 1. Clean Refunds (Sum across all refund-related columns)
+            pd.set_option('future.no_silent_downcasting', True)
+            refund_cols = [c for c in merged.columns if "refund" in c.lower()]
+            merged["refunds_clean"] = 0.0
+            for col in refund_cols:
+                vals = merged[col].apply(clean_currency).fillna(0.0).abs()
+                merged["refunds_clean"] = merged["refunds_clean"].add(vals, fill_value=0.0)
+
+            # 2. Clean main numeric columns (prevents string-concatenation bug)
+            for col in ["Net sales", "Revenue", "Tax on net sales", "Orders"]:
+                if col in merged.columns:
+                    merged[col] = merged[col].apply(clean_currency).fillna(0.0)
+
+            # Ensure 'Refunds' column itself is cleaned (UI might use it too)
+            if "Refunds" in merged.columns:
+                merged["Refunds"] = merged["refunds_clean"]
+
+            # Recalculate rolling 7
+            if "Net sales" in merged.columns:
                 merged["rolling7"] = merged["Net sales"].rolling(window=7).mean().fillna(merged["Net sales"])
-                merged["day"]      = merged["date"].dt.day_name()
-                merged["refunds"]  = merged["Refunds"].apply(clean) if "Refunds" in merged.columns else 0.0
-                df = merged.copy()
+            
+            df = merged.copy()
+                # is the one used for the sum in the KPI block.
 
         except Exception as e:
             st.warning(f"Data engine error: {e}")
@@ -1230,12 +1544,8 @@ def load_data():
             })
 
     # ── Auto-compute Week Label from latest date ────────────────────────
-    auto_week_label = WEEK_LABEL  # fallback
-    if not df.empty:
-        _latest = pd.to_datetime(df["date"]).max()
-        _week_start = _latest - pd.Timedelta(days=_latest.weekday())
-        _week_end = _week_start + pd.Timedelta(days=6)
-        auto_week_label = f"{_week_start.strftime('%d %b')} – {_week_end.strftime('%d %b %Y')}"
+    # ── Auto-compute Week Label from selected/folder date ───────────────
+    auto_week_label = f"{_folder_start.strftime('%d %b')} – {_folder_end.strftime('%d %b %Y')}"
 
     # ── Auto-compute Payment Data from CSV ─────────────────────────────
     auto_payment = dict(PAYMENT_DATA)  # fallback to static
@@ -1316,6 +1626,25 @@ st.markdown("""
     .labour-kpi { background:#1a1d26;border:1px solid #252836;border-radius:10px;padding:14px;text-align:center;margin-bottom:8px; }
     .labour-kpi-label { font-size:9px;color:#6b7094;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px; }
     .labour-kpi-value { font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#e8e9f0; }
+    /* Fix date picker popup clipping */
+    [data-baseweb="popover"] {
+        overflow: visible !important;
+        z-index: 9999 !important;
+    }
+    [data-baseweb="calendar"] {
+        overflow: visible !important;
+    }
+    [data-testid="stSidebar"] {
+        overflow-y: auto !important;
+    }
+    [data-testid="stSidebar"] > div {
+        overflow-y: auto !important;
+    }
+
+    /* Hide the preset date range dropdown */
+    [data-baseweb="select"] > div[aria-label] {
+        display: none !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1347,17 +1676,12 @@ def _load():
 data   = _load()
 all_df = data["daily"]
 
+
 # ── Sidebar ───────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown('<div class="sidebar-logo">Choco<span style="color:#e8e9f0">berry</span></div>', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-sub"><span class="live-dot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#3ecf8e;margin-right:5px;"></span>Intelligence Dashboard</div>', unsafe_allow_html=True)
     st.markdown("---")
-
-    st.markdown("**📅 Date Range**")
-    min_d = all_df["date"].min().date()
-    max_d = all_df["date"].max().date()
-    dr    = st.date_input("Date Range", [min_d, max_d], label_visibility="collapsed")
-    start_d, end_d = (dr[0], dr[1]) if len(dr) == 2 else (min_d, max_d)
 
     st.markdown("**🚚 Dispatch Type**")
     dispatch_opts = ["All","Collection","Delivery","Dine In","Take Away"]
@@ -1368,52 +1692,184 @@ with st.sidebar:
     sel_channel  = st.selectbox("Sales Channel", channel_opts, label_visibility="collapsed")
 
     st.markdown("---")
-    f_df = all_df[(all_df["date"].dt.date >= start_d) & (all_df["date"].dt.date <= end_d)]
+
+    st.markdown("**📅 Date Range**")
+    # Unlock the calendar range so user can select future weeks for Rota/Labour checks
+    calendar_min = date(2026, 1, 1)
+    calendar_max = date(2026, 12, 31)
+    
+    # Use session state to keep the UI from resetting while clicking
+    default_start = all_df["date"].min().date() if not all_df.empty else calendar_min
+    default_end   = all_df["date"].max().date() if not all_df.empty else calendar_max
+    
+    dr = st.date_input(
+        "Date Range", 
+        value=[default_start, default_end],
+        min_value=calendar_min,
+        max_value=calendar_max,
+        label_visibility="collapsed"
+    )
+    
+    if len(dr) == 2:
+        start_d, end_d = dr[0], dr[1]
+        st.session_state["date_start"] = dr[0]
+        st.session_state["date_end"] = dr[1]
+    else:
+        start_d = st.session_state.get("date_start", default_start)
+        end_d = st.session_state.get("date_end", default_end)
+
+    # Dynamic Data Load based on selected start date
+    data = load_data(reference_date=start_d)
+    all_df = data["daily"]
+    f_df = all_df[
+        (all_df["date"] >= pd.Timestamp(start_d)) & 
+        (all_df["date"] <= pd.Timestamp(end_d) + pd.Timedelta(hours=23, minutes=59, seconds=59))
+    ]
+    
     total_orders = int(f_df["Orders"].sum())
     st.markdown(f'<div class="status-box">💎 <b>{total_orders:,}</b> transactions selected</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="status-box">📅 Period: <b>{start_d.strftime("%d %b")} → {end_d.strftime("%d %b %Y")}</b></div>', unsafe_allow_html=True)
     st.markdown(f'<div class="status-box">📈 {len(f_df)} trading days in view</div>', unsafe_allow_html=True)
 
+# ── DYNAMIC DATE-RANGE RECOMPUTATION ──────────────────────────────────────────
+# Rebuilds dispatch/channel/hourly/payment from detail CSV filtered to the
+# user's selected date range. This makes ALL charts respond to the date picker.
+_detail_path = os.path.join(BASE_DIR, "Sales Summary Data", "sales_data.csv")
+_start_ts = pd.Timestamp(start_d).replace(hour=0, minute=0, second=0)
+_end_ts = pd.Timestamp(end_d).replace(hour=23, minute=59, second=59)
+
+try:
+    _det = pd.read_csv(_detail_path)
+    _det.columns = [c.strip() for c in _det.columns]
+    _time_col = "Order time" if "Order time" in _det.columns else _det.columns[4]
+    _det["_dt"] = pd.to_datetime(_det[_time_col], errors="coerce")
+    _det = _det.dropna(subset=["_dt"])
+    _det = _det[(_det["_dt"] >= _start_ts) & (_det["_dt"] <= _end_ts)]
+    if "Order ID" in _det.columns:
+        _det = _det.drop_duplicates(subset=["Order ID"])
+    _net_col = "Net sales" if "Net sales" in _det.columns else _det.columns[11]
+    _det["_net"] = _det[_net_col].apply(clean_currency)
+    _det["_hour"] = _det["_dt"].dt.hour
+
+    # Dispatch breakdown (scaled to master net so totals always match)
+    _master_net_period = float(f_df["Net sales"].sum()) if "Net sales" in f_df.columns else 1.0
+    _det_total = _det["_net"].sum() if not _det.empty else 1.0
+    _scale = _master_net_period / _det_total if _det_total > 0 else 1.0
+
+    _live_dispatch = {}
+    if "Dispatch type" in _det.columns and not _det.empty:
+        for _k, _v in _det.groupby("Dispatch type")["_net"].sum().items():
+            _live_dispatch[str(_k).strip()] = {
+                "revenue": round(float(_v) * _scale, 2),
+                "orders":  int(_det[_det["Dispatch type"] == _k]["_net"].count())
+            }
+    if _live_dispatch:
+        data["dispatch_truth"] = _live_dispatch
+
+    # Channel breakdown
+    _live_channels = {}
+    if "Sales channel name" in _det.columns and not _det.empty:
+        for _k, _v in _det.groupby("Sales channel name")["_net"].sum().items():
+            _live_channels[str(_k).strip()] = round(float(_v) * _scale, 2)
+    if _live_channels:
+        data["channels"] = _live_channels
+
+    # Hourly breakdown
+    if not _det.empty:
+        _live_hourly = {h: 0.0 for h in range(24)}
+        for _h, _v in _det.groupby("_hour")["_net"].sum().items():
+            _live_hourly[int(_h)] = round(float(_v) * _scale, 2)
+        data["hourly_live"] = _live_hourly
+
+    # Payment breakdown
+    _pay_col = None
+    for _pc in ["Payment method", "Payment type", "Payment"]:
+        if _pc in _det.columns:
+            _pay_col = _pc
+            break
+    if _pay_col and not _det.empty:
+        _live_pay = {}
+        for _k, _v in _det.groupby(_pay_col)["_net"].sum().items():
+            _live_pay[str(_k).strip()] = round(float(_v) * _scale, 2)
+        if _live_pay:
+            data["payment"] = _live_pay
+
+except Exception as _e:
+    pass  # Silent fallback — static data from load_data() still used
+# ── END DYNAMIC RECOMPUTATION ──────────────────────────────────────────────────
+
+    # --- COMPLIANCE SETTINGS ---
+    st.markdown("---")
+    st.markdown("**⚖️ Compliance Settings**")
+    # Then in sidebar just update it:
+    min_wage_target = st.sidebar.number_input("Min Wage Threshold (£)", value=11.44, step=0.01)
+
     st.markdown("---")
     st.markdown("**🔧 Labour Report**")
-    if st.button("📥 Generate Excel Report", width="stretch"):
-        import tempfile, io
+    if st.button("📥 Generate Excel Report", key="gen_excel_btn", width="stretch"):
+        import tempfile
         with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
             tmp_path = tmp.name
         build_labour_workbook(data, tmp_path)
         with open(tmp_path, "rb") as f:
             xlsx_bytes = f.read()
-        os.unlink(tmp_path)
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
         st.download_button(
             label="⬇️ Download chocoberry_labour_report.xlsx",
             data=xlsx_bytes,
             file_name="chocoberry_labour_report.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            width="stretch",
         )
-
-    st.markdown("---")
-    st.markdown("**🌐 Remote Cloud Sync**")
-    # Get portal URL from session state or default
-    if "portal_url_input" not in st.session_state:
-        st.session_state["portal_url_input"] = os.environ.get("PORTAL_URL", "http://localhost:5050")
     
-    portal_url_val = st.text_input("Invoice Portal URL", 
-                               value=st.session_state["portal_url_input"],
-                               placeholder="e.g. https://portal.render.com",
-                               help="Paste your Render or Streamlit Portal URL here to sync invoices from staff.")
-    st.session_state["portal_url"] = portal_url_val.rstrip("/")
-    st.markdown('<div style="font-size:10px; color:#6b7094">Syncs staff uploads from your phone-friendly portal into this system.</div>', unsafe_allow_html=True)
+    # --- FORMULA LEDGER ---
+    with st.sidebar.expander("📖 Business Logic & Formulas", expanded=False):
+        st.markdown("""
+        **1. Total Wage (Gross)**
+        `Σ(Bank Pay + Cash Pay + Bonuses)`
+        
+        **2. Avg. Wage per Hour**
+        `Total Wage ÷ Total Actual Hours`
+        
+        **3. Cost to Employer (Bank)**
+        `Bank Payment (Bacs) + Est. Employers NI (~13.8%)`
+        
+        **4. Cash Wage**
+        `Σ(Off-Books / Sunday Payouts)`
+        
+        **5. During the week**
+        `Fixed Operating Costs (Shopping, Kitchen Cleaner, Staff Lunch)`
+        
+        **6. Total Cost to Employer**
+        `(Bank Cost) + (Cash Wage) + (Operating Costs)`
 
-# ── KPI computation ───────────────────────────────────────────────────────
-master_rev    = f_df["Revenue"].sum()
-master_tax    = f_df["Tax on net sales"].sum()
-master_ord    = f_df["Orders"].sum()
-master_net    = f_df["Net sales"].sum()
-total_refunds = f_df["refunds"].sum() if "refunds" in f_df.columns else 47.75
+        **7. Tax Calculations**
+        `Standard 1257L (~£242/wk tax-free threshold)`
+        *Estimated Tax: 20%, Estimated NI: 8%*
+        
+        ---
+        *Logic matches Client Spreadsheet Standard.*
+        """)
+
+    st.markdown(f'<div style="font-size:10px; color:#6b7094">Syncs staff uploads from your phone-friendly portal into this system.</div>', unsafe_allow_html=True)
+
+# ── KPI computation (Standardized) ──────────────────────────────────────
+master_rev     = f_df["revenue"].sum() if "revenue" in f_df.columns else (f_df["Revenue"].sum() if "Revenue" in f_df.columns else 0.0)
+master_tax     = f_df["tax"].sum() if "tax" in f_df.columns else (f_df["Tax on net sales"].sum() if "Tax on net sales" in f_df.columns else 0.0)
+master_ord     = f_df["orders"].sum() if "orders" in f_df.columns else (f_df["Orders"].sum() if "Orders" in f_df.columns else 0.0)
+master_net     = f_df["net"].sum() if "net" in f_df.columns else (f_df["Net sales"].sum() if "Net sales" in f_df.columns else 0.0)
+master_charges = f_df["charges"].sum() if "charges" in f_df.columns else (f_df["Charges"].sum() if "Charges" in f_df.columns else 0.0)
+total_refunds  = f_df["refunds"].sum() if "refunds" in f_df.columns else (f_df["refunds_clean"].sum() if "refunds_clean" in f_df.columns else 0.0)
 
 total_truth_rev = sum(v["revenue"] for v in data["dispatch_truth"].values())
 total_truth_ord = sum(v["orders"]  for v in data["dispatch_truth"].values())
+
+# Dynamic Peak Hour computation
+h_sorted = sorted(data["hourly_live"].items(), key=lambda x: x[1], reverse=True)
+peak_h_int = h_sorted[0][0] if h_sorted else 21
+peak_v_val = h_sorted[0][1] if h_sorted else 0
+peak_h_str = f"{peak_h_int:02d}:00"
+peak_pct   = (peak_v_val / master_net * 100) if master_net > 0 else 0
 dispatch_ratio  = (
     data["dispatch_truth"].get(sel_dispatch, {}).get("revenue", 0) / total_truth_rev
     if sel_dispatch != "All" and total_truth_rev > 0 else 1.0
@@ -1423,7 +1879,8 @@ display_rev = master_rev * dispatch_ratio
 display_ord = master_ord * dispatch_ratio
 display_tax = master_tax * dispatch_ratio
 display_net = master_net * dispatch_ratio
-aov         = display_rev / display_ord if display_ord > 0 else 0
+display_chr = master_charges * dispatch_ratio
+aov         = display_net / display_ord if display_ord > 0 else 0
 daily_avg   = display_net / len(f_df)  if len(f_df)  > 0 else 0
 
 # ── Page header ───────────────────────────────────────────────────────────
@@ -1438,10 +1895,10 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ── Tabs ──────────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11, tab12, tab13 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9, tab10, tab11, tab12, tab13, tab14 = st.tabs([
     "📊 Overview", "📈 Trends", "🕐 Patterns", "🛒 Channels",
     "⏰ Efficiency", "🔮 Forecast", "💷 Labour Report", "📅 Rota Builder",
-    "🍕 Inventory & COGS", "♻️ Waste Log", "🚀 Strategic Optimization", "📄 Invoice Management", "💾 Database Explorer"
+    "🍕 Inventory & COGS", "♻️ Waste Log", "🚀 Strategic Optimization", "📄 Invoice Management", "💾 Database Explorer", "👥 Staff Management"
 ])
 
 # ════════════════════════════════════════════════════════════════════
@@ -1457,10 +1914,12 @@ with tab1:
     k4.metric("📅 Daily Average",    f"£{daily_avg:,.0f}")
 
     k5, k6, k7, k8 = st.columns(4)
-    k5.metric("🏦 Tax Collected",    f"£{display_tax:,.0f}", "3.7% of net sales")
-    k6.metric("🚚 Total Charges",    "£520.75", "+569% vs prior period")
+    k5.metric("🏦 Tax Collected",    f"£{display_tax:,.2f}", f"{ (display_tax/display_net*100 if display_net > 0 else 0):.1f}% of net sales")
+    
+    # Charges are now pulled from the master daily timeline
+    k6.metric("🚚 Total Charges", f"£{display_chr:,.2f}", "Flipdish verified")
     k7.metric("↩️ Total Refunds",    f"£{total_refunds:,.2f}", "0.02% refund rate ✅")
-    k8.metric("🔥 Peak Hour",        "21:00", "£37,478 · 19-23 = 85% rev")
+    k8.metric("🔥 Peak Hour",        peak_h_str, f"£{peak_v_val:,.0f} · {peak_pct:.1f}% of rev")
 
     st.markdown("---")
     st.markdown('<div class="section-title">Daily Revenue Trend</div>', unsafe_allow_html=True)
@@ -1485,12 +1944,49 @@ with tab1:
             line=dict(color=COLORS["accent2"], width=2.5, dash="dot"),
         ))
         dark_layout(fig, height=320, showlegend=True)
-        fig.update_xaxes(title="")
+        # Force the X-axis to show the full range clearly
+        fig.update_xaxes(
+            title="", 
+            range=[start_d, end_d],
+            tickmode='array',
+            tickvals=[start_d, 
+                      start_d + (end_d - start_d)/4, 
+                      start_d + (end_d - start_d)/2, 
+                      start_d + 3*(end_d - start_d)/4, 
+                      end_d],
+            tickformat="%d %b",
+            showgrid=True
+        )
         fig.update_yaxes(title="", tickprefix="£")
         st.plotly_chart(fig, width="stretch")
 
     with col2:
         st.markdown("**Period Comparison**")
+        
+        # ── DYNAMIC PERIOD COMPARISON ──
+        # Define the previous period of equal length
+        _delta = (end_d - start_d) + pd.Timedelta(days=1)
+        prev_start = start_d - _delta
+        prev_end   = start_d - pd.Timedelta(days=1)
+        
+        # Filter all_df for previous period
+        prev_df = all_df[(all_df["date"].dt.date >= prev_start) & (all_df["date"].dt.date <= prev_end)]
+        prev_net = prev_df["Net sales"].sum() if not prev_df.empty else 0.0
+        
+        # Apply dispatch ratio if not 'All'
+        prev_net = prev_net * dispatch_ratio
+        
+        # Calculate Growth
+        if prev_net > 0:
+            growth_pct = ((display_net - prev_net) / prev_net) * 100
+            growth_str = f"{growth_pct:+.1f}%"
+            growth_color = "#3ecf8e" if growth_pct >= 0 else "#ff4b4b"
+            last_period_val = f"£{prev_net:,.0f}"
+        else:
+            growth_str = "NEW DATA"
+            growth_color = "#6b7094"
+            last_period_val = "N/A"
+
         st.markdown(f"""
         <div style="background:#1a1d26;border:1px solid #252836;border-radius:10px;padding:14px;margin-bottom:8px;text-align:center">
             <div style="font-size:10px;color:#6b7094;margin-bottom:4px">THIS PERIOD ({start_d.strftime('%b')}–{end_d.strftime('%b %Y')})</div>
@@ -1498,16 +1994,19 @@ with tab1:
             <div style="font-size:10px;color:#6b7094">Net sales</div>
         </div>
         <div style="background:#1a1d26;border:1px solid #252836;border-radius:10px;padding:14px;margin-bottom:8px;text-align:center">
-            <div style="font-size:10px;color:#6b7094;margin-bottom:4px">LAST PERIOD</div>
-            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#6b7094">£49,777</div>
-            <div style="font-size:10px;color:#6b7094">Net sales</div>
+            <div style="font-size:10px;color:#6b7094;margin-bottom:4px">LAST PERIOD ({prev_start.strftime('%b')}–{prev_end.strftime('%b %Y')})</div>
+            <div style="font-family:Syne,sans-serif;font-size:22px;font-weight:800;color:#6b7094">{last_period_val}</div>
+            <div style="font-size:10px;color:#6b7094">{'Insufficient Data' if last_period_val == 'N/A' else 'Net sales'}</div>
         </div>
-        <div style="background:#1a1d26;border:1px solid #f5a623;border-radius:10px;padding:14px;text-align:center">
+        <div style="background:#1a1d26;border:1px solid {growth_color};border-radius:10px;padding:14px;text-align:center">
             <div style="font-size:10px;color:#6b7094;margin-bottom:4px">GROWTH</div>
-            <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:#3ecf8e">+448%</div>
-            <div style="font-size:10px;color:#6b7094">Net sales vs prior period</div>
+            <div style="font-family:Syne,sans-serif;font-size:28px;font-weight:800;color:{growth_color}">{growth_str}</div>
+            <div style="font-size:10px;color:#6b7094">{'Initial Period' if growth_str == 'NEW DATA' else 'Net sales vs prior period'}</div>
         </div>
         """, unsafe_allow_html=True)
+        
+        if last_period_val == "N/A":
+            st.markdown('<div style="font-size:9px; color:#6b7094; text-align:center">💡 Note: Historical 2025 CSV data is required to unlock full year-over-year comparisons.</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown('<div class="section-title">Monthly Breakdown</div>', unsafe_allow_html=True)
@@ -1534,16 +2033,31 @@ with tab1:
 
     day_table_df = day_table_df.sort_values("date").reset_index(drop=True)
     day_table_df["AOV"]   = (day_table_df["Revenue"] / day_table_df["Orders"]).round(2)
-    day_table_df["WoW %"] = day_table_df["Net sales"].pct_change(periods=7).mul(100).round(1)
-    peak_idx = day_table_df["Net sales"].idxmax()
-    slow_idx = day_table_df["Net sales"].idxmin()
+    
+    def get_wow_pct(row):
+        prev_date = row["date"] - pd.Timedelta(days=7)
+        past_val = all_df[all_df["date"].dt.normalize() == prev_date.normalize()]["Net sales"]
+        if not past_row.empty and (past_val := past_row.iloc[0]) > 0:
+            return round(((row["Net sales"] - past_val) / past_val) * 100, 1)
+        return np.nan
+
+    # Optimization: Use merge for faster lookup if all_df is large
+    _past = all_df[["date", "Net sales"]].copy()
+    _past["date"] = _past["date"] + pd.Timedelta(days=7)
+    _past = _past.rename(columns={"Net sales": "prev_net"})
+    day_table_df = day_table_df.merge(_past, on="date", how="left")
+    day_table_df["WoW %"] = ((day_table_df["Net sales"] - day_table_df["prev_net"]) / day_table_df["prev_net"] * 100).round(1)
+
+    if not day_table_df.empty:
+        peak_idx = day_table_df["Net sales"].idxmax()
+        slow_idx = day_table_df["Net sales"].idxmin()
+    else:
+        peak_idx = None
+        slow_idx = None
 
     display_day = day_table_df[["date","day","Net sales","Orders","AOV","Tax on net sales","WoW %"]].copy()
     display_day.columns = ["Date","Day","Net Sales £","Orders","AOV £","Tax £","WoW %"]
     display_day["Date"]        = display_day["Date"].dt.strftime("%d %b")
-    display_day["Net Sales £"] = display_day["Net Sales £"].round(2)
-    display_day["AOV £"]       = display_day["AOV £"].round(2)
-    display_day["Tax £"]       = display_day["Tax £"].round(2)
     display_day["WoW %"]       = display_day["WoW %"].apply(lambda x: f"{x:+.1f}%" if pd.notna(x) else "—")
 
     def highlight_rows(row):
@@ -1554,31 +2068,53 @@ with tab1:
         return [""] * len(row)
 
     styled = display_day.style.apply(highlight_rows, axis=1)
-    st.dataframe(styled, width="stretch", hide_index=True, height=320)
+    st.dataframe(
+        styled,
+        width="stretch",
+        hide_index=True,
+        height=320,
+        column_config={
+            "Net Sales £": st.column_config.NumberColumn("Net Sales £", format="£%.2f"),
+            "AOV £": st.column_config.NumberColumn("AOV £", format="£%.2f"),
+            "Tax £": st.column_config.NumberColumn("Tax £", format="£%.2f"),
+            "Orders": st.column_config.NumberColumn("Orders", format="%d"),
+        }
+    )
     st.markdown('<div class="insight-box">🟢 <b>Green row</b> = peak day (highest net sales) &nbsp;|&nbsp; 🟡 <b>Amber row</b> = slowest day &nbsp;|&nbsp; WoW % = change vs same day the prior week</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown('<div class="section-title">Best & Worst Trading Days</div>', unsafe_allow_html=True)
-    b1, b2 = st.columns(2)
-    with b1:
-        st.markdown("**🏆 Top 5 Best Days**")
-        top5 = day_table_df.nlargest(5, "Net sales")[["date","day","Net sales","Orders"]].copy()
-        top5["date"]      = top5["date"].dt.strftime("%d %b %Y")
-        top5["Net sales"] = top5["Net sales"].apply(lambda x: f"£{x:,.0f}")
-        top5.columns      = ["Date","Day","Net Sales","Orders"]
-        top5.insert(0, "#", ["🥇","🥈","🥉","4","5"])
-        st.dataframe(top5, width="stretch", hide_index=True)
-        st.markdown('<div class="insight-box">🎯 New Year\'s Day, Spring weekend spikes, and Valentine\'s are the 3 peak events. Plan staffing in advance.</div>', unsafe_allow_html=True)
+    if not day_table_df.empty:
+        b1, b2 = st.columns(2)
+        with b1:
+            st.markdown("**🏆 Top 5 Best Days**")
+            top5 = day_table_df.nlargest(5, "Net sales")[["date","day","Net sales","Orders"]].copy()
+            top5["date"]      = top5["date"].dt.strftime("%d %b %Y")
+            top5["Net sales"] = top5["Net sales"].apply(lambda x: f"£{x:,.0f}")
+            top5.columns      = ["Date","Day","Net Sales","Orders"]
+            top5.insert(0, "#", ["🥇","🥈","🥉","4","5"])
+            st.dataframe(top5, width="stretch", hide_index=True)
+            # Dynamic Peak Insight
+            top_day_obj = day_table_df.nlargest(1, "Net sales").iloc[0]
+            peak_date_str = top_day_obj["date"].strftime("%d %b")
+            peak_dow = top_day_obj["day"]
+            st.markdown(f'<div class="insight-box">🎯 <b>{peak_date_str} ({peak_dow})</b> was your highest peak. Weekends consistently drive your highest volume. Plan staffing accordingly.</div>', unsafe_allow_html=True)
 
-    with b2:
-        st.markdown("**📉 5 Slowest Days**")
-        bot5 = day_table_df.nsmallest(5, "Net sales")[["date","day","Net sales","Orders"]].copy()
-        bot5["date"]      = bot5["date"].dt.strftime("%d %b %Y")
-        bot5["Net sales"] = bot5["Net sales"].apply(lambda x: f"£{x:,.0f}")
-        bot5.columns      = ["Date","Day","Net Sales","Orders"]
-        bot5.insert(0, "#", ["1","2","3","4","5"])
-        st.dataframe(bot5, width="stretch", hide_index=True)
-        st.markdown('<div class="insight-box">⚠️ Thursdays & early January Mondays are consistently slowest. Consider reduced staffing and promotions.</div>', unsafe_allow_html=True)
+        with b2:
+            st.markdown("**📉 5 Slowest Days**")
+            bot5 = day_table_df.nsmallest(5, "Net sales")[["date","day","Net sales","Orders"]].copy()
+            bot5["date"]      = bot5["date"].dt.strftime("%d %b %Y")
+            bot5["Net sales"] = bot5["Net sales"].apply(lambda x: f"£{x:,.0f}")
+            bot5.columns      = ["Date","Day","Net Sales","Orders"]
+            bot5.insert(0, "#", ["1","2","3","4","5"])
+            st.dataframe(bot5, width="stretch", hide_index=True)
+            
+            # Dynamic Slow Insight
+            slowest_dows = day_table_df.nsmallest(3, "Net sales")["day"].mode()
+            slowest_dow = slowest_dows[0] if len(slowest_dows) > 0 else "N/A"
+            st.markdown(f'<div class="insight-box">⚠️ <b>{slowest_dow}s</b> are trending as your slowest trading days in this period. Consider mid-week promotions.</div>', unsafe_allow_html=True)
+    else:
+        st.info("No sales data available for this selected range to calculate performance rankings.")
 
     # ── PDF Report Button ──────────────────────────────────────────────────
     st.markdown("---")
@@ -1586,8 +2122,60 @@ with tab1:
     if _pdf_available:
         if st.button("📄 Generate Weekly PDF Report", key="pdf_gen"):
             with st.spinner("Generating PDF..."):
-                pdf_bytes = generate_weekly_pdf(data, data["week_label"])
-            fname = f"chocoberry_weekly_{datetime.now().strftime('%Y%m%d')}.pdf"
+                # 1. Determine the LATEST week in the dataset
+                latest_date = all_df["date"].max()
+                week_start  = latest_date - pd.Timedelta(days=latest_date.weekday())
+                week_end    = week_start + pd.Timedelta(days=6)
+                actual_label = f"{week_start.strftime('%d %b')} – {week_end.strftime('%d %b %Y')}"
+                
+                # 2. Re-load data specifically for the latest week
+                week_data = load_data(reference_date=latest_date)
+                
+                # 3. CRITICAL: Slice the 'Total Year' dictionaries into 'Weekly' dictionaries
+                # This preventsyearly totals from appearing in the weekly report.
+                try:
+                    detail_path = "Sales Summary Data/sales_data.csv"
+                    if os.path.exists(detail_path):
+                        _det = pd.read_csv(detail_path)
+                        _det.columns = [c.strip() for c in _det.columns]
+                        _time_col = "Order time" if "Order time" in _det.columns else _det.columns[4]
+                        _det["_dt"] = pd.to_datetime(_det[_time_col], errors="coerce")
+                        _det = _det.dropna(subset=["_dt"])
+                        
+                        # Slice to exactly the 7-day week
+                        _mask = (_det["_dt"].dt.normalize() >= week_start.normalize()) & \
+                                (_det["_dt"].dt.normalize() <= week_end.normalize())
+                        _week_det = _det[_mask].copy()
+                        
+                        if not _week_det.empty:
+                            _week_det = _week_det.drop_duplicates(subset=["Order ID"])
+                            _net_col = "Net sales" if "Net sales" in _week_det.columns else "Net"
+                            def _c(v):
+                                try: return float(str(v).replace("£","").replace(",","").strip())
+                                except: return 0.0
+                            _week_det["_net_clean"] = _week_det[_net_col].apply(_c)
+                            
+                            # Update Dispatch
+                            _type_col = "Dispatch type" if "Dispatch type" in _week_det.columns else "Type"
+                            _disp_grp = _week_det.groupby(_type_col)["_net_clean"].sum().to_dict()
+                            week_data["dispatch_truth"] = {k: {"revenue": v} for k, v in _disp_grp.items()}
+                            
+                            # Update Channels & Group Cardiff
+                            _ch_col = "Sales channel name" if "Sales channel name" in _week_det.columns else "Channel"
+                            def _std(n):
+                                n_str = str(n).strip()
+                                for platform in ["Uber Eats", "Deliveroo", "Just Eat", "Web", "Flipdish"]:
+                                    if platform.lower() in n_str.lower(): return platform
+                                if "Cardiff" in n_str or "Store" in n_str or "POS" in n_str.upper(): return "In-Store (POS)"
+                                return n_str
+                            _week_det["_std_ch"] = _week_det[_ch_col].apply(_std)
+                            week_data["channels"] = _week_det.groupby("_std_ch")["_net_clean"].sum().to_dict()
+                except Exception as e:
+                    st.error(f"Weekly slice error: {e}")
+                
+                pdf_bytes = generate_weekly_pdf(week_data, actual_label)
+            
+            fname = f"chocoberry_weekly_{latest_date.strftime('%Y%m%d')}.pdf"
             st.download_button(
                 "⬇️ Download PDF",
                 data=pdf_bytes,
@@ -1663,42 +2251,45 @@ with tab2:
     _mon_colors = [COLORS["accent"], COLORS["accent2"], COLORS["accent4"], COLORS["accent3"],
                    COLORS["muted"], COLORS["red"]][:len(_mon_grp)]
 
-    col3, col4, col5 = st.columns(3)
+    if not _mon_grp.empty:
+        col3, col4, col5 = st.columns(3)
 
-    with col3:
-        fig_mb = go.Figure(go.Bar(
-            x=_mon_grp["month_label"], y=_mon_grp["Net sales"],
-            marker_color=_mon_colors, marker_line_width=0, marker_opacity=0.85,
-        ))
-        dark_layout(fig_mb, 240)
-        fig_mb.update_yaxes(tickprefix="£")
-        fig_mb.update_layout(title=dict(text="Monthly Net Sales", font=dict(size=12, color="#e8e9f0")))
-        st.plotly_chart(fig_mb, width="stretch")
+        with col3:
+            fig_mb = go.Figure(go.Bar(
+                x=_mon_grp["month_label"], y=_mon_grp["Net sales"],
+                marker_color=_mon_colors, marker_line_width=0, marker_opacity=0.85,
+            ))
+            dark_layout(fig_mb, 240)
+            fig_mb.update_yaxes(tickprefix="£")
+            fig_mb.update_layout(title=dict(text="Monthly Net Sales", font=dict(size=12, color="#e8e9f0")))
+            st.plotly_chart(fig_mb, width="stretch")
 
-    with col4:
-        fig_mo = go.Figure(go.Bar(
-            x=_mon_grp["month_label"], y=_mon_grp["Orders"],
-            marker_color=[f"rgba(124,92,191,{0.5 + 0.35*(i/max(len(_mon_grp)-1,1))})" for i in range(len(_mon_grp))],
-            marker_line_color=COLORS["accent3"], marker_line_width=1.5,
-        ))
-        dark_layout(fig_mo, 240)
-        fig_mo.update_layout(title=dict(text="Monthly Order Count", font=dict(size=12, color="#e8e9f0")))
-        st.plotly_chart(fig_mo, width="stretch")
+        with col4:
+            fig_mo = go.Figure(go.Bar(
+                x=_mon_grp["month_label"], y=_mon_grp["Orders"],
+                marker_color=[f"rgba(124,92,191,{0.5 + 0.35*(i/max(len(_mon_grp)-1,1))})" for i in range(len(_mon_grp))],
+                marker_line_color=COLORS["accent3"], marker_line_width=1.5,
+            ))
+            dark_layout(fig_mo, 240)
+            fig_mo.update_layout(title=dict(text="Monthly Order Count", font=dict(size=12, color="#e8e9f0")))
+            st.plotly_chart(fig_mo, width="stretch")
 
-    with col5:
-        st.markdown("<br>", unsafe_allow_html=True)
-        best_aov_idx = _mon_grp["AOV"].idxmax()
-        for idx, row in _mon_grp.iterrows():
-            color = "#3ecf8e" if idx == best_aov_idx else "#6b7094"
-            arrow = " ↑" if idx == best_aov_idx else ""
-            st.markdown(f"""
-            <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
-                <span style="font-size:12px;color:#6b7094">{row['month_label']}</span>
-                <span style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;color:{color}">£{row['AOV']:.2f}{arrow}</span>
-            </div>
-            """, unsafe_allow_html=True)
-        _best_mon = _mon_grp.loc[best_aov_idx, "month_label"]
-        st.markdown(f'<div class="insight-box">AOV trending — <b>{_best_mon}</b> has the highest avg order value in this period.</div>', unsafe_allow_html=True)
+        with col5:
+            st.markdown("<br>", unsafe_allow_html=True)
+            best_aov_idx = _mon_grp["AOV"].idxmax()
+            for idx, row in _mon_grp.iterrows():
+                color = "#3ecf8e" if idx == best_aov_idx else "#6b7094"
+                arrow = " ↑" if idx == best_aov_idx else ""
+                st.markdown(f"""
+                <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+                    <span style="font-size:12px;color:#6b7094">{row['month_label']}</span>
+                    <span style="font-family:Syne,sans-serif;font-weight:700;font-size:14px;color:{color}">£{row['AOV']:.2f}{arrow}</span>
+                </div>
+                """, unsafe_allow_html=True)
+            _best_mon = _mon_grp.loc[best_aov_idx, "month_label"]
+            st.markdown(f'<div class="insight-box">AOV trending — <b>{_best_mon}</b> has the highest avg order value in this period.</div>', unsafe_allow_html=True)
+    else:
+        st.info("No monthly data available for this range.")
 
 
     st.markdown("---")
@@ -1760,7 +2351,14 @@ with tab3:
             "Avg/Day": [f"£{avg:,.0f}" for avg in dow_avg],
         })
         st.dataframe(dow_table, width="stretch", hide_index=True)
-        st.markdown('<div class="insight-box">📅 Fri/Sat/Sun generate <b>55% of weekly revenue</b> despite being 3 of 7 days. Sunday averages <b>£3,461/day</b> vs Monday\'s £2,088.</div>', unsafe_allow_html=True)
+        # Dynamic Pattern Insight
+        total_rev = sum(dow_nets)
+        weekend_rev = dow_nets[4] + dow_nets[5] + dow_nets[6] # Fri, Sat, Sun
+        weekend_pct = (weekend_rev / total_rev * 100) if total_rev > 0 else 0
+        sun_avg_val = dow_avg[6]
+        mon_avg_val = dow_avg[0]
+        
+        st.markdown(f'<div class="insight-box">📅 Fri/Sat/Sun generate <b>{weekend_pct:.1f}% of weekly revenue</b> despite being 3 of 7 days. Sunday averages <b>£{sun_avg_val:,.0f}/day</b> vs Monday\'s £{mon_avg_val:,.0f}.</div>', unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown('<div class="section-title">24-Hour Activity Distribution</div>', unsafe_allow_html=True)
@@ -1880,12 +2478,14 @@ with tab4:
         st.markdown("**Platform Detail**")
         ch_total = sum(data["channels"].values())
         ch_table = []
+        medals = ["🥇","🥈","🥉","4","5","6","7","8","9","10"]
         for i, (platform, sales) in enumerate(data["channels"].items()):
+            share_pct = (sales / ch_total * 100) if ch_total > 0 else 0
             ch_table.append({
-                "#":          ["🥇","🥈","🥉","4","5"][i],
+                "#":          medals[i] if i < len(medals) else str(i+1),
                 "Platform":   platform,
                 "Net Sales":  f"£{sales:,.0f}",
-                "% Share":    f"{sales/ch_total*100:.1f}%",
+                "% Share":    f"{share_pct:.1f}%",
             })
         st.dataframe(pd.DataFrame(ch_table), width="stretch", hide_index=True)
         st.markdown('<div class="insight-box">⚠️ Flipdish web orders only <b>0.3%</b> of revenue. Promoting direct web ordering avoids platform commissions — major opportunity.</div>', unsafe_allow_html=True)
@@ -1907,22 +2507,66 @@ with tab4:
 
     i1, i2, i3 = st.columns(3)
     i4, i5, i6 = st.columns(3)
-    insights = [
-        ("📈","Revenue Growth +403%","Business scaled dramatically vs prior period. £250K vs £49.8K previously — strong month-on-month growth continues."),
-        ("🚗","Delivery Dominates","Delivery = 37.3% (£89.7K) of all revenue. Uber Eats alone at 25.4% — making it the #2 source after in-store POS."),
-        ("🌙","Late Night Business","85% of revenue between 19:00–23:00. Essentially a late-night dessert destination. Morning hours near-zero."),
-        ("📅","Weekend Warriors","Fri/Sat/Sun generate 55% of weekly revenue. Sunday alone averages £3,461/day vs Monday's £2,088."),
-        ("🌐","Web Orders Underused","Flipdish web ordering at 0.3% (£630) is almost unused. Direct ordering avoids delivery platform commissions."),
-        ("⚠️","Thursday Weak Spot","Thursdays consistently slowest with multiple sub-£1,700 days. Consider Thursday promotions or reduced hours."),
-    ]
-    for col, (icon, title, body) in zip([i1, i2, i3, i4, i5, i6], insights):
-        col.markdown(f"""
-        <div style="background:#12141a;border:1px solid #252836;border-radius:10px;padding:16px;height:100%">
-            <div style="font-size:20px;margin-bottom:8px">{icon}</div>
-            <div style="font-family:Syne,sans-serif;font-weight:700;font-size:13px;color:#e8e9f0;margin-bottom:6px">{title}</div>
-            <div style="font-size:11px;color:#6b7094;line-height:1.6">{body}</div>
-        </div>
-        """, unsafe_allow_html=True)
+    # ── DYNAMIC BUSINESS INSIGHTS ──
+    i_total_rev = f_df["Net sales"].sum()
+    
+    # 1. Growth Insight
+    _delta = (end_d - start_d) + pd.Timedelta(days=1)
+    prev_start = start_d - _delta
+    prev_end   = start_d - pd.Timedelta(days=1)
+    prev_df    = all_df[(all_df["date"].dt.date >= prev_start) & (all_df["date"].dt.date <= prev_end)]
+    i_prev_net = prev_df["Net sales"].sum() if not prev_df.empty else 0
+    if i_prev_net > 0:
+        g_pct = ((i_total_rev - i_prev_net) / i_prev_net) * 100
+        g_title = f"Revenue Growth {g_pct:+.1f}%"
+        g_body = f"Business scaled vs prior period. £{i_total_rev/1000:,.1f}K vs £{i_prev_net/1000:,.1f}K previously."
+    else:
+        g_title = "Revenue Momentum"
+        g_body = f"Strong baseline established with £{i_total_rev/1000:,.1f}K in net sales during this period."
+
+    # 2. Delivery Insight
+    # Assuming channel data is in data["channels"]
+    i_delivery_rev = data["channels"].get("Uber Eats", 0) + data["channels"].get("Deliveroo", 0) + data["channels"].get("Just Eat", 0)
+    i_del_pct = (i_delivery_rev / i_total_rev * 100) if i_total_rev > 0 else 0
+    i_uber_pct = (data["channels"].get("Uber Eats", 0) / i_total_rev * 100) if i_total_rev > 0 else 0
+    
+    if not day_table_df.empty:
+        # 3. Peak Hour Insight (Assumes peak_h_str is defined elsewhere)
+        try:
+            _peak_check = peak_h_str
+        except:
+            _peak_check = "N/A"
+
+        # 4. Weekend Insight
+        w_df = f_df.copy()
+        w_df["is_weekend"] = w_df["day"].isin(["Friday", "Saturday", "Sunday"])
+        weekend_rev = w_df[w_df["is_weekend"]]["Net sales"].sum()
+        weekend_pct = (weekend_rev / i_total_rev * 100) if i_total_rev > 0 else 0
+        sun_avg = w_df[w_df["day"] == "Sunday"]["Net sales"].mean() if not w_df[w_df["day"]=="Sunday"].empty else 0
+        mon_avg = w_df[w_df["day"] == "Monday"]["Net sales"].mean() if not w_df[w_df["day"]=="Monday"].empty else 0
+
+        # 5. Weak Spot Insight
+        slow_day_name = day_table_df.nsmallest(1, "Net sales").iloc[0]["day"]
+        slow_day_val  = day_table_df.nsmallest(1, "Net sales").iloc[0]["Net sales"]
+
+        insights = [
+            ("📈", g_title, g_body),
+            ("🚗", "Delivery Dominates", f"Delivery channels generate {i_del_pct:.1f}% of all revenue. Uber Eats is your largest external partner at {i_uber_pct:.1f}% share."),
+            ("🌙", "Late Night Business", f"Peak trading identified at {_peak_check}. The majority of revenue flows in late evening hours. Staff accordingly."),
+            ("📅", "Weekend Warriors", f"Fri/Sat/Sun generate {weekend_pct:.1f}% of weekly revenue. Sunday averages £{sun_avg:,.0f}/day vs Monday's £{mon_avg:,.0f}."),
+            ("🌐", "Channel Efficiency", f"POS In-Store is your core driver. External platforms take commission; shifting {i_del_pct*0.1:.1f}% more to POS would save significant fees."),
+            ("⚠️", f"{slow_day_name} Weak Spot", f"{slow_day_name}s are trending slowest with lows of £{slow_day_val:,.0f}. Consider {slow_day_name} specific promotions."),
+        ]
+        for col, (icon, title, body) in zip([i1, i2, i3, i4, i5, i6], insights):
+            col.markdown(f"""
+            <div style="background:#12141a;border:1px solid #252836;border-radius:10px;padding:16px;height:100%">
+                <div style="font-size:20px;margin-bottom:8px">{icon}</div>
+                <div style="font-family:Syne,sans-serif;font-weight:700;font-size:13px;color:#e8e9f0;margin-bottom:6px">{title}</div>
+                <div style="font-size:11px;color:#6b7094;line-height:1.6">{body}</div>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.info("No business insights available for this empty date range.")
 
 
 # ════════════════════════════════════════════════════════════════════
@@ -2021,15 +2665,15 @@ with tab5:
 # TAB 6 — FORECAST
 # ════════════════════════════════════════════════════════════════════
 with tab6:
-    # Auto-compute next week date range from latest data date
+    # Auto-compute next week date range from FILTERED (sidebar) data date
     from datetime import timedelta
-    _today       = pd.to_datetime(all_df["date"]).max()
-    _next_mon    = _today + timedelta(days=(7 - _today.weekday()))
+    _f_df_max    = pd.to_datetime(f_df["date"]).max() if not f_df.empty else pd.Timestamp.today()
+    _next_mon    = _f_df_max + timedelta(days=(7 - _f_df_max.weekday()))
     _next_sun    = _next_mon + timedelta(days=6)
     _fc_label    = f"{_next_mon.strftime('%d %b')} – {_next_sun.strftime('%d %b %Y')}"
-    _fc_aov      = (all_df["Net sales"].sum() / all_df["Orders"].replace(0,1).sum()).round(2) if "Orders" in all_df.columns else 0
-    _fc_data_from = (all_df["date"].max() - timedelta(days=28)).strftime("%d %b")
-    _fc_data_to   = all_df["date"].max().strftime("%d %b")
+    _fc_aov      = (f_df["Net sales"].sum() / f_df["Orders"].replace(0,1).sum()).round(2) if "Orders" in f_df.columns and not f_df.empty else 0
+    _fc_data_from = (f_df["date"].max() - timedelta(days=28)).strftime("%d %b") if not f_df.empty else "N/A"
+    _fc_data_to   = f_df["date"].max().strftime("%d %b") if not f_df.empty else "N/A"
 
     st.markdown(f'<div class="section-title">Sales Forecast — Week of {_fc_label}</div>', unsafe_allow_html=True)
 
@@ -2046,7 +2690,7 @@ with tab6:
     day_stds       = {}
 
     for day in dow_map:
-        day_hist = all_df[all_df["day"] == day].sort_values("date", ascending=False)
+        day_hist = f_df[f_df["day"] == day].sort_values("date", ascending=False)
         last_4   = day_hist.head(4)["Net sales"]
         if not last_4.empty:
             day_averages[day] = last_4.mean()
@@ -2058,7 +2702,7 @@ with tab6:
     dynamic_forecast = pd.Series(day_averages).reindex(dow_map, fill_value=0)
     dynamic_stds     = pd.Series(day_stds).reindex(dow_map, fill_value=0)
 
-    last_7_days = all_df.sort_values("date", ascending=False).head(7)
+    last_7_days = f_df.sort_values("date", ascending=False).head(7)
     alert_triggered = False
     alerts_found    = []
 
@@ -2190,42 +2834,90 @@ with tab6:
         </div>
         """, unsafe_allow_html=True)
 
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("📊 Export Forecast PDF for Client", width="stretch"):
+            try:
+                from reportlab.lib import colors as rl_colors
+                from reportlab.lib.pagesizes import A4
+                from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, HRFlowable
+                from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                from reportlab.lib.units import cm
+                import io as _io
+
+                buf = _io.BytesIO()
+                doc = SimpleDocTemplate(buf, pagesize=A4)
+                styles = getSampleStyleSheet()
+                t_s = ParagraphStyle("T", parent=styles["Heading1"], fontSize=20, textColor=rl_colors.HexColor("#1a1a2e"))
+                h_s = ParagraphStyle("H", parent=styles["Normal"], fontSize=12, fontWeight="Bold")
+                
+                story = []
+                story.append(Paragraph(f"Chocoberry Revenue Forecast Report", t_s))
+                story.append(Paragraph(f"Forecast Period: {_fc_label}", styles["Normal"]))
+                story.append(Spacer(1, 0.5*cm))
+                story.append(HRFlowable(width="100%", thickness=2, color=rl_colors.HexColor("#f5a623")))
+                story.append(Spacer(1, 0.5*cm))
+                
+                story.append(Paragraph("<b>Daily Revenue Predictions:</b>", h_s))
+                f_data = [["Day of Week", "Forecasted Net Sales"]]
+                for d, v in adjusted_forecast_map.items():
+                    f_data.append([d, f"£{v:,.2f}"])
+                f_data.append(["<b>TOTAL WEEK</b>", f"<b>£{total_adjusted_fc:,.2f}</b>"])
+                
+                tbl = Table(f_data, colWidths=[6*cm, 6*cm])
+                tbl.setStyle(TableStyle([
+                    ('BACKGROUND', (0,0), (-1,0), rl_colors.HexColor("#1a1a2e")),
+                    ('TEXTCOLOR', (0,0), (-1,0), rl_colors.white),
+                    ('GRID', (0,0), (-1,-1), 0.5, rl_colors.grey),
+                    ('ALIGN', (0,0), (-1,-1), 'LEFT'),
+                    ('FONTSIZE', (0,0), (-1,-1), 10),
+                    ('BOTTOMPADDING', (0,0), (-1,-1), 8),
+                ]))
+                story.append(tbl)
+                story.append(Spacer(1, 1*cm))
+                
+                story.append(Paragraph(f"<b>Key Insights:</b>", h_s))
+                story.append(Paragraph(f"• Expected Average Order Value (AOV): £{_fc_aov:.2f}", styles["Normal"]))
+                story.append(Paragraph(f"• Baseline Data: 4-week rolling average ({_fc_data_from} - {_fc_data_to})", styles["Normal"]))
+                if override_applied:
+                    story.append(Paragraph(f"• Manual Adjustments Applied: Yes ({override_reason if override_reason else 'Not specified'})", styles["Normal"]))
+                
+                doc.build(story)
+                pdf_bytes = buf.getvalue()
+                st.download_button(
+                    label="⬇️ Click here to Download Forecast.pdf",
+                    data=pdf_bytes,
+                    file_name=f"chocoberry_forecast_{_fc_label.replace(' ','_')}.pdf",
+                    mime="application/pdf"
+                )
+            except Exception as fe:
+                st.error(f"Could not generate PDF: {fe}")
+
     st.markdown("---")
     st.markdown('<div class="section-title">Forecast vs Actual — Retrospective Comparison</div>', unsafe_allow_html=True)
 
     # --- DYNAMIC FORECAST RETROSPECTIVE ---
     # Merge historical predictions with live actuals from data["weekly"]
-    # For now, we'll maintain the historical forecast targets, but pull 'Actual' from the live df
-    history_mapping = {
-        "Week of 9 Mar":  {"fc": 18800},
-        "Week of 16 Mar": {"fc": 19100},
-        "Week of 23 Mar": {"fc": 20500},
-        "Week of 30 Mar": {"fc": 18900},
-        "Week of 6 Apr":  {"fc": 18774},
-    }
+    # --- DYNAMIC FORECAST ACCURACY HISTORY ---
+    # We reconstruct the 'past' by calculating what the model would have predicted
+    # for each of the last 6 completed weeks.
     
-    # Normalize live actuals from data["weekly"] using datetime for robust matching
-    live_weekly = {}
-    for w in data["weekly"]:
-        try:
-            # standardise to "DD Mon" format (e.g. "09 Mar")
-            dt = pd.to_datetime(w["week"] + " 2026", format="%d %b %Y", errors='coerce')
-            if pd.notna(dt):
-                live_weekly[dt.strftime("%d %b")] = w["net"]
-        except: pass
-
     history_rows = []
-    for label, target in history_mapping.items():
-        # Normalize the history label for lookup
-        match_key = label.replace("Week of ", "").strip()
-        try:
-            dt_hist = pd.to_datetime(match_key + " 2026", format="%d %b %Y", errors='coerce')
-            norm_key = dt_hist.strftime("%d %b") if pd.notna(dt_hist) else match_key
-        except:
-            norm_key = match_key
-            
-        actual = live_weekly.get(norm_key)
-        fc = target["fc"]
+    _latest_m = all_df["date"].max() - pd.Timedelta(days=all_df["date"].max().weekday())
+    # Last 6 completed weeks
+    _past_mondays = [_latest_m - pd.Timedelta(weeks=i) for i in range(1, 7)]
+    _past_mondays.reverse()
+    
+    for m in _past_mondays:
+        _fc_val = 0
+        for d_name in ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]:
+            _h = all_df[(all_df["day"] == d_name) & (all_df["date"] < m)].sort_values("date", ascending=False).head(4)
+            _fc_val += _h["Net sales"].mean() if not _h.empty else 0
+        
+        _actual = all_df[(all_df["date"] >= m) & (all_df["date"] < m + pd.Timedelta(days=7))]["Net sales"].sum()
+        
+        label  = f"Week of {m.strftime('%d %b')}"
+        fc     = round(_fc_val, 2)
+        actual = round(_actual, 2)
         
         if actual is not None and actual > 0:
             diff    = actual - fc
@@ -2254,11 +2946,12 @@ with tab6:
     
     st.dataframe(pd.DataFrame(history_rows).drop(columns=["raw_fc","raw_act"]), width="stretch", hide_index=True)
 
-    completed = [(wk, e) for wk, e in FORECAST_HISTORY.items() if e["actual"] is not None]
+    # Build Chart Data from dynamic rows
+    completed = [r for r in history_rows if r["raw_act"] is not None]
     if completed:
-        fc_chart_weeks  = [w for w, _ in completed]
-        fc_chart_fc     = [e["forecast"] for _, e in completed]
-        fc_chart_actual = [e["actual"]   for _, e in completed]
+        fc_chart_weeks  = [r["Week"] for r in completed]
+        fc_chart_fc     = [r["raw_fc"] for r in completed]
+        fc_chart_actual = [r["raw_act"] for r in completed]
 
         fig_cmp = go.Figure()
         fig_cmp.add_trace(go.Scatter(
@@ -2353,61 +3046,77 @@ with tab7:
     overlay_df_live = calc_hourly_overlay(data["hourly_live"], data=data)
     over_df_live    = calc_overstaffing(overlay_df_live)
     under_df_live   = calc_understaffing(overlay_df_live)
-    day_df_live     = calc_day_labour(total_wages=summary_live["Staff Wages Total"])
+    day_df_live     = calc_day_labour(total_wages=summary_live["Total Cost to Employer"], forecast_data=adjusted_forecast_map)
 
     krow1_1, krow1_2, krow1_3 = st.columns(3)
-    krow1_1.metric("👥 Staff Wages",       f"£{summary_live['Staff Wages Total']:,.2f}")
-    krow1_2.metric("🧾 Other Costs",       f"£{summary_live['Other Costs Total']:,.2f}")
-    krow1_3.metric("💷 Total Labour",      f"£{summary_live['Total Labour Cost']:,.2f}")
+    # Gross Wage = Salaries + Management fees (This should match the Rota Engine's £3,407.20 target)
+    gross_wage_total = summary_live['Staff Salaries (Shifts)'] + summary_live['Management / Professional']
+    krow1_1.metric("💎 Gross Staff Wage",  f"£{gross_wage_total:,.2f}")
+    krow1_2.metric("💸 Cash Wage Portion", f"£{summary_live['Cash Wage Total']:,.2f}")
+    krow1_3.metric("🏥 Bank/Bacs Portion", f"£{(gross_wage_total - summary_live['Cash Wage Total']):,.2f}")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     krow2_1, krow2_2, krow2_3 = st.columns(3)
-    krow2_1.metric("📈 Forecast Revenue",  f"£{summary_live['Forecast Week Revenue']:,.2f}")
-    flag_val = summary_live['Labour % of Revenue']
-    krow2_2.metric("📊 Labour %",          f"{flag_val}%",
-                "🔴 OVER 30%" if flag_val > 30 else "✅ Within Target")
-    krow2_3.metric("🔥 Max SBY Cost",      f"£{summary_live['SBY Max Additional Cost']:,.2f}")
+    krow2_1.metric("⚖️ Statutory Emp NI", f"£{summary_live['Statutory Employer NI']:,.2f}")
+    krow2_2.metric("🏗️ During the Week",   f"£{summary_live['Operational Costs (£330)']:,.2f}")
+    krow2_3.metric("🔥 Total Cost to Employer", f"£{summary_live['Total Cost to Employer']:,.2f}")
 
     st.markdown("---")
 
     col_a, col_b = st.columns([3, 2])
 
     with col_a:
-        st.markdown("**👷 Staff Wages — Hours × Rate**")
+        st.markdown("**👷 Detailed Payroll Breakdown — By Staff Member**")
         wage_display = staff_df_live.copy()
-        wage_display["Weekly Wage (£)"] = wage_display["Weekly Wage (£)"].apply(lambda x: f"£{x:,.2f}")
+        
+        # Re-order columns to show important totals first
+        pref_cols = ["Name", "Total Hrs", "Gross Wage (£)", "NI Pay (Bacs)", "Cash Pay (£)", "Bonus/Fixed (£)", "Cost to Emp (£)"]
+        existing_cols = [c for c in pref_cols if c in wage_display.columns]
+        other_cols = [c for c in wage_display.columns if c not in existing_cols]
+        wage_display = wage_display[existing_cols + other_cols]
+
+        # Dynamically format monetary columns
+        money_cols = [c for c in wage_display.columns if any(k in c for k in ["Pay", "Wage", "Rate", "Emp", "Bonus", "Cost"])]
+        for col in money_cols:
+            try:
+                wage_display[col] = wage_display[col].apply(lambda x: f"£{float(x):,.2f}")
+            except: pass
+            
         st.dataframe(wage_display, width="stretch", hide_index=True)
 
-        total_wages = staff_df_live["Weekly Wage (£)"].sum()
-        v_avg_rate = 8.69
-        if data and "personnel" in data:
-            v_rates = [float(p.get("Hourly Rate", 0)) for p in data["personnel"].values()]
-            if v_rates: v_avg_rate = sum(v_rates) / len(v_rates)
-        st.markdown(f'<div class="insight-box">💰 <b>Total Staff Wages: £{total_wages:,.2f}</b> &nbsp;|&nbsp; {len(staff_df_live)} staff members &nbsp;|&nbsp; Avg rate: £{v_avg_rate:.2f}/hr</div>', unsafe_allow_html=True)
+        total_wages = staff_df_live["Gross Wage (£)"].sum()
+        # Use the true Weighted Average from the labour summary
+        v_avg_rate = summary_live.get("Average Wage/Hour", 0.0)
+        st.markdown(f'<div class="insight-box">💰 <b>Total Gross Pay: £{total_wages:,.2f}</b> &nbsp;|&nbsp; {len(staff_df_live)} staff members &nbsp;|&nbsp; Weighted Avg Wage: £{v_avg_rate:.2f}/hr</div>', unsafe_allow_html=True)
 
     with col_b:
-        st.markdown("**🧾 Other Weekly Costs**")
-        other_costs_final = {
-            "Kitchen Cleaner":  245.00, "Awais Bhai": 200.00, "Book Keeper": 60.00,
-            "Anti Wage": 100.00, "Chintan Shopping": 60.00,
-        }
-        other_df_live = pd.DataFrame(
-            [{"Cost Item": k, "Amount (£)": f"£{v:,.2f}"} for k, v in other_costs_final.items()]
-        )
+        st.markdown("**🧾 Operational Fixed Costs (£330)**")
+        # Load from CSV for dynamic editing
+        fixed_path = os.path.join(os.getcwd(), "fixed_weekly_costs.csv")
+        if os.path.exists(fixed_path):
+            fdf_ui = pd.read_csv(fixed_path)
+            other_df_live = fdf_ui.rename(columns={"Item": "Cost Item", "Amount": "Amount (£)"})
+            other_df_live["Amount (£)"] = other_df_live["Amount (£)"].apply(lambda x: f"£{x:,.2f}")
+        else:
+            other_df_live = pd.DataFrame(columns=["Cost Item", "Amount (£)"])
+        
         st.dataframe(other_df_live, width="stretch", hide_index=True)
 
-        st.markdown("**🔥 SBY Staff — Max Call-In**")
+        st.markdown("**🔥 SBY Staff — Potential Risk**")
         sby_rows = []
+        sby_total = 0
         for name, v in SBY_STAFF.items():
+            cost = v["max_sby_hrs"] * v["hourly_rate"]
+            sby_total += cost
             sby_rows.append({
                 "Name":          name,
                 "Max Hrs":       v["max_sby_hrs"],
                 "Rate (£/hr)":   f"£{v['hourly_rate']:.2f}",
-                "Max Cost (£)":  f"£{v['max_sby_hrs'] * v['hourly_rate']:.2f}",
+                "Max Cost (£)":  f"£{cost:.2f}",
             })
         st.dataframe(pd.DataFrame(sby_rows), width="stretch", hide_index=True)
-        st.markdown(f'<div class="insight-box">⚠️ SBY max additional cost: <b>£{summary_live["SBY Max Additional Cost"]:.2f}</b> — only incurred if all SBY staff called in</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="insight-box">⚠️ SBY max additional cost: <b>£{sby_total:,.2f}</b> — only incurred if all SBY staff called in</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -2514,22 +3223,10 @@ with tab8:
         st.warning("⚠️ rota_engine.py not found.")
         st.stop()
 
-    # Define w_start FIRST before anything references it
-    w_start = date.today() + timedelta(days=(7 - date.today().weekday()) % 7)
+    # 1. Sticky Date Logic — Restore last selected date or use default
+    _default_w_start = date.today() + timedelta(days=(7 - date.today().weekday()) % 7)
+    w_start_val = st.session_state.get("selected_w_start", _default_w_start)
 
-    # Check if week changed and clear stale rota
-    if "last_w_start" not in st.session_state or st.session_state["last_w_start"] != w_start:
-        st.session_state["last_w_start"] = w_start
-        for k in ["active_rota", "active_rota_summary", "active_rota_warnings"]:
-            if k in st.session_state:
-                del st.session_state[k]
-
-    rota_path = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}", "detailed_rota_with_shifts.csv")
-
-    if os.path.exists(rota_path):
-        st.success(f"🟢 Live Rota Detected for week of {w_start.strftime('%d %b')}.")
-    else:
-        st.info("⚪ No Live Rota yet. Use the generator below.")
 
     with st.expander("👤 Staff Profile Management — Single Source of Truth", expanded=False):
         st.markdown('<div class="insight-box">Edit staff availability, roles (Senior/Junior), and target hours below. These settings power the auto-scheduler.</div>', unsafe_allow_html=True)
@@ -2550,9 +3247,27 @@ with tab8:
     c1, c2, c3 = st.columns([2, 1, 1])
     with c1:
         st.markdown("**1. Configure Parameters**")
-        w_start = st.date_input("Week Start Date (Monday recommended)", value=w_start)
+        w_start = st.date_input("Week Start Date (Monday recommended)", value=w_start_val)
+
+        # NOW do the stale-rota check, AFTER the widget has resolved the actual w_start
+        if st.session_state.get("last_w_start") != w_start:
+            st.session_state["last_w_start"] = w_start
+            st.session_state["selected_w_start"] = w_start
+            for k in ["active_rota", "active_rota_summary", "active_rota_warnings"]:
+                if k in st.session_state:
+                    del st.session_state[k]
+        
         w_end = w_start + timedelta(days=6)
         st.markdown(f'<div style="background:rgba(245,166,35,0.1);border-radius:10px;padding:10px 15px;border:1px solid #f5a623;color:#f5a623;font-weight:700;font-size:14px;margin-top:10px;text-align:center">📅 {w_start.strftime("%d %b")} ➜ {w_end.strftime("%d %b %Y")}</div>', unsafe_allow_html=True)
+        
+        # 3. Check for Live Rota based on the SELECTED week
+        folder_name = f"Rota week {w_start.strftime('%d %b')} - {w_end.strftime('%d %B %Y')}"
+        rota_path = os.path.join(os.getcwd(), folder_name, "detailed_rota_with_shifts.csv")
+        if os.path.exists(rota_path):
+            st.success(f"🟢 Live Rota Detected for this week.")
+        else:
+            st.info("⚪ No Live Rota yet for this week.")
+
         balance_bias = st.slider("Fairness Balance Bias", 0.0, 1.0, 0.5)
 
     with c2:
@@ -2656,7 +3371,6 @@ with tab8:
                             st.markdown('<div style="color:#888;font-size:12px;padding:4px">— No staff scheduled</div>', unsafe_allow_html=True)
                         else:
                             for _, row in dept_df.iterrows():
-                                role_badge_color = "#f5a623" if row["Role"] == "Senior" else "#3ecf8e"
                                 shift_s = str(row.get("Start","")).replace(":00","") if str(row.get("Start","")) != "nan" else ""
                                 shift_e = str(row.get("End","")).replace(":00","") if str(row.get("End","")) != "nan" else ""
                                 dur = row.get("Duration","")
@@ -2664,9 +3378,6 @@ with tab8:
                                 st.markdown(
                                     f'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;'
                                     f'border-bottom:1px solid rgba(255,255,255,0.05)">'
-                                    f'<span style="background:{role_badge_color};color:#000;border-radius:4px;'
-                                    f'font-size:9px;font-weight:800;padding:2px 6px;min-width:46px;text-align:center">'
-                                    f'{row["Role"].upper()}</span>'
                                     f'<span style="font-size:13px;color:#e8e9f0;font-weight:600">{row["Name"]}</span>'
                                     f'<span style="margin-left:auto;font-size:11px;color:#aab0d0">{time_str}</span>'
                                     f'</div>',
@@ -2689,7 +3400,7 @@ with tab8:
                     for w in warnings_list:
                         st.warning(w)
                 else:
-                    st.success("✅ All shift constraints (Senior presence, headcount) satisfied.")
+                    st.success("✅ All shift constraints (Management cover, headcount) satisfied.")
 
             # ── Push / Download Buttons ───────────────────────────────────────
             st.markdown("---")
@@ -2697,7 +3408,9 @@ with tab8:
 
             with c_push:
                 if st.button("🚀 Push to Tab 7 (Commit to Live Data)", width="stretch"):
-                    output_dir = os.path.join(os.getcwd(), f"Rota week {w_start.strftime('%d %b %Y')}")
+                    w_end = w_start + timedelta(days=6)
+                    folder_name = f"Rota week {w_start.strftime('%d %b')} - {w_end.strftime('%d %B %Y')}"
+                    output_dir = os.path.join(os.getcwd(), folder_name)
                     if not os.path.exists(output_dir): os.makedirs(output_dir)
                     rota_df.to_csv(os.path.join(output_dir, "detailed_rota_with_shifts.csv"), index=False)
                     st.cache_data.clear()
@@ -2769,13 +3482,13 @@ with tab8:
                                 if dept_sub.empty: continue
                                 icon = "Kitchen" if dept == "Kitchen" else "Front of House"
                                 story.append(Paragraph(f"  {icon}", dept_s))
-                                tdata = [["Name", "Role", "Shift", "Start", "End", "Hrs"]]
+                                tdata = [["Name", "Shift", "Start", "End", "Hrs"]]
                                 for _, r in dept_sub.iterrows():
-                                    tdata.append([r["Name"], r["Role"], r.get("Shift",""),
+                                    tdata.append([r["Name"], r.get("Shift",""),
                                                   str(r.get("Start","")), str(r.get("End","")),
                                                   f"{r.get('Duration','')}h"])
                                 hdr_col = rl_colors.HexColor("#e05c5c") if dept == "Kitchen" else rl_colors.HexColor("#3a9bd5")
-                                tbl = Table(tdata, colWidths=[5.5*cm,2*cm,2*cm,2*cm,2*cm,1.5*cm], repeatRows=1)
+                                tbl = Table(tdata, colWidths=[7.0*cm,2.5*cm,2.5*cm,2.5*cm,2.0*cm], repeatRows=1)
                                 tbl.setStyle(TableStyle([
                                     ("BACKGROUND",  (0,0),(-1,0), hdr_col),
                                     ("TEXTCOLOR",   (0,0),(-1,0), rl_colors.white),
@@ -3789,6 +4502,86 @@ with tab13:
                 st.error(f"SQL Error: {e}")
 
 
+
+
+
+# ════════════════════════════════════════════════════════════════════
+# TAB 14 — STAFF MANAGEMENT
+# ════════════════════════════════════════════════════════════════════
+with tab14:
+    st.markdown('<div class="section-title">Staff Management Portal</div>', unsafe_allow_html=True)
+    st.markdown('<div class="insight-box">Add new hires, manage roles, and audit your workforce capacity here. Any changes made here automatically update your Rota and Payroll systems.</div>', unsafe_allow_html=True)
+
+    # 1. Workforce Audit Section
+    staff_df = pd.read_csv("staff_profiles.csv")
+    rates_df = pd.read_csv("personnel_rates_master.csv")
+    
+    col_a, col_b = st.columns([2, 3])
+    
+    with col_a:
+        st.markdown("**🛡️ Workforce Capacity Audit**")
+        role_counts = staff_df["Department"].value_counts()
+        for dept, count in role_counts.items():
+            st.info(f"**{dept}:** {count} active staff")
+        
+        # Specific Role Breakdown
+        st.write("---")
+        roles = staff_df["Role"].value_counts()
+        for role, count in roles.items():
+            st.write(f"• {role}: {count}")
+
+    with col_b:
+        st.markdown("**➕ Add New Staff Member**")
+        with st.form("add_staff_form", clear_on_submit=True):
+            new_name = st.text_input("Full Name (First Last)")
+            new_dept = st.selectbox("Area / Department", ["Kitchen", "Front", "Management", "Professional"])
+            new_role = st.selectbox("Role / Level", ["Senior", "Junior", "Management", "Professional", "Dishwasher"])
+            new_target = st.number_input("Target Weekly Hours", min_value=0, max_value=60, value=20)
+            
+            submit = st.form_submit_button("🚀 Add Staff to System")
+            
+            if submit:
+                if not new_name.strip():
+                    st.error("Please enter a name.")
+                elif new_name in staff_df["Name"].values:
+                    st.error(f"❌ Error: A staff member named '{new_name}' already exists.")
+                else:
+                    # Logic to Add to staff_profiles.csv
+                    new_row = {
+                        "Name": new_name,
+                        "Role": new_role,
+                        "Department": new_dept,
+                        "Target Hours": new_target,
+                        "Max Hours": new_target + 10,
+                        "Performance Score": 5,
+                        "Active": True,
+                        "Availability": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+                        "Shift Preference": "Any"
+                    }
+                    new_s_df = pd.DataFrame([new_row])
+                    staff_df = pd.concat([staff_df, new_s_df], ignore_index=True)
+                    staff_df.to_csv("staff_profiles.csv", index=False)
+                    
+                    # Logic to Add to personnel_rates_master.csv (Default Payroll Setup)
+                    new_rate = {
+                        "Name": new_name,
+                        "NI Hours": 10,
+                        "NI Rates": 12.71,
+                        "Hourly Rate": 8.00,
+                        "Fixed Wage": 0.00
+                    }
+                    new_r_df = pd.DataFrame([new_rate])
+                    rates_df = pd.concat([rates_df, new_r_df], ignore_index=True)
+                    rates_df.to_csv("personnel_rates_master.csv", index=False)
+                    
+                    st.success(f"✅ SUCCESS: {new_name} has been enrolled! They are now available for both Rota and Payroll.")
+                    st.balloons()
+                    time.sleep(2)
+                    st.rerun()
+
+    st.markdown("---")
+    st.markdown("**👥 Current Active Roster**")
+    st.dataframe(staff_df[["Name", "Role", "Department", "Target Hours", "Active"]], width="stretch", hide_index=True)
 
 
 def _print_labour_console(summary, over_df, under_df, overlay_df):

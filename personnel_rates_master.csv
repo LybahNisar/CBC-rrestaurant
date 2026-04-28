@@ -1,22 +1,17 @@
-Name,NI Hours,NI Rates,Hourly Rate,Minute Rate,Fixed Wage
-Asma,0,0,10,0.17,0
-Abdul Rehman,0,0,6,0.1,0
-Atharvkumar Sanjay,16,11,8,0.13,0
-Bhoomika,0,0,6,0.1,0
-Bookkeeper (Management),0,0,10,0.17,60
-Chintan,14,12.21,7,0.12,0
-Damini Sharadchandra Aher,16,12.21,8,0.13,0
-Dhiraj Mangade,30,12.21,9,0.15,0
-Dhriti Kulshrestha,20,12.21,7,0.12,0
-Dikshya,0,12.21,7,0.12,0
-Iftikhar Ahmad,45,12.5,0,0,0
-Lubna,4,12.21,6,0.1,0
-Mellissa Teshali Leontia,10,12.21,8,0.13,0
-Munira,0,0,6,0.1,0
-Nithin,0,0,6,0.1,0
-Pamitha Perera,4,12.21,6,0.1,0
-Rajesh Yadav,10,12.21,8,0.13,0
-Ravi Kishore,45,0,10,0.17,565
-Supreme Gurung,14,12.21,6.5,0.11,0
-Tulika Das Adhikari,20,12.21,7,0.12,0
-Vishnu,0,0,6,0.1,0
+Name,NI Hours,NI Rates,Hourly Rate,Fixed Wage
+Atharvkumar Sanjay,16,11.00,8.00,0.00
+Chintan,14,12.71,7.00,0.00
+Dhiraj Mangade,30,12.71,9.00,0.00
+Dikshya,0,0.00,7.00,0.00
+Supreme Gurung,14,12.71,6.50,0.00
+Iftikhar Ahmad,25,12.50,0.00,0.00
+Mellissa Teshali Leontia,12,12.71,8.00,0.00
+Pamitha Perera,0,0.00,6.00,0.00
+Nithin,0,0.00,6.00,0.00
+Abuzar,4,12.71,6.50,0.00
+Rajesh Yadav,10,12.71,8.00,0.00
+Damini Sharadchandra Aher,16,12.71,8.00,0.00
+Bookkeeper,0,0.00,0.00,70.00
+Munira,0,0.00,6.00,0.00
+Tulika Das Adhikari,14,12.71,7.00,0.00
+Awais Tahir,0,0.00,0.00,200.00
