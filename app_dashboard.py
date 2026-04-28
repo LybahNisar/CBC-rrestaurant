@@ -2834,8 +2834,112 @@ with tab6:
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("📊 Export Forecast PDF for Client", width="stretch"):
+    # ── ACTUALS vs FORECAST LIVE TABLE ──────────────────────────────────────
+    st.markdown("---")
+    st.markdown('<div class="section-title">📊 Actuals vs Forecast — Plan vs Reality</div>', unsafe_allow_html=True)
+    st.markdown('<div class="insight-box">Comparing your forecast targets against real sales. Green = beat forecast. Amber = within 10%. Red = missed by more than 10%.</div>', unsafe_allow_html=True)
+
+    # Build the projected week date range
+    _avf_dates = [_next_mon + timedelta(days=i) for i in range(7)]
+    _avf_days  = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+    # Look up actuals from full dataset (all_df) for those dates
+    _avf_rows = []
+    _avf_tot_fc  = 0.0
+    _avf_tot_act = 0.0
+    _avf_tot_ord = 0
+
+    for i, (_day, _dt) in enumerate(zip(_avf_days, _avf_dates)):
+        _fc_val  = adjusted_forecast_map.get(_day, 0.0)
+        _act_row = all_df[all_df["date"] == pd.Timestamp(_dt)]
+        _act_val = float(_act_row["net"].sum()) if not _act_row.empty and "net" in _act_row.columns else None
+        _act_ord = int(_act_row["orders"].sum()) if not _act_row.empty and "orders" in _act_row.columns else None
+
+        _avf_tot_fc += _fc_val
+        if _act_val is not None:
+            _avf_tot_act += _act_val
+            if _act_ord: _avf_tot_ord += _act_ord
+
+        _avf_rows.append({
+            "day":     _day,
+            "date":    _dt.strftime("%d %b"),
+            "fc":      _fc_val,
+            "act":     _act_val,
+            "orders":  _act_ord,
+        })
+
+    # Render table
+    _hdr = ["Day", "Date", "Forecast", "Actual", "Orders", "Diff", "Achievement"]
+    _tbl_html = f"""
+    <table style="width:100%;border-collapse:collapse;font-family:Inter,sans-serif;font-size:13px;margin-top:8px">
+    <thead>
+      <tr style="background:#1a1d26;color:#f5a623;text-transform:uppercase;font-size:11px;letter-spacing:1px">
+        {"".join(f'<th style="padding:10px 12px;text-align:left">{h}</th>' for h in _hdr)}
+      </tr>
+    </thead>
+    <tbody>
+    """
+
+    for r in _avf_rows:
+        if r["act"] is not None:
+            _pct  = (r["act"] / r["fc"] * 100) if r["fc"] else 0
+            _diff = r["act"] - r["fc"]
+            _diff_str = f'{"+" if _diff >= 0 else ""}£{_diff:,.0f}'
+            _pct_str  = f'{_pct:.1f}%'
+            _color    = "#3ecf8e" if _pct >= 100 else "#f5a623" if _pct >= 90 else "#e05c5c"
+            _bg       = "rgba(62,207,142,0.06)" if _pct >= 100 else "rgba(245,166,35,0.06)" if _pct >= 90 else "rgba(224,92,92,0.06)"
+            _act_str  = f'£{r["act"]:,.2f}'
+            _ord_str  = f'{r["orders"]:,}' if r["orders"] else "—"
+        else:
+            _diff_str = "—"
+            _pct_str  = "Pending"
+            _color    = "#6b7094"
+            _bg       = "transparent"
+            _act_str  = "Pending"
+            _ord_str  = "—"
+
+        _tbl_html += f"""
+        <tr style="border-bottom:1px solid rgba(255,255,255,0.04);background:{_bg}">
+          <td style="padding:10px 12px;color:#e8e9f0;font-weight:600">{r["day"]}</td>
+          <td style="padding:10px 12px;color:#6b7094">{r["date"]}</td>
+          <td style="padding:10px 12px;color:#a0a3b8;font-family:Syne,sans-serif">£{r["fc"]:,.2f}</td>
+          <td style="padding:10px 12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:700">{_act_str}</td>
+          <td style="padding:10px 12px;color:#6b7094">{_ord_str}</td>
+          <td style="padding:10px 12px;color:{_color};font-weight:600">{_diff_str}</td>
+          <td style="padding:10px 12px;color:{_color};font-weight:700">{_pct_str}</td>
+        </tr>
+        """
+
+    # Totals row
+    if _avf_tot_act > 0:
+        _tot_pct   = (_avf_tot_act / _avf_tot_fc * 100) if _avf_tot_fc else 0
+        _tot_diff  = _avf_tot_act - _avf_tot_fc
+        _tot_color = "#3ecf8e" if _tot_pct >= 100 else "#f5a623" if _tot_pct >= 90 else "#e05c5c"
+        _tbl_html += f"""
+        <tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
+          <td style="padding:12px;color:#f5a623;font-weight:800;font-family:Syne,sans-serif" colspan="2">TOTAL WEEK</td>
+          <td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
+          <td style="padding:12px;color:#e8e9f0;font-family:Syne,sans-serif;font-weight:800">£{_avf_tot_act:,.2f}</td>
+          <td style="padding:12px;color:#6b7094">{_avf_tot_ord:,}</td>
+          <td style="padding:12px;color:{_tot_color};font-weight:700">{"+" if _tot_diff >= 0 else ""}£{_tot_diff:,.0f}</td>
+          <td style="padding:12px;color:{_tot_color};font-weight:800;font-size:15px">{_tot_pct:.1f}%</td>
+        </tr>
+        """
+    else:
+        _tbl_html += f"""
+        <tr style="border-top:2px solid rgba(245,166,35,0.4);background:rgba(245,166,35,0.06)">
+          <td style="padding:12px;color:#f5a623;font-weight:800" colspan="2">TOTAL WEEK</td>
+          <td style="padding:12px;color:#a0a3b8;font-family:Syne,sans-serif;font-weight:700">£{_avf_tot_fc:,.2f}</td>
+          <td style="padding:12px;color:#6b7094" colspan="4">No actuals yet for this week</td>
+        </tr>
+        """
+
+    _tbl_html += "</tbody></table>"
+    st.markdown(_tbl_html, unsafe_allow_html=True)
+    # ── END ACTUALS vs FORECAST ───────────────────────────────────────────────
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("📊 Export Forecast PDF for Client", width="stretch"):
             try:
                 from reportlab.lib import colors as rl_colors
                 from reportlab.lib.pagesizes import A4
