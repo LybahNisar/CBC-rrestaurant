@@ -1,16 +1,17 @@
-Name,Role,Department,Target Hours,Max Hours,Max Shifts,Active,Availability,Shift Preference
-Atharvkumar Sanjay,Junior,Kitchen,37,42,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any
-Chintan,Senior,Kitchen,36,40,6,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any
-Damini Sharadchandra Aher,Senior,Kitchen,40,55,6,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu,Fri,Sat,Sun",Any
-Dhiraj Mangade,Management,Both,25,45,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any
-Pamitha Perera,Junior,Kitchen,7,20,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any
-Rajesh Yadav,Senior,Kitchen,19,35,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any
-Nithin,Junior,Kitchen,20,25,5,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sun(Eve)",Any
-Mellissa Teshali Leontia,Senior,Front,36,45,6,True,"Mon,Tue,Wed,Fri,Sat,Sun",Any
-Supreme Gurung,Senior,Front,30,40,6,True,"Mon(Eve),Wed,Thu(Eve),Fri,Sat",Any
-Tulika Das Adhikari,Senior,Front,24,35,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any
-Munira,Junior,Front,27,35,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any
-Dikshya,Junior,Front,13,25,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any
-Abuzar,Junior,Front,18,25,5,True,"Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any
-Awais Tahir,Management,Kitchen,0,0,5,False,"",Any
-Bookkeeper,Fixed,Admin,0,0,1,False,"",Any
+Name,Role,Department,Target Hours,Max Hours,Max Shifts,Active,Availability,Shift Preference,PIN
+Atharvkumar Sanjay,Junior,Kitchen,37,42,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,1234
+Chintan,Senior,Kitchen,36,40,6,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,1234
+Damini Sharadchandra Aher,Senior,Kitchen,40,55,6,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu,Fri,Sat,Sun",Any,1234
+Dhiraj Mangade,Management,Both,25,45,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,1234
+Pamitha Perera,Junior,Kitchen,7,20,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,1234
+Rajesh Yadav,Senior,Kitchen,19,35,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,1234
+Nithin,Junior,Kitchen,20,25,5,True,"Mon(Eve),Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sun(Eve)",Any,1234
+Mellissa Teshali Leontia,Senior,Front,36,45,6,True,"Mon,Tue,Wed,Fri,Sat,Sun",Any,1234
+Supreme Gurung,Senior,Front,30,40,6,True,"Mon(Eve),Wed,Thu(Eve),Fri,Sat",Any,1234
+Tulika Das Adhikari,Senior,Front,24,35,5,True,"Fri(Eve),Sat(Eve),Sun(Eve)",Any,1234
+Munira,Junior,Front,27,35,6,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,1234
+Dikshya,Junior,Front,13,25,5,True,"Mon(Morn),Tue(Morn),Wed(Morn),Thu(Morn),Fri(Morn),Sat(Morn),Sun(Morn)",Any,1234
+Abuzar,Junior,Front,18,25,5,True,"Tue(Eve),Wed(Eve),Thu(Eve),Fri(Eve),Sat(Eve),Sun(Eve)",Any,1234
+Awais Tahir,Management,Kitchen,0,0,5,False,"",Any,1234
+Bookkeeper,Fixed,Admin,0,0,1,False,"",Any,1234
+Purni,Junior,Front,20,25,5,True,"Mon,Tue,Wed,Thu,Fri,Sat,Sun",Any,1234

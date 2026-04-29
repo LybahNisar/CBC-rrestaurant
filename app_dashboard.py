@@ -1670,6 +1670,135 @@ def dark_layout(fig, height=340, showlegend=False):
     )
     return fig
 
+def get_staff_availability_for_week(week_start_date):
+    """
+    Read submitted availability from database
+    Returns dict: {staff_name: {day: status}}
+    """
+    import sqlite3, json
+    avail_db = "availability.db"
+    if not os.path.exists(avail_db):
+        return {}
+    
+    with sqlite3.connect(avail_db) as conn:
+        try:
+            # Query by the week_start (YYYY-MM-DD)
+            target_date_str = week_start_date.strftime('%Y-%m-%d')
+            rows = conn.execute('''
+                SELECT staff_name, availability, notes
+                FROM availability
+                WHERE week_start = ?
+                ORDER BY submitted_at DESC
+            ''', (target_date_str,)).fetchall()
+        except:
+            return {}
+    
+    result = {}
+    for name, avail_json, notes in rows:
+        if name not in result:  # take latest submission per person
+            try:
+                result[name] = json.loads(avail_json)
+                result[name]['_notes'] = notes
+            except: pass
+    
+    return result
+
+def save_staff_availability(week_start_date, staff_name, availability_dict, notes="Manual Entry"):
+    import sqlite3, json
+    avail_db = "availability.db"
+    target_date_str = week_start_date.strftime('%Y-%m-%d')
+    avail_json = json.dumps(availability_dict)
+    
+    with sqlite3.connect(avail_db) as conn:
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS availability (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                staff_name TEXT,
+                week_start TEXT,
+                availability TEXT,
+                notes TEXT,
+                submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.execute('''
+            INSERT INTO availability (staff_name, week_start, availability, notes)
+            VALUES (?, ?, ?, ?)
+        ''', (staff_name, target_date_str, avail_json, notes))
+        conn.commit()
+
+def load_events():
+    import pandas as pd
+    events_path = os.path.join(os.getcwd(), "events_log.csv")
+    if os.path.exists(events_path):
+        try:
+            e_df = pd.read_csv(events_path)
+            e_df["Date"] = pd.to_datetime(e_df["Date"]).dt.date
+            return e_df.set_index("Date").to_dict('index')
+        except: return {}
+    return {}
+
+def generate_forecast_pdf(week_label, total_forecast, aov, day_data, boosts):
+    from reportlab.lib.pagesizes import A4
+    from reportlab.lib import colors
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+    from io import BytesIO
+    
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40)
+    styles = getSampleStyleSheet()
+    elements = []
+    
+    # Title
+    elements.append(Paragraph(f"Chocoberry Intelligence — Forecast Report", styles['Title']))
+    elements.append(Paragraph(f"Target Week: {week_label}", styles['Heading2']))
+    elements.append(Spacer(1, 20))
+    
+    # Summary Table
+    summary_data = [
+        ["Total Weekly Forecast", f"£{total_forecast:,.2f}"],
+        ["Forecasted AOV", f"£{aov:,.2f}"],
+        ["Data Methodology", "4-Week Rolling Average + AI Memory"]
+    ]
+    t = Table(summary_data, colWidths=[200, 200])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (0,-1), colors.lightgrey),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ('FONTNAME', (0,0), (-1,-1), 'Helvetica-Bold'),
+        ('PADDING', (0,0), (-1,-1), 8)
+    ]))
+    elements.append(t)
+    elements.append(Spacer(1, 30))
+    
+    # Daily Breakdown
+    elements.append(Paragraph("Day-by-Day Forecast Breakdown", styles['Heading3']))
+    table_data = [["Day", "Date", "Forecasted Net Sales"]]
+    for d in day_data:
+        table_data.append([d['day'], d['date'], f"£{d['sales']:,.2f}"])
+        
+    t2 = Table(table_data, colWidths=[100, 150, 150])
+    t2.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.darkslategrey),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.grey),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('BOTTOMPADDING', (0,0), (-1,0), 10),
+    ]))
+    elements.append(t2)
+    elements.append(Spacer(1, 30))
+    
+    # Memory Section
+    if boosts:
+        elements.append(Paragraph("🧠 AI Business Memory Insights", styles['Heading3']))
+        for b in boosts:
+            elements.append(Paragraph(f"• {b}", styles['Normal']))
+            elements.append(Spacer(1, 5))
+    
+    doc.build(elements)
+    buffer.seek(0)
+    return buffer
+
 def _load():
     return load_data()
 
@@ -2668,12 +2797,29 @@ with tab5:
 # TAB 6 — FORECAST
 # ════════════════════════════════════════════════════════════════════
 with tab6:
-    # Auto-compute next week date range from FILTERED (sidebar) data date
+    # Manual Target Week Selection
     from datetime import timedelta
-    _f_df_max    = pd.to_datetime(f_df["date"]).max() if not f_df.empty else pd.Timestamp.today()
-    _next_mon    = _f_df_max + timedelta(days=(7 - _f_df_max.weekday()))
-    _next_sun    = _next_mon + timedelta(days=6)
-    _fc_label    = f"{_next_mon.strftime('%d %b')} – {_next_sun.strftime('%d %b %Y')}"
+    _f_df_max = pd.to_datetime(f_df["date"]).max() if not f_df.empty else pd.Timestamp.today()
+    _default_mon = _f_df_max + timedelta(days=(7 - _f_df_max.weekday()))
+    
+    st.markdown('<div class="section-title">🔮 Forecast Configuration</div>', unsafe_allow_html=True)
+    c_fc1, c_fc2 = st.columns([2, 1])
+    with c_fc1:
+        target_wk_mon = st.date_input(
+            "Target Week for Forecast (Select Monday)", 
+            value=_default_mon,
+            key="fc_target_wk"
+        )
+    
+    with c_fc2:
+        st.markdown("<div style='height:28px'></div>", unsafe_allow_html=True)
+        # Button logic placed after calculation below
+    
+    # Force to Monday
+    _next_mon = target_wk_mon - timedelta(days=target_wk_mon.weekday())
+    _next_sun = _next_mon + timedelta(days=6)
+    _fc_label = f"{_next_mon.strftime('%d %b')} – {_next_sun.strftime('%d %b %Y')}"
+    
     _fc_aov      = (f_df["Net sales"].sum() / f_df["Orders"].replace(0,1).sum()).round(2) if "Orders" in f_df.columns and not f_df.empty else 0
     _fc_data_from = (f_df["date"].max() - timedelta(days=28)).strftime("%d %b") if not f_df.empty else "N/A"
     _fc_data_to   = f_df["date"].max().strftime("%d %b") if not f_df.empty else "N/A"
@@ -2689,18 +2835,42 @@ with tab6:
     st.markdown('<div class="insight-box" style="margin-bottom:12px">Use overrides to adjust any day\'s forecast for known factors: bank holidays, local events, social campaigns, or operational changes. Enter a % uplift (positive) or reduction (negative).</div>', unsafe_allow_html=True)
 
     dow_map        = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+    events_memory = load_events()
+    active_boosts = []
     day_averages   = {}
     day_stds       = {}
 
-    for day in dow_map:
+    for i, day in enumerate(dow_map):
+        target_date = _next_mon + timedelta(days=i)
+        
+        # Base Calculation: 4-week rolling average
         day_hist = f_df[f_df["day"] == day].sort_values("date", ascending=False)
         last_4   = day_hist.head(4)["Net sales"]
+        
+        base_avg = 0.0
         if not last_4.empty:
-            day_averages[day] = last_4.mean()
-            day_stds[day]     = last_4.std() if len(last_4) > 1 else last_4.mean() * 0.1
+            base_avg = last_4.mean()
+            day_stds[day] = last_4.std() if len(last_4) > 1 else last_4.mean() * 0.1
         else:
-            day_averages[day] = 0.0
-            day_stds[day]     = 0.0
+            day_stds[day] = 0.0
+
+        # Apply Memory Multiplier if exists
+        multiplier = 1.0
+        if target_date in events_memory:
+            multiplier = events_memory[target_date].get('Multiplier', 1.0)
+            event_name = events_memory[target_date].get('Event_Name', 'Special Event')
+            active_boosts.append(f"🧠 <b>{day} ({target_date.strftime('%d %b')})</b>: {event_name} ({(multiplier-1)*100:+.0f}% Increase)")
+        
+        day_averages[day] = base_avg * multiplier
+
+    if active_boosts:
+        with st.container():
+            st.markdown(f"""
+            <div style="background:rgba(62,207,142,0.1);border:1px solid #3ecf8e;padding:12px;border-radius:10px;margin-bottom:15px">
+                <div style="color:#3ecf8e;font-size:12px;font-weight:700;margin-bottom:5px">🧠 AI Memory Active for this Week</div>
+                {"<br>".join([f'<div style="color:#e8e9f0;font-size:11px">{b}</div>' for b in active_boosts])}
+            </div>
+            """, unsafe_allow_html=True)
 
     dynamic_forecast = pd.Series(day_averages).reindex(dow_map, fill_value=0)
     dynamic_stds     = pd.Series(day_stds).reindex(dow_map, fill_value=0)
@@ -2718,7 +2888,7 @@ with tab6:
             if abs(var) > 0.15:
                 alert_triggered = True
                 status = "🔥 PEAK OVER-TRADE" if var > 0 else "❄️ UNEXPECTED DROP"
-                alerts_found.append(f"**{row['date'].strftime('%d %b')} ({d_name})**: {status} at **{var:+.1f}%** deviation (Actual £{actual:,.0f} vs Est. £{expected:,.0f})")
+                alerts_found.append(f"**{row['date'].strftime('%d %b')} ({d_name})**: {status} at **{var*100:+.1f}%** deviation (Actual £{actual:,.0f} vs Est. £{expected:,.0f})")
 
     if alert_triggered:
         with st.container():
@@ -2768,6 +2938,33 @@ with tab6:
         placeholder="e.g. Good Friday bank holiday, -20% expected Mon/Tue | Cardiff event +15% Fri",
         key="override_reason",
     )
+
+    # Export PDF Logic
+    _adj_total = sum(adjusted_forecast_map.values())
+    pdf_day_data = []
+    for i, day in enumerate(dow_map):
+        pdf_day_data.append({
+            'day': day,
+            'date': (_next_mon + timedelta(days=i)).strftime('%d %b'),
+            'sales': adjusted_forecast_map[day]
+        })
+    
+    pdf_bytes = generate_forecast_pdf(
+        week_label=_fc_label,
+        total_forecast=_adj_total,
+        aov=_fc_aov,
+        day_data=pdf_day_data,
+        boosts=[b.replace('<b>','').replace('</b>','') for b in active_boosts]
+    )
+    
+    with c_fc2:
+        st.download_button(
+            label="📥 Download Forecast PDF",
+            data=pdf_bytes,
+            file_name=f"CBC_Forecast_{_next_mon.strftime('%Y%m%d')}.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
 
     st.markdown("---")
     col1, col2 = st.columns(2)
@@ -3286,7 +3483,7 @@ with tab7:
         st.markdown("**🟡 Understaffing Flags**")
         if len(under_df_live) > 0:
             st.dataframe(under_df_live, width="stretch", hide_index=True)
-            st.markdown(f'<div class="insight-box">🟡 <b>{len(under_df_live)} understaffed hour(s)</b> detected. Peak revenue hours with insufficient cover. Call SBY staff in early.</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="insight-box">🟡 <b>{len(under_df_live)} understaffing hour(s)</b> detected. Peak revenue hours with insufficient cover. Call SBY staff in early.</div>', unsafe_allow_html=True)
         else:
             st.success("✅ No critical understaffing detected — peak hours well covered.")
 
@@ -3348,47 +3545,53 @@ with tab8:
             
             st.markdown("---")
             st.markdown("**📥 Mobile Portal Sync**")
-            if st.button("🔄 Sync Staff Availability Submissions", help="Pull latest responses from the mobile portal for the selected week"):
-                avail_path = os.path.join(os.getcwd(), "staff_availability.csv")
-                if os.path.exists(avail_path):
+            if st.button("🔄 Sync Staff Availability Submissions", help="Pull latest responses from availability.db"):
+                import sqlite3, json
+                db_path = os.path.join(os.getcwd(), "availability.db")
+                if os.path.exists(db_path):
                     try:
-                        avail_df = pd.read_csv(avail_path)
-                        # Calculate the week label to match against (e.g. "04 May - 10 May 2026")
-                        w_end_val = w_start_val + timedelta(days=6)
-                        target_label = f"{w_start_val.strftime('%d %b')} - {w_end_val.strftime('%d %b %Y')}"
-                        
-                        # Filter for the correct week
-                        week_subs = avail_df[avail_df["Week"] == target_label]
-                        
-                        if not week_subs.empty:
-                            # Use the latest submission per person
-                            latest_subs = week_subs.sort_values("Timestamp").groupby("Name").tail(1)
+                        with sqlite3.connect(db_path) as conn:
+                            # target_label in DB is "YYYY-MM-DD"
+                            target_date_str = w_start_val.strftime('%Y-%m-%d')
+                            query = "SELECT staff_name, availability, notes FROM availability WHERE week_start = ?"
+                            subs = pd.read_sql(query, conn, params=(target_date_str,))
                             
+                        if not subs.empty:
                             updated_count = 0
-                            for _, sub in latest_subs.iterrows():
-                                s_name = sub["Name"]
-                                s_days = sub["Days"]
-                                s_pref = sub["Preference"]
-                                
-                                # Update in our current dataframe
-                                idx = curr_prof_df[curr_prof_df["Name"] == s_name].index
-                                if not idx.empty:
-                                    curr_prof_df.loc[idx, "Availability"] = s_days
-                                    curr_prof_df.loc[idx, "Shift Preference"] = s_pref
-                                    updated_count += 1
+                            day_map = {"Monday":"Mon", "Tuesday":"Tue", "Wednesday":"Wed", "Thursday":"Thu", "Friday":"Fri", "Saturday":"Sat", "Sunday":"Sun"}
+                            
+                            for _, row in subs.iterrows():
+                                s_name = row["staff_name"]
+                                try:
+                                    a_dict = json.loads(row["availability"])
+                                    parts = []
+                                    for d, status in a_dict.items():
+                                        if status == "unavailable": continue
+                                        ab = day_map.get(d, d[:3])
+                                        if status == "morning": ab += "(Morn)"
+                                        elif status == "evening": ab += "(Eve)"
+                                        parts.append(ab)
+                                    
+                                    avail_str = ",".join(parts)
+                                    idx = curr_prof_df[curr_prof_df["Name"] == s_name].index
+                                    if not idx.empty:
+                                        curr_prof_df.loc[idx, "Availability"] = avail_str
+                                        updated_count += 1
+                                except Exception as je:
+                                    st.error(f"Error parsing JSON for {s_name}: {je}")
                             
                             if updated_count > 0:
                                 curr_prof_df.to_csv(profiles_path, index=False, encoding="utf-8-sig")
-                                st.success(f"✅ Successfully synced availability for {updated_count} staff members for the week of {target_label}.")
+                                st.success(f"✅ Successfully synced availability for {updated_count} staff members for the week of {target_date_str}.")
                                 st.rerun()
                             else:
-                                st.info(f"No submissions found in the portal for {target_label} yet.")
+                                st.info(f"No submissions found for {target_date_str} yet.")
                         else:
-                            st.info(f"No submissions found for the week of {target_label}.")
+                            st.info(f"No submissions found in availability.db for {target_date_str}.")
                     except Exception as e:
                         st.error(f"Error syncing availability: {e}")
                 else:
-                    st.warning("No availability submissions found yet. Ask staff to use the portal link.")
+                    st.warning("No availability.db found yet. Ask staff to use the portal link.")
         else:
             st.error("Missing staff_profiles.csv")
 
@@ -3411,6 +3614,123 @@ with tab8:
         w_end = w_start + timedelta(days=6)
         st.markdown(f'<div style="background:rgba(245,166,35,0.1);border-radius:10px;padding:10px 15px;border:1px solid #f5a623;color:#f5a623;font-weight:700;font-size:14px;margin-top:10px;text-align:center">📅 {w_start.strftime("%d %b")} ➜ {w_end.strftime("%d %b %Y")}</div>', unsafe_allow_html=True)
         
+        # ── STAFF AVAILABILITY LIVE VIEW ──────────────────────────────────────
+        st.markdown("---")
+        st.markdown("**📱 Staff Availability Submissions**")
+
+        week_avail = get_staff_availability_for_week(w_start)
+
+        if not week_avail:
+            st.warning(
+                "⚠️ No availability submitted yet for this week. "
+                "Send staff the link to submit before generating rota."
+            )
+        else:
+            st.success(
+                f"✅ {len(week_avail)} staff submitted availability"
+            )
+            
+            days_list = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+            
+            # Get department mapping
+            staff_dept_map = {}
+            if engine.staff_df is not None:
+                staff_dept_map = engine.staff_df.set_index('Name')['Department'].to_dict()
+            else:
+                try:
+                    engine.load_staff()
+                    staff_dept_map = engine.staff_df.set_index('Name')['Department'].to_dict()
+                except: pass
+
+            avail_rows = []
+            for name, avail in week_avail.items():
+                dept = staff_dept_map.get(name, "—")
+                row = {"Name": name, "Dept": dept}
+                for day in days_list:
+                    status = avail.get(day, 'any')
+                    emoji = (
+                        "🟢" if status == 'any' else
+                        "💗" if status == 'opening' else
+                        "🔘" if status == 'closing' else
+                        "🔴"
+                    )
+                    row[day[:3]] = emoji
+                row["Notes"] = avail.get('_notes', '')
+                avail_rows.append(row)
+            
+            st.dataframe(
+                pd.DataFrame(avail_rows),
+                width="stretch",
+                hide_index=True
+            )
+
+        # Show shareable link
+        # Try to detect local IP for the link
+        import socket
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            local_ip = s.getsockname()[0]
+            s.close()
+        except:
+            local_ip = "localhost"
+            
+        avail_link = f"http://{local_ip}:5051/"
+
+        st.markdown(f"""
+        <div style="background:#1a1d26;border:1px solid #f5a623;
+        border-radius:10px;padding:15px;margin-top:10px">
+            <div style="color:#f5a623;font-weight:700;
+            margin-bottom:8px">
+                📱 Staff Availability Link
+            </div>
+            <div style="font-size:14px;color:#e8e9f0;
+            word-break:break-all">
+                {avail_link}
+            </div>
+            <div style="font-size:11px;color:#6b7094;margin-top:8px">
+                Send this link to staff on WhatsApp
+                by Thursday each week
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        with st.expander("🛠️ Manual Availability Manager", expanded=False):
+            st.markdown('<div style="color:#3ecf8e;font-weight:700;margin-bottom:12px">Override Staff Preferences</div>', unsafe_allow_html=True)
+            
+            staff_list = []
+            if engine.staff_df is not None:
+                staff_list = engine.staff_df['Name'].tolist()
+            else:
+                try:
+                    engine.load_staff()
+                    staff_list = engine.staff_df['Name'].tolist()
+                except:
+                    staff_list = []
+
+            sel_staff = st.selectbox("Select Staff Member", staff_list)
+            
+            m_avail = {}
+            days_full = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+            
+            # 2 columns of 4/3 to keep it compact
+            c_m1, c_m2 = st.columns(2)
+            for i, d in enumerate(days_full):
+                target_col = c_m1 if i < 4 else c_m2
+                with target_col:
+                    m_avail[d] = st.selectbox(f"{d}", ["any", "opening", "closing", "unavailable"], key=f"man_{d}")
+            
+            m_notes = st.text_input("Entry Notes", value="Manual Override", key="man_notes")
+            
+            if st.button("💾 Save Manual Availability", type="secondary"):
+                save_staff_availability(w_start, sel_staff, m_avail, m_notes)
+                st.success(f"Saved availability for {sel_staff}")
+                st.rerun()
+
+        st.markdown("---")
+        
         # 3. Check for Live Rota based on the SELECTED week
         folder_name = f"Rota week {w_start.strftime('%d %b')} - {w_end.strftime('%d %B %Y')}"
         rota_path = os.path.join(os.getcwd(), folder_name, "detailed_rota_with_shifts.csv")
@@ -3432,7 +3752,7 @@ with tab8:
                 st.stop()
             with st.spinner("Solving constraints..."):
                 engine.load_historical_hours(weeks_back=3)
-                new_rota = engine.generate_week(week_start=w_start)
+                new_rota = engine.generate_week(week_start=w_start, submitted_availability=week_avail)
                 st.session_state["active_rota"] = new_rota
                 st.session_state["active_rota_summary"] = engine.get_hours_summary()
                 st.session_state["active_rota_warnings"] = list(engine.warnings)
@@ -3451,7 +3771,8 @@ with tab8:
                 engine.load_historical_hours(weeks_back=3)
                 new_rota = engine.generate_week(
                     week_start=w_start,
-                    forecast_scaling=_fs
+                    forecast_scaling=_fs,
+                    submitted_availability=week_avail
                 )
                 st.session_state["active_rota"] = new_rota
                 st.session_state["active_rota_summary"] = engine.get_hours_summary()

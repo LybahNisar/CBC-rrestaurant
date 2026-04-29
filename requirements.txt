@@ -1,9 +1,3 @@
 streamlit
 pandas
-plotly
-python-dotenv
-openpyxl
-xlsxwriter
-pillow
-fpdf
-reportlab
+requests

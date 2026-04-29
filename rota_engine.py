@@ -212,6 +212,7 @@ class RotaEngine:
         self._last_finish      = {}   # name -> absolute hour of last finish (FIX-3)
         self._assignments      = []   # list of dicts → final rota rows
         self._date_map         = {}   # BUG-FIX-B: day_name -> date for current week
+        self.submitted_availability = {} # Part 3: Live responses from portal
 
         # BUG-FIX-E: always a list; use .append() everywhere
         self.errors   = []
@@ -429,6 +430,26 @@ class RotaEngine:
                 return False, f"Preference mismatch ({pref} vs {s_name_clean})"
 
         # ── 3. Availability ───────────────────────────────────────────────
+        day_str   = day_date.strftime("%A")
+
+        # Part 3 — Check submitted availability first (Live responses)
+        if self.submitted_availability and name in self.submitted_availability:
+            submitted = self.submitted_availability[name]
+            day_status = submitted.get(day_str, 'available')
+            
+            if day_status == 'unavailable':
+                return False, "Staff marked unavailable this week in portal"
+            
+            if day_status == 'opening':
+                # Only opening shifts allowed (before 4 PM)
+                if shift_start_time >= 16.0:
+                    return False, "Portal: Opening-only preference today (From 10am)"
+            
+            if day_status == 'closing':
+                # Only closing shifts allowed (from 4 PM)
+                if shift_start_time < 16.0:
+                    return False, "Portal: Closing-only preference today (From 4pm)"
+
         avail     = row["_avail_set"]
         # BUG-FIX-D: derive day_str from the date object (not an undefined variable)
         day_str   = day_date.strftime("%A")
@@ -745,11 +766,12 @@ class RotaEngine:
     # ─────────────────────────────────────────────────────────────────────────
 
     def generate_week(self,
-                      week_start: datetime = None,
-                      sby_pool: list = None,
-                      forecast_scaling: dict = None) -> pd.DataFrame:
+                      week_start: date = None,
+                      forecast_scaling: dict = None,
+                      submitted_availability: dict = None) -> pd.DataFrame:
 
         random.seed(42)
+        self.submitted_availability = submitted_availability or {}
 
         if week_start is None:
             today      = datetime.today()
@@ -765,6 +787,7 @@ class RotaEngine:
         self._last_finish   = {}
         self._assignments   = []
         self.warnings       = []
+        self.submitted_availability = submitted_availability or {}
 
         # BUG-FIX-B: build _date_map once and store it for use by
         # _fill_shift_excluding and any other method that receives a day string.
