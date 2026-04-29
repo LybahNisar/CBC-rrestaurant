@@ -76,24 +76,30 @@ def sync_from_portal(portal_base=None, portal_secret=None):
     
     # Use provided args or fall back to environment
     p_secret = portal_secret if portal_secret else os.environ.get("PORTAL_SECRET", "chocoberry2026")
-    p_base   = portal_base if portal_base else os.environ.get("PORTAL_URL", "http://localhost:5050").rstrip("/")
+    p_base   = portal_base if portal_base else "https://invoiceappcbc-ng5tjkfaikn8wwstgybptu.streamlit.app"
+    p_secret = portal_secret if portal_secret else "chocoberry2026"
     
-    p_api = f"{p_base}/api/pending"
-    m_api = f"{p_base}/api/mark_synced"
-
+    # Updated for Streamlit Query Param API
+    p_api = f"{p_base}/?api=sync&secret={p_secret}"
+    
     print("\n" + "=" * 50)
-    print("  CHOCOBERRY — Invoice Portal Sync")
+    print("  CHOCOBERRY — Cloud Invoice Sync")
     print(f"  Target: {p_base}")
     print("=" * 50)
 
-    # Fetch pending from portal
+    # Fetch from portal
     try:
-        req = urllib.request.Request(
-            p_api,
-            headers={"Authorization": f"Bearer {p_secret}"}
-        )
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            pending = json.loads(resp.read())
+        with urllib.request.urlopen(p_api) as response:
+            if response.getcode() != 200:
+                print(f"❌ Portal error: {response.getcode()}")
+                return False
+            raw_data = response.read().decode('utf-8')
+            # Handle potential streamlit wrapping
+            if "[" in raw_data:
+                json_str = raw_data[raw_data.find("["):raw_data.rfind("]")+1]
+                pending = json.loads(json_str)
+            else:
+                pending = []
     except Exception as e:
         print(f"\n  ERROR: Could not reach portal at {p_api}")
         print(f"  Make sure invoice_portal.py is running first.")

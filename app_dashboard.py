@@ -1799,6 +1799,41 @@ def generate_forecast_pdf(week_label, total_forecast, aov, day_data, boosts):
     buffer.seek(0)
     return buffer
 
+def sync_availability_from_cloud(sheet_url):
+    import requests
+    import pandas as pd
+    import json
+    import sqlite3
+    from datetime import datetime
+    
+    try:
+        # Convert sharing URL to direct CSV export URL
+        csv_url = sheet_url.replace('/edit?usp=sharing', '/export?format=csv')
+        csv_url = csv_url.split('/edit')[0] + '/export?format=csv'
+        
+        df = pd.read_csv(csv_url)
+        if df.empty: return False, "Google Sheet is empty."
+        
+        with sqlite3.connect("availability.db") as conn:
+            # Table should already exist from local portal, but ensure it does
+            conn.execute('''CREATE TABLE IF NOT EXISTS availability (
+                id INTEGER PRIMARY KEY, staff_name TEXT, week_start TEXT, 
+                availability TEXT, notes TEXT, submitted_at TEXT
+            )''')
+            
+            count = 0
+            for _, row in df.iterrows():
+                # INSERT OR REPLACE into local DB
+                conn.execute('''
+                    INSERT OR REPLACE INTO availability (staff_name, week_start, availability, notes, submitted_at)
+                    VALUES (?, ?, ?, ?, ?)
+                ''', (row['Name'], row['Week Start'], row['Availability'], row['Notes'], row['Timestamp']))
+                count += 1
+            conn.commit()
+        return True, f"Successfully synced {count} submissions from Google Sheets!"
+    except Exception as e:
+        return False, f"Sync Error: {e}"
+
 def _load():
     return load_data()
 
