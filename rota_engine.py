@@ -799,8 +799,12 @@ class RotaEngine:
         for issue in self._check_week_viability():
             self.warnings.append(issue)
 
-        departments = ["Kitchen", "Front"]
+        if not hasattr(self, 'shifts_df') or self.shifts_df is None:
+            raise ValueError("Shifts data not loaded. Call load_shifts() first.")
+        if not hasattr(self, 'staff_df') or self.staff_df is None:
+            raise ValueError("Staff data not loaded. Call load_staff() first.")
 
+        departments = ["Kitchen", "Front"]
         working_shifts_df = self.shifts_df.copy()
         working_shifts_df["Is_Quiet_Day"] = False
 
@@ -1090,11 +1094,17 @@ class RotaEngine:
     # ─────────────────────────────────────────────────────────────────────────
 
     def get_hours_summary(self) -> pd.DataFrame:
-        if self.staff_df is None or self.staff_df.empty:
+        if not hasattr(self, 'staff_df') or self.staff_df is None:
             return pd.DataFrame(columns=[
                 "Name", "Role", "Department", "Target Hrs",
                 "Scheduled Hrs", "Delta", "Status",
             ])
+        # Safe check for empty
+        try:
+            if self.staff_df.empty:
+                return pd.DataFrame(columns=["Name", "Role", "Department", "Target Hrs", "Scheduled Hrs", "Delta", "Status"])
+        except AttributeError:
+            return pd.DataFrame(columns=["Name", "Role", "Department", "Target Hrs", "Scheduled Hrs", "Delta", "Status"])
 
         rows = []
         for _, s in self.staff_df[self.staff_df["Active"]].iterrows():
