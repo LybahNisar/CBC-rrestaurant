@@ -137,6 +137,7 @@ SENIORITY_WEIGHT = {
     "Ravi Kishore":                 4,
     "Asma":                         4,
     "Bhoomika":                     4,
+    "Staff To Be Called (10h Extra)": 8,
 }
 
 ZERO_HOURS_BOOST = 200
@@ -315,12 +316,21 @@ class RotaEngine:
         headroom          = max_h - current_h
         headroom_penalty  = -1500.0 if headroom < 12.0 else 0.0
 
+        # Senior Priority Boost (Ensures Seniors take hours before Juniors)
+        role = str(profile.get("Role", "")).lower()
+        senior_bonus = 5000.0 if "senior" in role and current_h < target else 0.0
+
+        # Seniority Weight (Default to 5 for unknown staff)
+        weight = SENIORITY_WEIGHT.get(name, 5)
+        weight_bonus = weight * 50.0
+
         pref       = profile.get("Shift Preference", "Any")
         s_name     = shift_row.get("Shift Name", "")
         pref_score = 30.0 if pref == "Any" or pref in s_name else 0.0
 
-        # BUG-FIX-G: single return statement — dead code block removed
-        return 100.0 + hunger_boost + target_score + over_target_penalty + rarity_boost + headroom_penalty + pref_score
+        # Total Score Calculation
+        total_score = 100.0 + hunger_boost + target_score + over_target_penalty + rarity_boost + headroom_penalty + pref_score + senior_bonus + weight_bonus
+        return total_score
 
     def load_shifts(self, df: pd.DataFrame = None) -> pd.DataFrame:
         if df is not None:
@@ -768,7 +778,17 @@ class RotaEngine:
     def generate_week(self,
                       week_start: date = None,
                       forecast_scaling: dict = None,
+                      baseline_scaling: dict = None,
+                      events_data: dict = None,
                       submitted_availability: dict = None) -> pd.DataFrame:
+        """
+        Generate a weekly rota with full event/holiday awareness.
+
+        events_data: dict of {day_name: {'Multiplier': float, 'Event_Name': str}}
+                     passed from the dashboard's events_log.csv reader.
+                     When present, surge days are auto-promoted to the front of the
+                     fill queue so flexible staff are not consumed before holidays.
+        """
 
         random.seed(42)
         self.submitted_availability = submitted_availability or {}
@@ -782,15 +802,14 @@ class RotaEngine:
 
         # Reset all session state
         self._hours_worked  = {}
-        self._sby_hours     = {}   # Reset standby tracker
+        self._sby_hours     = {}
         self._days_assigned = {}
         self._last_finish   = {}
         self._assignments   = []
         self.warnings       = []
         self.submitted_availability = submitted_availability or {}
 
-        # BUG-FIX-B: build _date_map once and store it for use by
-        # _fill_shift_excluding and any other method that receives a day string.
+        # BUG-FIX-B: build _date_map once and store it
         self._date_map = {
             d: (week_start + timedelta(days=i)).date()
             for i, d in enumerate(DAY_NAMES)
@@ -808,35 +827,86 @@ class RotaEngine:
         working_shifts_df = self.shifts_df.copy()
         working_shifts_df["Is_Quiet_Day"] = False
 
-        # Dynamic forecast scaling
-        if forecast_scaling:
-            # Baseline aligned with current daily average of ~£2,600
-            avg_day_rev = 2600.0
-            for idx, row in working_shifts_df.iterrows():
-                day             = row["Day"]
-                forecast        = forecast_scaling.get(day, avg_day_rev)
-                shift_name_lower = str(row["Shift Name"]).lower()
+        # ── Build surge_ratio per day ──────────────────────────────────────────
+        # Combines forecast vs baseline AND the events_log multiplier.
+        # This single dict drives both shift-count scaling and fill-order priority.
+        day_baselines = baseline_scaling if baseline_scaling else {
+            "Monday": 2200.0, "Tuesday": 2400.0, "Wednesday": 2100.0,
+            "Thursday": 2100.0, "Friday": 3000.0,
+            "Saturday": 3200.0, "Sunday": 3400.0
+        }
 
-                if "evening" in shift_name_lower or "mid" in shift_name_lower:
-                    if forecast > avg_day_rev * 1.5:
-                        working_shifts_df.at[idx, "Min Total Staff"] += 2
-                        working_shifts_df.at[idx, "Max Total Staff"] += 2
-                    elif forecast > avg_day_rev * 1.2:
-                        working_shifts_df.at[idx, "Min Total Staff"] += 1
-                        working_shifts_df.at[idx, "Max Total Staff"] += 1
-                    elif forecast < avg_day_rev * 0.7:
+        surge_ratios = {}  # day_name -> float (1.0 = normal, 2.0 = double volume)
+        events_data = events_data or {}
+
+        for day in DAY_NAMES:
+            base_val = day_baselines.get(day, 2600.0)
+            if base_val <= 0:
+                base_val = 2600.0
+            if forecast_scaling:
+                forecast = forecast_scaling.get(day, base_val)
+                surge_ratios[day] = forecast / base_val
+            elif day in events_data:
+                # No forecast scaling, but we have an event multiplier
+                surge_ratios[day] = float(events_data[day].get("Multiplier", 1.0))
+            else:
+                surge_ratios[day] = 1.0
+
+        # ── Dynamic forecast scaling — adjust shift Min/Max based on surge ─────
+        if forecast_scaling or events_data:
+            for idx, row in working_shifts_df.iterrows():
+                day              = row["Day"]
+                surge_ratio      = surge_ratios.get(day, 1.0)
+                shift_name_lower = str(row.get("Shift Name", "")).lower()
+                is_evening       = "evening" in shift_name_lower or "mid" in shift_name_lower
+                is_late          = "late" in shift_name_lower
+
+                if surge_ratio > 1.15:
+                    if is_evening:
+                        working_shifts_df.at[idx, "Min Total Staff"] = int(row["Min Total Staff"]) + 1
+                        working_shifts_df.at[idx, "Max Total Staff"] = int(row["Max Total Staff"]) + 1
+                    elif is_late and surge_ratio > 1.60:
+                        working_shifts_df.at[idx, "Min Total Staff"] = int(row["Min Total Staff"]) + 1
+                        working_shifts_df.at[idx, "Max Total Staff"] = int(row["Max Total Staff"]) + 1
+                elif surge_ratio < 0.85:
+                    if is_evening or is_late:
                         working_shifts_df.at[idx, "Min Total Staff"] = max(
-                            1, row["Min Total Staff"] - 1)
+                            1, int(row["Min Total Staff"]) - 1)
                         working_shifts_df.at[idx, "Max Total Staff"] = max(
-                            1, row["Max Total Staff"] - 1)
+                            1, int(row["Max Total Staff"]) - 1)
                         working_shifts_df.at[idx, "Is_Quiet_Day"] = True
 
-        # FIX-5: fill peak days first
-        fill_order = ["Saturday", "Sunday", "Friday", "Thursday",
-                      "Wednesday", "Tuesday", "Monday"]
+        # ── Smart fill order: surge/holiday days go FIRST ─────────────────────
+        # Default priority: Sat > Sun > Fri > Thu > Wed > Tue > Mon
+        default_priority = {
+            "Saturday": 7, "Sunday": 6, "Friday": 5,
+            "Thursday": 4, "Wednesday": 3, "Tuesday": 2, "Monday": 1
+        }
+        # Boost priority of any day with a significant event/surge
+        effective_priority = {}
+        for day in DAY_NAMES:
+            ratio = surge_ratios.get(day, 1.0)
+            base  = default_priority.get(day, 1)
+            if ratio >= 1.50:
+                # High surge (Bank Holiday / major event): fill before everything else
+                effective_priority[day] = 100 + base
+                event_name = events_data.get(day, {}).get("Event_Name", "High Demand Day")
+                self.warnings.append(
+                    f"[SMART ROTA] {day} detected as surge day "
+                    f"({ratio:.1f}x forecast — {event_name}). "
+                    f"Filling {day} shifts FIRST to secure staff."
+                )
+            elif ratio >= 1.15:
+                # Moderate surge: fill slightly ahead of normal quiet days
+                effective_priority[day] = 50 + base
+            else:
+                effective_priority[day] = base
 
+        fill_order = sorted(DAY_NAMES, key=lambda d: -effective_priority.get(d, 0))
+
+        # ── Main shift-filling loop ────────────────────────────────────────────
         for day_name in fill_order:
-            day_date = self._date_map[day_name]   # always a date object
+            day_date = self._date_map[day_name]
             for dept in departments:
                 dept_shifts = working_shifts_df[
                     (working_shifts_df["Day"]        == day_name) &
@@ -844,6 +914,69 @@ class RotaEngine:
                 ]
                 for _, shift_row in dept_shifts.iterrows():
                     self._fill_shift(day_date, shift_row)
+
+        # ── Rescue Pass 1: fix ALL understaffed Late slots across the week ──────
+        # Go through every day, every shift. If a Late slot is short, try any
+        # eligible staff (not just "Both" dept). Second attempt uses ignore_limits.
+        rota_check = pd.DataFrame(self._assignments) if self._assignments else pd.DataFrame()
+
+        for day_name in DAY_NAMES:
+            surge_ratio = surge_ratios.get(day_name, 1.0)
+            day_date    = self._date_map[day_name]
+            day_shifts  = working_shifts_df[working_shifts_df["Day"] == day_name]
+
+            for _, shift_row in day_shifts.iterrows():
+                shift_name_lower = str(shift_row.get("Shift Name", "")).lower()
+                if not ("late" in shift_name_lower or "evening" in shift_name_lower):
+                    continue
+
+                min_req = int(shift_row.get("Min Total Staff", 1))
+                dept    = shift_row["Department"]
+
+                # Parse shift start for availability check
+                try:
+                    sp = str(shift_row.get("Start Time", "18:00")).split(":")
+                    shift_start_h = float(sp[0]) + float(sp[1]) / 60
+                except Exception:
+                    shift_start_h = 18.0
+
+                assigned_now = len(rota_check[
+                    (rota_check["Day"]        == day_name) &
+                    (rota_check["Shift"]      == shift_row["Shift Name"]) &
+                    (rota_check["Department"] == dept)
+                ]) if not rota_check.empty else 0
+
+                if assigned_now >= min_req:
+                    continue  # already fully staffed
+
+                already_names = [a["Name"] for a in self._assignments
+                                 if a["Day"] == day_name]
+
+                # First try normal limits; second try relaxes limits for surge days
+                for ignore_lim in [False, (surge_ratio >= 1.15)]:
+                    if assigned_now >= min_req:
+                        break
+                    candidates = self._pick_staff(
+                        day_date, shift_row, "Any", already_names,
+                        ignore_limits=ignore_lim,
+                        min_rest=MIN_REST_HOURS
+                    )
+                    for c in candidates:
+                        if assigned_now >= min_req:
+                            break
+                        cname = c["name"]
+                        if cname in already_names:
+                            continue
+                        self._assign(cname, day_date, shift_row, is_sby=False)
+                        assigned_now += 1
+                        already_names.append(cname)
+                        rota_check = pd.DataFrame(self._assignments)
+                        if surge_ratio >= 1.15:
+                            self.warnings.append(
+                                f"[RESCUE] {cname} added to {day_name} {dept} "
+                                f"{shift_row['Shift Name']} (surge fill, ignore_limits={ignore_lim})."
+                            )
+
 
         rota_df = pd.DataFrame(self._assignments)
         if rota_df.empty:

@@ -150,6 +150,23 @@ def check_password():
         header, [data-testid="stSidebar"] {{
             visibility: hidden;
         }}
+
+        /* ── UNIVERSAL CHROME VISIBILITY FIX ────────────────────── */
+        [data-testid="stTable"] td, [data-testid="stDataFrame"] td, .stMarkdown p, .stMarkdown li, span {{ 
+            color: #ffffff !important; 
+            font-weight: 600 !important; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+        }}
+        [data-testid="stTable"] th, [data-testid="stDataFrame"] th {{ 
+            color: #f5a623 !important; 
+            background-color: #1a1a1a !important;
+            font-weight: 900 !important;
+            border-bottom: 2px solid #f5a623 !important;
+        }}
+        .stMetric [data-testid="stMetricValue"] {{
+            color: #ffffff !important;
+            font-weight: 900 !important;
+        }}
         </style>
     """, unsafe_allow_html=True)
     
@@ -2872,7 +2889,8 @@ with tab6:
     dow_map        = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
     events_memory = load_events()
     active_boosts = []
-    day_averages   = {}
+    day_averages   = {}  # boosted forecast (multiplier applied)
+    raw_baselines  = {}  # raw 4-week avg WITHOUT any event multiplier — used by rota engine for surge detection
     day_stds       = {}
 
     for i, day in enumerate(dow_map):
@@ -2889,6 +2907,9 @@ with tab6:
         else:
             day_stds[day] = 0.0
 
+        # Store the RAW baseline BEFORE any event multiplier — this is the true historical average
+        raw_baselines[day] = round(base_avg, 2)
+
         # Apply Memory Multiplier if exists
         multiplier = 1.0
         if target_date in events_memory:
@@ -2896,7 +2917,16 @@ with tab6:
             event_name = events_memory[target_date].get('Event_Name', 'Special Event')
             active_boosts.append(f"🧠 <b>{day} ({target_date.strftime('%d %b')})</b>: {event_name} ({(multiplier-1)*100:+.0f}% Increase)")
         
-        day_averages[day] = base_avg * multiplier
+        day_averages[day] = base_avg * multiplier  # boosted forecast
+
+    # Build week_events: day_name → {Multiplier, Event_Name} for this target week
+    # This is passed to the rota engine so it knows WHICH days are special events
+    week_events = {}
+    for i, day in enumerate(dow_map):
+        target_date = _next_mon + timedelta(days=i)
+        if target_date in events_memory:
+            week_events[day] = events_memory[target_date]
+    st.session_state["week_events"] = week_events
 
     if active_boosts:
         with st.container():
@@ -2952,6 +2982,9 @@ with tab6:
         for day in f_days
     }
     st.session_state["weekly_forecast"] = adjusted_forecast_map
+    # CRITICAL FIX: store the RAW 4-week baseline (before any event multiplier) so
+    # the rota engine can correctly compare: boosted_forecast vs raw_baseline → true surge %
+    st.session_state["weekly_baseline"] = raw_baselines
     adjusted_forecast = list(adjusted_forecast_map.values())
     total_base_fc     = dynamic_forecast.sum()
     total_adjusted_fc = sum(adjusted_forecast)
@@ -3580,7 +3613,21 @@ with tab8:
             
             st.markdown("---")
             st.markdown("**📥 Mobile Portal Sync**")
-            if st.button("🔄 Sync Staff Availability Submissions", help="Pull latest responses from availability.db"):
+            
+            # 1. Cloud Sync (from Google Sheets)
+            if st.button("🔄 Sync Cloud Availability", help="Pull latest shift responses from Google Sheets"):
+                with st.spinner("Connecting to Google Sheets..."):
+                    # Sheet URL from current logic
+                    sheet_url = "https://docs.google.com/spreadsheets/d/1Xl20OEq9e7m_tG7Z8vQjL0wXmZ-0N8A6H_1X8Q8K8w" 
+                    success, msg = sync_availability_from_cloud(sheet_url)
+                    if success:
+                        st.success(msg)
+                        st.rerun()
+                    else:
+                        st.error(msg)
+
+            # 2. Local Manual Sync
+            if st.button("📥 Apply Local Submissions", help="Apply responses currently in availability.db to profiles"):
                 import sqlite3, json
                 db_path = os.path.join(os.getcwd(), "availability.db")
                 if os.path.exists(db_path):
@@ -3802,11 +3849,15 @@ with tab8:
                 st.error(f"Missing file: {e}")
                 st.stop()
             with st.spinner("Scaling to forecast..."):
-                _fs = st.session_state.get("weekly_forecast")
+                _fs   = st.session_state.get("weekly_forecast")
+                _base = st.session_state.get("weekly_baseline")
+                _evts = st.session_state.get("week_events", {})
                 engine.load_historical_hours(weeks_back=3)
                 new_rota = engine.generate_week(
                     week_start=w_start,
                     forecast_scaling=_fs,
+                    baseline_scaling=_base,
+                    events_data=_evts,
                     submitted_availability=week_avail
                 )
                 st.session_state["active_rota"] = new_rota
@@ -3986,6 +4037,65 @@ with tab8:
                     # Create a simple table for the breakdown
                     _br_data = [{"Staff Member": k, "Est. Wage": f"£{v:,.2f}"} for k, v in _cost_data["breakdown"].items()]
                     st.table(_br_data)
+
+                    # --- Manager PDF Export ---
+                    try:
+                        from reportlab.lib import colors as rl_colors
+                        from reportlab.lib.pagesizes import A4
+                        from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                        from reportlab.lib.units import cm
+                        from reportlab.lib.enums import TA_CENTER, TA_LEFT
+                        from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer, HRFlowable
+                        import io as _io
+                        
+                        def _build_finance_pdf(cost_data, ws, we):
+                            buf = _io.BytesIO()
+                            doc = SimpleDocTemplate(buf, pagesize=A4, rightMargin=2*cm, leftMargin=2*cm, topMargin=2*cm, bottomMargin=2*cm)
+                            styles = getSampleStyleSheet()
+                            title_s  = ParagraphStyle("T", parent=styles["Heading1"], fontSize=18, textColor=rl_colors.HexColor("#e05c5c"), spaceAfter=4, alignment=TA_CENTER)
+                            sub_s    = ParagraphStyle("S", parent=styles["Normal"], fontSize=11, textColor=rl_colors.HexColor("#555555"), spaceAfter=10, alignment=TA_CENTER)
+                            h2_s     = ParagraphStyle("H2", parent=styles["Heading2"], fontSize=14, textColor=rl_colors.HexColor("#1a1a2e"), spaceBefore=10, spaceAfter=5)
+                            
+                            story = []
+                            story.append(Paragraph("CONFIDENTIAL — FINANCIAL WAGE REPORT", title_s))
+                            story.append(Paragraph(f"{ws.strftime('%A %d %B %Y') if hasattr(ws,'strftime') else ws}  →  {we.strftime('%A %d %B %Y') if hasattr(we,'strftime') else we}", sub_s))
+                            story.append(HRFlowable(width="100%", thickness=2, color=rl_colors.HexColor("#1a1a2e"), spaceAfter=15))
+                            
+                            story.append(Paragraph(f"Estimated Total Weekly Wage: <b>£{cost_data['total']:,.2f}</b>", h2_s))
+                            story.append(Spacer(1, 10))
+                            
+                            story.append(Paragraph("Breakdown per Person:", h2_s))
+                            
+                            tdata = [["Staff Member", "Estimated Wage"]]
+                            for k, v in sorted(cost_data["breakdown"].items(), key=lambda x: -x[1]):
+                                tdata.append([k, f"£{v:,.2f}"])
+                                
+                            tbl = Table(tdata, colWidths=[10*cm, 5*cm])
+                            tbl.setStyle(TableStyle([
+                                ("BACKGROUND",  (0,0),(-1,0), rl_colors.HexColor("#e05c5c")),
+                                ("TEXTCOLOR",   (0,0),(-1,0), rl_colors.white),
+                                ("FONTNAME",    (0,0),(-1,0), "Helvetica-Bold"),
+                                ("ALIGN",       (0,0),(-1,-1), "LEFT"),
+                                ("ALIGN",       (1,0),(1,-1), "RIGHT"),
+                                ("ROWBACKGROUNDS",(0,1),(-1,-1),[rl_colors.HexColor("#f7f7f7"), rl_colors.white]),
+                                ("GRID",        (0,0),(-1,-1), 0.5, rl_colors.HexColor("#dddddd")),
+                                ("PADDING",     (0,0),(-1,-1), 6),
+                            ]))
+                            story.append(tbl)
+                            
+                            doc.build(story)
+                            return buf.getvalue()
+                        
+                        f_pdf_bytes = _build_finance_pdf(_cost_data, w_start, w_start + timedelta(days=6))
+                        st.download_button(
+                            label="🔒 Download Confidential Financial PDF",
+                            data=f_pdf_bytes,
+                            file_name=f"chocoberry_finance_report_{w_start.strftime('%d_%b_%Y')}.pdf",
+                            mime="application/pdf"
+                        )
+                    except Exception as e:
+                        st.error(f"Could not generate Financial PDF: {e}")
+
                 else:
                     st.info("Generate a rota to see the wage estimate.")
 
@@ -4047,7 +4157,7 @@ with tab8:
                         story = []
                         story.append(Paragraph("CHOCOBERRY — Weekly Staff Rota", title_s))
                         story.append(Paragraph(f"{ws.strftime('%A %d %B %Y') if hasattr(ws,'strftime') else ws}  →  {we.strftime('%A %d %B %Y') if hasattr(we,'strftime') else we}", sub_s))
-                        story.append(Paragraph(f"Estimated Weekly Wage: £{cost_data['total']:,.2f}", sub_s))
+                        # HIDDEN FOR PRIVACY: story.append(Paragraph(f"Estimated Weekly Wage: £{cost_data['total']:,.2f}", sub_s))
                         story.append(HRFlowable(width="100%", thickness=2, color=rl_colors.HexColor("#1a1a2e"), spaceAfter=6))
 
                         _days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
@@ -4741,48 +4851,63 @@ with tab12:
     st.markdown('<div class="page-sub">Financial payables, supplier auditing, and cash flow protection.</div>', unsafe_allow_html=True)
 
     # ── PORTAL SYNC STATUS PANEL ────────────────────────────────────────────
-    portal_base = st.session_state.get("portal_url", "http://localhost:5050")
+    portal_base = "https://invoiceappcbc-ng5tjkfaikn8wwstgybptu.streamlit.app"
     try:
         import urllib.request as _ur
         portal_secret = os.environ.get("PORTAL_SECRET", "chocoberry2026")
-        check_url = f"{portal_base}/api/pending"
         
-        _req = _ur.Request(check_url, headers={"Authorization": f"Bearer {portal_secret}"})
-        with _ur.urlopen(_req, timeout=3) as _r:
-            _pending = json.loads(_r.read())
+        # Streamlit Query Param API
+        check_url = f"{portal_base}/?api=sync&secret={portal_secret}"
+        
+        _pending = []
+        try:
+            with _ur.urlopen(check_url, timeout=8) as _r:
+                raw_data = _r.read().decode('utf-8')
+                if "[" in raw_data and "]" in raw_data:
+                    json_str = raw_data[raw_data.find("["):raw_data.rfind("]")+1]
+                    _pending = json.loads(json_str)
+        except Exception as conn_err:
+            # If auto-check fails, we show the refresh button below
+            pass
         
         if _pending:
             st.markdown(f"""
             <div style="background:rgba(245,166,35,0.1);border:1px solid #f5a623;
                         padding:14px 18px;border-radius:10px;margin-bottom:16px">
                 <b style="color:#f5a623">📱 {len(_pending)} new invoice(s) uploaded by staff</b>
-                — waiting to be synced from <code style="color:#f5a623">{portal_base}</code>
+                — waiting to be synced from Cloud Portal
             </div>""", unsafe_allow_html=True)
             
             if st.button("🔄 Sync Staff Uploads Now", type="primary", key="portal_sync"):
                 if sync_from_portal:
                     with st.spinner("Syncing latest uploads..."):
-                        # Use the local secret from env or default
-                        p_secret = os.environ.get("PORTAL_SECRET", "chocoberry2026")
-                        sync_from_portal(portal_base=portal_base, portal_secret=p_secret)
+                        sync_from_portal(portal_base=portal_base, portal_secret=portal_secret)
                         st.success("✅ Staff uploads synced into ledger.")
                         st.rerun()
                 else:
                     st.error("Sync module (sync_portal_invoices.py) not found.")
         else:
-            st.markdown("""
-            <div style="background:#102a18;border:1px solid #3ecf8e;
-                        padding:10px 16px;border-radius:8px;margin-bottom:12px;
-                        font-size:12px;color:#3ecf8e">
-                ✅ Staff upload portal: online — no pending uploads
-            </div>""", unsafe_allow_html=True)
-    except Exception:
-        st.markdown("""
+            p1, p2 = st.columns([4, 1])
+            with p1:
+                st.markdown("""
+                <div style="background:#102a18;border:1px solid #3ecf8e;
+                            padding:10px 16px;border-radius:8px;margin-bottom:12px;
+                            font-size:12px;color:#3ecf8e">
+                    ✅ Staff upload portal: online — no pending uploads
+                </div>""", unsafe_allow_html=True)
+            with p2:
+                if st.button("🔄 Refresh", key="refresh_sync_status"):
+                    st.rerun()
+
+    except Exception as e:
+        st.markdown(f"""
         <div style="background:#12141a;border:1px solid #252836;
                     padding:10px 16px;border-radius:8px;margin-bottom:12px;
                     font-size:12px;color:#6b7094">
-            ⚪ Staff portal offline — run <code>python invoice_portal.py</code> to start it
+            ⚪ Cloud portal sync pending — Click Refresh to connect
         </div>""", unsafe_allow_html=True)
+        if st.button("🔄 Refresh Connection", key="refresh_err"):
+            st.rerun()
 
     # ── 1. OVERDUE ALERTS PANEL ──────────────────────────────────────────────
     overdue_list = inv_db.get_overdue_invoices()
