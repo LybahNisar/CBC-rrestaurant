@@ -46,7 +46,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # --- Data Loading ---
-@st.cache_data
 def get_staff():
     try:
         df = pd.read_csv("staff_profiles.csv")
