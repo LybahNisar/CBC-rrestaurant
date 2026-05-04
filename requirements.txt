@@ -4,3 +4,4 @@ requests
 plotly
 openpyxl
 reportlab
+python-dotenv
