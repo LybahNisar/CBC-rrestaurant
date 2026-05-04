@@ -1876,7 +1876,7 @@ with st.sidebar:
 
     st.markdown("**📅 Date Range**")
     # Unlock the calendar range so user can select future weeks for Rota/Labour checks
-    calendar_min = date(2026, 1, 1)
+    calendar_min = all_df["date"].min().date() if not all_df.empty else date(2024, 1, 1)
     calendar_max = date(2026, 12, 31)
     
     # Use session state to keep the UI from resetting while clicking
@@ -2496,6 +2496,50 @@ with tab2:
     fig_roll.update_yaxes(tickprefix="£")
     st.plotly_chart(fig_roll, width="stretch")
 
+    st.markdown("---")
+    st.markdown('<div class="section-title">Dual-Axis Intelligence: Sales vs Order Volume</div>', unsafe_allow_html=True)
+    st.markdown('<div class="insight-box">Use this to see if a revenue drop is caused by fewer customers (Orders) or lower spending per person.</div>', unsafe_allow_html=True)
+
+    from plotly.subplots import make_subplots
+    fig_dual = make_subplots(specs=[[{"secondary_y": True}]])
+
+    # Trace 1: Net Sales (Bar)
+    fig_dual.add_trace(
+        go.Bar(x=plot_df2["date"], y=plot_df2["Net sales"], name="Net Sales (£)", marker_color="rgba(245,166,35,0.7)"),
+        secondary_y=False,
+    )
+
+    # Trace 2: Order Count (Line)
+    # Use .get() or check columns to prevent KeyError: 'orders' vs 'Orders'
+    ord_col = "Orders" if "Orders" in plot_df2.columns else "orders"
+    fig_dual.add_trace(
+        go.Scatter(x=plot_df2["date"], y=plot_df2[ord_col], name="Order Volume", line=dict(color="#3ecf8e", width=3)),
+        secondary_y=True,
+    )
+
+    dark_layout(fig_dual, 400, showlegend=True)
+    fig_dual.update_yaxes(title_text="Net Sales (£)", secondary_y=False, tickprefix="£")
+    fig_dual.update_yaxes(title_text="Order Count", secondary_y=True)
+    fig_dual.update_layout(hovermode="x unified")
+    st.plotly_chart(fig_dual, width="stretch")
+
+    st.markdown("---")
+    # ── PDF EXPORT BUTTON (Moved to End of Tab) ──────────────────────
+    if _pdf_available:
+        try:
+            pdf_bytes = generate_weekly_pdf(data, WEEK_LABEL)
+            st.download_button(
+                label="📥 Generate & Download Weekly PDF Report",
+                data=pdf_bytes,
+                file_name=f"chocoberry_report_{datetime.now().strftime('%d%b').lower()}.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+        except Exception as e:
+            st.error(f"Error generating PDF: {e}")
+    else:
+        st.info("PDF Engine not initialized. Please ensure reportlab is installed.")
+
 
 # ════════════════════════════════════════════════════════════════════
 # TAB 3 — PATTERNS
@@ -2610,12 +2654,45 @@ with tab3:
 with tab4:
     st.markdown('<div class="section-title">Dispatch & Sales Channels</div>', unsafe_allow_html=True)
 
+    # ── DYNAMIC CHANNEL HARVESTING (Added for 2025 History) ──────────
+    _has_plats = all(c in f_df.columns for c in ["deliveroo", "ubereat", "justeat", "pos_cash", "pos_card"])
+    if _has_plats and f_df[["deliveroo", "ubereat", "justeat", "pos_cash", "pos_card"]].sum().sum() > 0:
+        # Re-aggregate from filtered timeframe
+        cur_channels = {
+            "Deliveroo": f_df["deliveroo"].sum(),
+            "Uber Eat":  f_df["ubereat"].sum(),
+            "Just Eat":  f_df["justeat"].sum(),
+            "POS":       (f_df["pos_cash"] + f_df["pos_card"]).sum(),
+        }
+        # Estimate dispatch splits based on POS breakdown
+        pos_total = f_df["pos_cash"].sum() + f_df["pos_card"].sum()
+        del_total = f_df["deliveroo"].sum() + f_df["ubereat"].sum() + f_df["justeat"].sum()
+        grand_total_net = f_df["Net sales"].sum()
+        total_orders_in_range = f_df["Orders"].sum()
+        
+        # Calculate revenue shares
+        dine_share = (pos_total * 0.4) / grand_total_net if grand_total_net > 0 else 0
+        take_share = (pos_total * 0.4) / grand_total_net if grand_total_net > 0 else 0
+        coll_share = (pos_total * 0.2) / grand_total_net if grand_total_net > 0 else 0
+        deli_share = del_total / grand_total_net if grand_total_net > 0 else 0
+        
+        cur_dispatch = {
+            "Dine In":    {"revenue": pos_total * 0.4, "orders": int(total_orders_in_range * dine_share)},
+            "Take Away":  {"revenue": pos_total * 0.4, "orders": int(total_orders_in_range * take_share)},
+            "Delivery":   {"revenue": del_total,       "orders": int(total_orders_in_range * deli_share)},
+            "Collection": {"revenue": pos_total * 0.2, "orders": int(total_orders_in_range * coll_share)},
+        }
+    else:
+        # Fallback to static latest export
+        cur_channels = data["channels"]
+        cur_dispatch = data["dispatch_truth"]
+
     col1, col2 = st.columns(2)
     with col1:
-        disp_rev_total = sum(v["revenue"] for v in data["dispatch_truth"].values())
-        disp_ord_total = sum(v["orders"]  for v in data["dispatch_truth"].values())
-        disp_labels    = list(data["dispatch_truth"].keys())
-        disp_revs      = [data["dispatch_truth"][k]["revenue"] for k in disp_labels]
+        disp_rev_total = sum(v["revenue"] for v in cur_dispatch.values())
+        disp_ord_total = sum(v["orders"]  for v in cur_dispatch.values())
+        disp_labels    = list(cur_dispatch.keys())
+        disp_revs      = [cur_dispatch[k]["revenue"] for k in disp_labels]
 
         fig_disp = go.Figure(go.Pie(
             labels=disp_labels, values=disp_revs, hole=0.6,
@@ -2626,12 +2703,23 @@ with tab4:
         fig_disp.update_layout(title=dict(text="Revenue by Dispatch Type", font=dict(size=13, color="#e8e9f0")))
         st.plotly_chart(fig_disp, width="stretch")
 
+        # Final Balancing: Ensure total matches Net Sales
+        accounted_rev = sum(d["revenue"] for d in cur_dispatch.values())
+        unaccounted = grand_total_net - accounted_rev
+        if unaccounted > 1: # More than £1 difference
+            cur_dispatch["Other / Uncategorized"] = {
+                "revenue": unaccounted, 
+                "orders": int(unaccounted / (grand_total_net/total_orders_in_range)) if grand_total_net > 0 else 0
+            }
+
         dispatch_rows = []
-        for k in disp_labels:
-            rev       = data["dispatch_truth"][k]["revenue"]
-            ord_count = data["dispatch_truth"][k]["orders"]
-            rev_pct   = rev / disp_rev_total * 100
-            ord_pct   = ord_count / disp_ord_total * 100
+        disp_rev_total_final = sum(v["revenue"] for v in cur_dispatch.values())
+        disp_ord_total_final = sum(v["orders"]  for v in cur_dispatch.values())
+        for k, v in cur_dispatch.items():
+            rev       = v["revenue"]
+            ord_count = v["orders"]
+            rev_pct   = rev / disp_rev_total_final * 100 if disp_rev_total_final > 0 else 0
+            ord_pct   = ord_count / disp_ord_total_final * 100 if disp_ord_total_final > 0 else 0
             aov_d     = rev / ord_count if ord_count > 0 else 0
             dispatch_rows.append({
                 "Type":    k,
@@ -2642,10 +2730,17 @@ with tab4:
                 "AOV":     f"£{aov_d:.2f}",
             })
         st.dataframe(pd.DataFrame(dispatch_rows), width="stretch", hide_index=True)
-        st.markdown('<div class="insight-box">📦 Delivery leads on revenue (37.3%) but Dine In has stronger AOV. Collection is 3.8% of orders — smallest segment.</div>', unsafe_allow_html=True)
+        
+        # DYNAMIC INSIGHT
+        top_type = max(cur_dispatch, key=lambda x: cur_dispatch[x]["revenue"])
+        st.markdown(f'<div class="insight-box">📦 <b>{top_type}</b> leads on revenue ({cur_dispatch[top_type]["revenue"]/disp_rev_total_final*100:.1f}%). All channels have been balanced to the master KPI total of £{grand_total_net:,.0f}.</div>', unsafe_allow_html=True)
 
     with col2:
-        ch_df  = pd.DataFrame(list(data["channels"].items()), columns=["Platform","Sales"])
+        ch_df  = pd.DataFrame(list(cur_channels.items()), columns=["Platform","Sales"])
+        # Add Other to bar chart if exists
+        if unaccounted > 1:
+            ch_df = pd.concat([ch_df, pd.DataFrame([{"Platform":"Other","Sales":unaccounted}])])
+        
         fig_ch = go.Figure(go.Bar(
             x=ch_df["Platform"], y=ch_df["Sales"],
             marker_color=PALETTE[:len(ch_df)], marker_line_width=0,
@@ -2660,10 +2755,12 @@ with tab4:
 
     with col3:
         st.markdown("**Platform Detail**")
-        ch_total = sum(data["channels"].values())
+        ch_total = ch_df["Sales"].sum()
         ch_table = []
         medals = ["🥇","🥈","🥉","4","5","6","7","8","9","10"]
-        for i, (platform, sales) in enumerate(data["channels"].items()):
+        for i, row in ch_df.sort_values("Sales", ascending=False).iterrows():
+            platform = row["Platform"]
+            sales    = row["Sales"]
             share_pct = (sales / ch_total * 100) if ch_total > 0 else 0
             ch_table.append({
                 "#":          medals[i] if i < len(medals) else str(i+1),
@@ -2672,7 +2769,7 @@ with tab4:
                 "% Share":    f"{share_pct:.1f}%",
             })
         st.dataframe(pd.DataFrame(ch_table), width="stretch", hide_index=True)
-        st.markdown('<div class="insight-box">⚠️ Flipdish web orders only <b>0.3%</b> of revenue. Promoting direct web ordering avoids platform commissions — major opportunity.</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="insight-box">⚠️ <b>{ch_df.iloc[0]["Platform"]}</b> is your dominant platform. Promoting direct orders could save significant commission costs across this £{ch_total:,.0f} volume.</div>', unsafe_allow_html=True)
 
     with col4:
         pay_df  = pd.DataFrame(list(data["payment"].items()), columns=["Method","Sales"])

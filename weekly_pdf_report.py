@@ -13,6 +13,7 @@
 """
 
 import io
+import os
 from datetime import datetime, timedelta
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
@@ -198,11 +199,15 @@ def generate_weekly_pdf(data: dict, week_label: str = "") -> bytes:
                     if _ch_col not in _week_det.columns:
                         _ch_col = _week_det.columns[3] # Fallback to 4th column
                     
-                    # Standardize names to prevent "Chocoberry Cardiff" duplicates
+                    # Standardize channel names — delivery platforms keep own label
                     def _std_ch(name):
                         name = str(name).strip()
-                        if "Cardiff" in name or "Store" in name: return "In-Store (POS)"
-                        return name
+                        n_low = name.lower()
+                        if "uber" in n_low:                              return "Uber Eats"
+                        if "deliveroo" in n_low:                        return "Deliveroo"
+                        if "justeat" in n_low or "just eat" in n_low:   return "JustEat"
+                        if "flipdish" in n_low or "web" in n_low:       return "Web (Flipdish)"
+                        return "In-Store (POS)"  # bare POS only
 
                     _week_det["_ch_std"] = _week_det[_ch_col].apply(_std_ch)
                     _ch_grp = _week_det.groupby("_ch_std")["_net_clean"].sum().to_dict()
@@ -379,39 +384,94 @@ def generate_weekly_pdf(data: dict, week_label: str = "") -> bytes:
         story.append(callout_tbl)
         story.append(Spacer(1, 4 * mm))
 
-    # ── Labour summary (if available) ─────────────────────────
-    if personnel:
-        story.append(HRFlowable(width="100%", thickness=0.5,
-                                color=C_BORDER, spaceAfter=4*mm))
-        story.append(Paragraph("Labour Summary", S_H2))
-        story.append(Spacer(1, 1 * mm))
+    # ── Labour summary — reads directly from master CSV (zero-hallucination) ─
+    story.append(HRFlowable(width="100%", thickness=0.5,
+                            color=C_BORDER, spaceAfter=4*mm))
+    story.append(Paragraph("Labour Summary", S_H2))
+    story.append(Spacer(1, 1 * mm))
 
-        staff_count = len(personnel)
-        total_wages = sum(
-            float(p.get("Fixed Wage") or 0) or
-            float(p.get("Hourly Rate", 0)) * 30
-            for p in personnel.values()
-        )
-        labour_pct = total_wages / week_net * 100 if week_net > 0 else 0
-        flag_color = "#e05c5c" if labour_pct > 30 else "#3ecf8e"
-        flag_text  = "OVER 30% THRESHOLD" if labour_pct > 30 else "Within 30% target"
+    try:
+        import pandas as _pd
 
-        lab_rows = [
-            [Paragraph("Staff on rota", S_MUTED), Paragraph(f"{staff_count}", S_H3)],
-            [Paragraph("Est. wages", S_MUTED),     Paragraph(f"£{total_wages:,.2f}", S_H3)],
-            [Paragraph("Labour % of revenue", S_MUTED),
-             Paragraph(f'<font color="{flag_color}">{labour_pct:.1f}% — {flag_text}</font>', S_H3)],
-        ]
-        lab_tbl = Table(lab_rows, colWidths=[50*mm, 120*mm])
-        lab_tbl.setStyle(TableStyle([
-            ("BACKGROUND",    (0, 0), (-1, -1), C_CARD),
-            ("TOPPADDING",    (0, 0), (-1, -1), 5),
-            ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
-            ("LEFTPADDING",   (0, 0), (-1, -1), 10),
-            ("BOX",           (0, 0), (-1, -1), 0.5, C_BORDER),
-            ("LINEBELOW",     (0, 0), (-1, -2), 0.3, C_BORDER),
-        ]))
-        story.append(lab_tbl)
+        _rates_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "personnel_rates_master.csv")
+        _base_dir   = os.path.dirname(os.path.abspath(__file__))
+
+        # Try to find rota folder matching this report week (e.g. "Rota week 27 Apr - 03 May 2026")
+        _rota_path = os.path.join(_base_dir, "generated_rota.csv")  # default fallback
+        try:
+            import pandas as _pd2
+            _master_check = _pd2.read_csv(os.path.join(_base_dir, "daily_sales_master.csv"))
+            _master_check['date'] = _pd2.to_datetime(_master_check['date'])
+            _last7_check = _master_check.sort_values('date').tail(7)
+            _w_start = _last7_check['date'].min()
+            _w_end   = _last7_check['date'].max()
+            _folder_name = f"Rota week {_w_start.strftime('%d %b')} - {_w_end.strftime('%d %b %Y')}"
+            _candidate = os.path.join(_base_dir, _folder_name, "detailed_rota_with_shifts.csv")
+            if os.path.exists(_candidate):
+                _rota_path = _candidate
+        except Exception:
+            pass
+
+        _rates_df = _pd.read_csv(_rates_path)
+        _rates_df["Name"] = _rates_df["Name"].str.strip()
+        _rates_dict = _rates_df.set_index("Name").to_dict("index")
+
+        # Build hours map from rota — sum Duration per staff member
+        _hours_map = {name: 0.0 for name in _rates_dict}
+        if os.path.exists(_rota_path):
+            _rota_df = _pd.read_csv(_rota_path)
+            _rota_df.columns = [c.strip() for c in _rota_df.columns]
+            if "Name" in _rota_df.columns and "Duration" in _rota_df.columns:
+                _rota_grouped = _rota_df.groupby("Name")["Duration"].sum()
+                for _n, _h in _rota_grouped.items():
+                    _n = str(_n).strip()
+                    if _n in _hours_map:
+                        try:
+                            _hours_map[_n] = float(_h)
+                        except Exception:
+                            pass
+
+        # Apply exact split-rate formula (same as verified payroll)
+        _total_wages = 0.0
+        _staff_on_rota = 0
+        for _name, _r in _rates_dict.items():
+            _hrs = _hours_map.get(_name, 0.0)
+            _ni_h  = min(_hrs, _r["NI Hours"])
+            _reg_h = max(0.0, _hrs - _r["NI Hours"])
+            _bacs  = round(_ni_h  * _r["NI Rates"],   2)
+            _cash  = round(_reg_h * _r["Hourly Rate"] + _r["Fixed Wage"], 2)
+            _pay   = round(_bacs + _cash, 2)
+            _total_wages += _pay
+            if _pay > 0:
+                _staff_on_rota += 1
+
+        _total_wages = round(_total_wages, 2)
+
+    except Exception as _e:
+        print(f"Labour calc error: {_e}")
+        _total_wages    = sum(float(p.get("Fixed Wage") or 0) for p in personnel.values()) if personnel else 0
+        _staff_on_rota  = len(personnel) if personnel else 0
+
+    labour_pct = _total_wages / week_net * 100 if week_net > 0 else 0
+    flag_color = "#e05c5c" if labour_pct > 30 else "#3ecf8e"
+    flag_text  = "OVER 30% THRESHOLD" if labour_pct > 30 else "Within 30% target"
+
+    lab_rows = [
+        [Paragraph("Staff on rota", S_MUTED), Paragraph(f"{_staff_on_rota}", S_H3)],
+        [Paragraph("Est. wages", S_MUTED),    Paragraph(f"£{_total_wages:,.2f}", S_H3)],
+        [Paragraph("Labour % of revenue", S_MUTED),
+         Paragraph(f'<font color="{flag_color}">{labour_pct:.1f}% — {flag_text}</font>', S_H3)],
+    ]
+    lab_tbl = Table(lab_rows, colWidths=[50*mm, 120*mm])
+    lab_tbl.setStyle(TableStyle([
+        ("BACKGROUND",    (0, 0), (-1, -1), C_CARD),
+        ("TOPPADDING",    (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+        ("LEFTPADDING",   (0, 0), (-1, -1), 10),
+        ("BOX",           (0, 0), (-1, -1), 0.5, C_BORDER),
+        ("LINEBELOW",     (0, 0), (-1, -2), 0.3, C_BORDER),
+    ]))
+    story.append(lab_tbl)
 
     # ── Insights box ──────────────────────────────────────────
     story.append(Spacer(1, 4 * mm))

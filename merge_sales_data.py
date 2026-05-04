@@ -4,7 +4,7 @@ from datetime import datetime
 
 # Paths
 BASE_DIR = r"C:\Users\GEO\Desktop\CBC"
-NEW_DATA_DIR = os.path.join(BASE_DIR, "New_Sales_April")
+NEW_DATA_DIR = os.path.join(BASE_DIR, "0_UPLOAD_HERE")
 MASTER_SALES_FILE = os.path.join(BASE_DIR, "daily_sales_master.csv")
 MASTER_SUMMARY_DIR = os.path.join(BASE_DIR, "Sales Summary Data")
 
