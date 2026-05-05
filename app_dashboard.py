@@ -2999,9 +2999,24 @@ with tab6:
     for i, day in enumerate(dow_map):
         target_date = _next_mon + timedelta(days=i)
         
+        # HOLIDAY SMOOTHING LOGIC
+        bh_path = os.path.join(os.getcwd(), "bank_holidays.csv")
+        bank_holidays = set()
+        if os.path.exists(bh_path):
+            try:
+                bh_df = pd.read_csv(bh_path)
+                bank_holidays = set(pd.to_datetime(bh_df['Date']).dt.date)
+            except: pass
+
         # Base Calculation: 4-week rolling average
         day_hist = f_df[f_df["day"] == day].sort_values("date", ascending=False)
-        last_4   = day_hist.head(4)["Net sales"]
+        
+        # If target day is NOT a holiday, filter out past holidays from the average to keep it "Normal"
+        target_is_bh = target_date.date() in bank_holidays
+        if not target_is_bh:
+            day_hist = day_hist[~pd.to_datetime(day_hist["date"]).dt.date.isin(bank_holidays)]
+            
+        last_4 = day_hist.head(4)["Net sales"]
         
         base_avg = 0.0
         if not last_4.empty:
