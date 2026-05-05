@@ -2657,6 +2657,10 @@ with tab4:
     st.markdown('<div class="section-title">Dispatch & Sales Channels</div>', unsafe_allow_html=True)
 
     # ── DYNAMIC CHANNEL HARVESTING (Added for 2025 History) ──────────
+    # Initialize defaults to prevent NameError if no sales in range
+    grand_total_net = f_df["Net sales"].sum() if not f_df.empty else 0.0
+    total_orders_in_range = f_df["Orders"].sum() if not f_df.empty else 0
+
     _has_plats = all(c in f_df.columns for c in ["deliveroo", "ubereat", "justeat", "pos_cash", "pos_card"])
     if _has_plats and f_df[["deliveroo", "ubereat", "justeat", "pos_cash", "pos_card"]].sum().sum() > 0:
         # Re-aggregate from filtered timeframe
