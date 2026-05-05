@@ -3022,6 +3022,12 @@ with tab6:
         if not target_is_bh:
             day_hist = day_hist[~pd.to_datetime(day_hist["date"]).dt.date.isin(bank_holidays)]
             
+        # 🟢 DEEP BASELINE FALLBACK: If current filter is empty after smoothing, reach into MASTER history
+        if day_hist.empty:
+            day_hist = df_all[df_all["day"] == day].sort_values("date", ascending=False)
+            if not target_is_bh:
+                day_hist = day_hist[~pd.to_datetime(day_hist["date"]).dt.date.isin(bank_holidays)]
+
         last_4 = day_hist.head(4)["Net sales"]
         
         base_avg = 0.0
