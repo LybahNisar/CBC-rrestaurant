@@ -3736,7 +3736,7 @@ with tab8:
             if st.button("🔄 Sync Cloud Availability", help="Pull latest shift responses from Google Sheets"):
                 with st.spinner("Connecting to Google Sheets..."):
                     # Sheet URL from current logic
-                    sheet_url = "https://docs.google.com/spreadsheets/d/1Xl20OEq9e7m_tG7Z8vQjL0wXmZ-0N8A6H_1X8Q8K8w" 
+                    sheet_url = "https://docs.google.com/spreadsheets/d/1ZyQKNsNeVE1TmyvriX34JYZTRUvYIuHoJZJRiVLOMP0/edit?usp=sharing" 
                     success, msg = sync_availability_from_cloud(sheet_url)
                     if success:
                         st.success(msg)
