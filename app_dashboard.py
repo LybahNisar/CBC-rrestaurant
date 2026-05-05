@@ -3024,7 +3024,7 @@ with tab6:
             
         # 🟢 DEEP BASELINE FALLBACK: If current filter is empty after smoothing, reach into MASTER history
         if day_hist.empty:
-            day_hist = df_all[df_all["day"] == day].sort_values("date", ascending=False)
+            day_hist = all_df[all_df["day"] == day].sort_values("date", ascending=False)
             if not target_is_bh:
                 day_hist = day_hist[~pd.to_datetime(day_hist["date"]).dt.date.isin(bank_holidays)]
 
