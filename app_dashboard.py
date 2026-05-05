@@ -2710,12 +2710,18 @@ with tab4:
         st.plotly_chart(fig_disp, width="stretch")
 
         # Final Balancing: Ensure total matches Net Sales
+        # Defensive check for grand_total_net
+        try:
+            _target_val = grand_total_net
+        except NameError:
+            _target_val = 0.0
+
         accounted_rev = sum(d["revenue"] for d in cur_dispatch.values())
-        unaccounted = grand_total_net - accounted_rev
+        unaccounted = _target_val - accounted_rev
         if unaccounted > 1: # More than £1 difference
             cur_dispatch["Other / Uncategorized"] = {
                 "revenue": unaccounted, 
-                "orders": int(unaccounted / (grand_total_net/total_orders_in_range)) if grand_total_net > 0 else 0
+                "orders": int(unaccounted / (_target_val/total_orders_in_range)) if _target_val > 0 else 0
             }
 
         dispatch_rows = []
@@ -3012,7 +3018,7 @@ with tab6:
         day_hist = f_df[f_df["day"] == day].sort_values("date", ascending=False)
         
         # If target day is NOT a holiday, filter out past holidays from the average to keep it "Normal"
-        target_is_bh = target_date.date() in bank_holidays
+        target_is_bh = target_date in bank_holidays
         if not target_is_bh:
             day_hist = day_hist[~pd.to_datetime(day_hist["date"]).dt.date.isin(bank_holidays)]
             
