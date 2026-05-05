@@ -2276,7 +2276,8 @@ with tab1:
             top5["date"]      = top5["date"].dt.strftime("%d %b %Y")
             top5["Net sales"] = top5["Net sales"].apply(lambda x: f"£{x:,.0f}")
             top5.columns      = ["Date","Day","Net Sales","Orders"]
-            top5.insert(0, "#", ["🥇","🥈","🥉","4","5"])
+            medals = ["🥇","🥈","🥉","4","5"]
+            top5.insert(0, "#", medals[:len(top5)])
             st.dataframe(top5, width="stretch", hide_index=True)
             # Dynamic Peak Insight
             top_day_obj = day_table_df.nlargest(1, "Net sales").iloc[0]
@@ -2290,7 +2291,8 @@ with tab1:
             bot5["date"]      = bot5["date"].dt.strftime("%d %b %Y")
             bot5["Net sales"] = bot5["Net sales"].apply(lambda x: f"£{x:,.0f}")
             bot5.columns      = ["Date","Day","Net Sales","Orders"]
-            bot5.insert(0, "#", ["1","2","3","4","5"])
+            ranks = ["1","2","3","4","5"]
+            bot5.insert(0, "#", ranks[:len(bot5)])
             st.dataframe(bot5, width="stretch", hide_index=True)
             
             # Dynamic Slow Insight
