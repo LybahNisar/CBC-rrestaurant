@@ -3,6 +3,15 @@ import pandas as pd
 import sqlite3
 import os
 from datetime import datetime
+from supabase import create_client, Client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# --- SUPABASE CONFIG ---
+SUPABASE_URL = os.environ.get("WASTE_SUPABASE_URL", "https://hbdojsklhthrnvgyryzj.supabase.co")
+SUPABASE_KEY = os.environ.get("WASTE_SUPABASE_KEY", "sb_publishable_CW3An_aWaqw5wQ_KC_6kbg_U8qEJoNU")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="Chocoberry Staff Portal", page_icon="🍫")
@@ -18,6 +27,7 @@ st.markdown("""
 
 st.title("🍫 Chocoberry Kitchen Portal")
 st.markdown("### Log Kitchen Wastage")
+st.info("✨ This data is now permanently saved in the Cloud.")
 
 # --- DB CONNECTION ---
 def get_ingredients():
@@ -31,7 +41,6 @@ def get_ingredients():
 
 # --- WASTE FORM ---
 ingredients = get_ingredients()
-waste_path = "daily_waste_log.csv"
 
 with st.form("staff_waste_form", clear_on_submit=True):
     staff_name = st.text_input("Your Name", placeholder="e.g. Dhiraj, Sarah")
@@ -45,17 +54,48 @@ with st.form("staff_waste_form", clear_on_submit=True):
         if not staff_name:
             st.error("Please enter your name!")
         else:
-            new_data = pd.DataFrame([{
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "staff_name": staff_name,
-                "ingredient_name": item,
-                "quantity": qty,
-                "reason": reason
-            }])
-            # Append to CSV
-            new_data.to_csv(waste_path, mode='a', header=not os.path.exists(waste_path), index=False)
-            st.success(f"✅ Success! {qty} of {item} has been logged by {staff_name}.")
-            st.balloons()
+            try:
+                # Prepare data for Supabase
+                data = {
+                    "date": datetime.now().strftime("%Y-%m-%d"),
+                    "staff_name": staff_name,
+                    "ingredient_name": item,
+                    "quantity": qty,
+                    "reason": reason,
+                    "synced_to_main": False
+                }
+                
+                # Save to Supabase
+                response = supabase.table("waste_logs").insert(data).execute()
+                
+                st.success(f"✅ Success! {qty} of {item} has been logged by {staff_name}. It is safely in the Cloud.")
+                st.balloons()
+            except Exception as e:
+                st.error(f"❌ Error saving to cloud: {str(e)}")
 
 st.markdown("---")
-st.caption("Internal Chocoberry Staff System - V1.0")
+
+# --- HISTORY & BACKUP (Plan B) ---
+with st.expander("📂 View Waste History & Download CSV"):
+    try:
+        # Fetch data for preview
+        history_resp = supabase.table("waste_logs").select("*").order("created_at", desc=True).execute()
+        history_df = pd.DataFrame(history_resp.data)
+        
+        if not history_df.empty:
+            st.dataframe(history_df[["date", "staff_name", "ingredient_name", "quantity", "reason"]], width="stretch")
+            
+            # CSV Download Button
+            csv = history_df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 DOWNLOAD ALL WASTE LOGS AS CSV",
+                data=csv,
+                file_name=f"chocoberry_waste_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime='text/csv',
+            )
+        else:
+            st.write("No waste records found in history yet.")
+    except Exception as e:
+        st.write("Could not load history.")
+
+st.caption("Internal Chocoberry Staff System - V2.0 (Cloud Integrated)")
