@@ -1357,9 +1357,12 @@ def load_data(reference_date=None):
                 if not os.path.exists(p): continue
                 try:
                     raw_df = pd.read_csv(p)
+                    # CLEAN HEADERS: Remove spaces but keep case-resilience
+                    raw_df.columns = [str(c).strip() for c in raw_df.columns]
                     if "Order ID" not in raw_df.columns: continue
                     raw_df["date_dt"] = pd.to_datetime(raw_df["Order time"], errors="coerce")
                     raw_df = raw_df[raw_df["date_dt"].notna()]
+                    
                     for col in ["Net sales", "Revenue", "Refunds", "Tax on net sales"]:
                         if col in raw_df.columns: raw_df[col] = raw_df[col].apply(clean_currency)
                     all_orders_detail.append(raw_df)
@@ -1707,7 +1710,8 @@ def get_staff_availability_for_week(week_start_date):
                 WHERE week_start = ?
                 ORDER BY submitted_at DESC
             ''', (target_date_str,)).fetchall()
-        except:
+        except Exception as e:
+            st.error(f"❌ Database Query Error: {e}")
             return {}
     
     result = {}
@@ -1715,8 +1719,9 @@ def get_staff_availability_for_week(week_start_date):
         if name not in result:  # take latest submission per person
             try:
                 result[name] = json.loads(avail_json)
-                result[name]['_notes'] = notes
-            except: pass
+                result[name]['_notes'] = notes if notes else ""
+            except Exception as e:
+                st.warning(f"⚠️ Skipping entry for {name}: {e}")
     
     return result
 
@@ -1844,7 +1849,7 @@ def sync_availability_from_cloud(sheet_url):
                 conn.execute('''
                     INSERT OR REPLACE INTO availability (staff_name, week_start, availability, notes, submitted_at)
                     VALUES (?, ?, ?, ?, ?)
-                ''', (row['Name'], row['Week Start'], row['Availability'], row['Notes'], row['Timestamp']))
+                ''', (str(row['Name']).strip(), str(row['Week Start']).strip(), str(row['Availability']).strip(), str(row.get('Notes', '')), str(row['Timestamp'])))
                 count += 1
             conn.commit()
         return True, f"Successfully synced {count} submissions from Google Sheets!"
@@ -4391,7 +4396,7 @@ with tab9:
 
         inv_tabs = st.tabs([
             "📋 Stock Levels", "🍕 Recipe Cards", "📊 Profitability",
-            "⬇️ Auto-Deduct from Sales", "📦 Purchase Orders"
+            "⬇️ Stock Deductions", "📦 Purchase Orders"
         ])
 
         # ── Tab: Stock Levels ─────────────────────────────────────────────────
@@ -4559,16 +4564,26 @@ with tab9:
                     i["total_cogs"] = 0.0
 
                 # Load sales volume safely
-                sv_path = os.path.join(os.getcwd(), "Menu Item Report data", "Most sold items.csv")
+                sv_path = os.path.join(os.getcwd(), "Menu Item Report data", "Latest 30 Days", "most_sold_items.csv")
+                if not os.path.exists(sv_path):
+                    sv_path = os.path.join(os.getcwd(), "Menu Item Report data", "Most sold items.csv")
+                
                 volume_loaded = False
                 if os.path.exists(sv_path):
                     try:
                         sv_df = pd.read_csv(sv_path)
-                        # Find name and qty columns robustly
+                        # IMPROVED: Find name and qty columns (Ignore 'Unnamed' or index cols)
                         name_col = next(
-                            (c for c in sv_df.columns if any(x in c.lower() for x in ["item","name"])),
-                            sv_df.columns[0]
+                            (c for c in sv_df.columns if any(x in c.lower() for x in ["item","name"]) and "unnamed" not in c.lower()),
+                            None
                         )
+                        # If still not found, try the first column that isn't all numbers
+                        if not name_col:
+                            for c in sv_df.columns:
+                                if not sv_df[c].astype(str).str.isnumeric().all():
+                                    name_col = c
+                                    break
+                        
                         qty_col = next(
                             (c for c in sv_df.columns if any(x in c.lower() for x in ["sold","qty","quantity","count","orders","total"])),
                             None
@@ -4577,19 +4592,27 @@ with tab9:
                             # Clean and build lookup: lowercase stripped name -> int qty
                             vol_map = {}
                             for _, r in sv_df.iterrows():
-                                raw_name = str(r[name_col]).strip()
-                                raw_qty  = str(r[qty_col]).replace(",","").replace("£","").strip()
+                                raw_n = str(r[name_col]).strip().lower()
+                                raw_q = str(r[qty_col]).replace(",","").replace("£","").strip()
                                 try:
-                                    vol_map[raw_name.lower()] = int(float(raw_qty))
-                                except (ValueError, TypeError):
-                                    pass
+                                    vol_map[raw_n] = int(float(raw_q))
+                                except: pass
                             
                             # Merge by fuzzy lowercase match
+                            import difflib
                             matched = 0
                             for i in items_prof:
                                 key = str(i.get("flipdish_name","")).strip().lower()
                                 disp_key = str(i.get("menu_item","")).strip().lower()
+                                
                                 vol = vol_map.get(key) or vol_map.get(disp_key) or 0
+                                
+                                if vol == 0:
+                                    # TRY FUZZY MATCH
+                                    close = difflib.get_close_matches(key, vol_map.keys(), n=1, cutoff=0.75)
+                                    if close:
+                                        vol = vol_map[close[0]]
+                                
                                 i["volume"] = vol
                                 i["total_cogs"] = round(vol * i["ingredient_cost"], 2)
                                 if vol > 0:
@@ -4668,60 +4691,95 @@ with tab9:
                                        file_name="chocoberry_profitability.csv",
                                        mime="text/csv")
 
-        # ── Tab: Auto-Deduct from Sales ───────────────────────────────────────
+        # ── Tab: Stock Deductions ──────────────────────────────────────────
         with inv_tabs[3]:
-            st.markdown("**Auto-Deduct Ingredients from Flipdish Sales Data**")
-            st.markdown('<div class="insight-box">Upload the Flipdish <b>Menu Items Report</b> (CSV) and the engine will automatically deduct ingredient quantities from stock based on your recipe cards.</div>', unsafe_allow_html=True)
+            st.markdown("### ⬇️ Reconcile Stock Usage")
+            
+            deduction_mode = st.radio("Select Deduction Type", ["Sales Sync (Flipdish)", "Wastage & Spoilage Log"], horizontal=True)
+            
+            if deduction_mode == "Sales Sync (Flipdish)":
+                st.markdown("**1. Auto-Deduct Ingredients from Flipdish Sales**")
+                st.markdown('<div class="insight-box">Upload the Flipdish <b>Menu Items Report</b> (CSV) to deduct ingredient quantities from stock based on your recipes.</div>', unsafe_allow_html=True)
 
-            up_sales = st.file_uploader("Upload Flipdish Menu Items CSV",
-                                        type="csv", key="sales_deduct")
-            deduct_date = st.date_input("Sales Date", value=datetime.now().date())
+                up_sales = st.file_uploader("Upload Flipdish Menu Items CSV",
+                                            type="csv", key="sales_deduct")
+                deduct_date = st.date_input("Sales Date", value=datetime.now().date())
 
-            if up_sales:
-                import tempfile
-                with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="wb") as tmp:
-                    tmp.write(up_sales.read())
-                    tmp_path = tmp.name
+                if up_sales:
+                    import tempfile
+                    with tempfile.NamedTemporaryFile(suffix=".csv", delete=False, mode="wb") as tmp:
+                        tmp.write(up_sales.read())
+                        tmp_path = tmp.name
 
-                try:
-                    sales_raw = pd.read_csv(tmp_path)
-                    os.unlink(tmp_path)
+                    try:
+                        sales_raw = pd.read_csv(tmp_path)
+                        os.unlink(tmp_path)
+                        
+                        # Clean headers
+                        sales_raw.columns = [str(c).strip() for c in sales_raw.columns]
 
-                    name_col = next((c for c in sales_raw.columns
-                                     if any(x in c.lower() for x in ["item","name","product"])),
-                                    sales_raw.columns[0])
-                    qty_col  = next((c for c in sales_raw.columns
-                                     if any(x in c.lower() for x in ["sold","qty","quantity","count","orders"])),
-                                    sales_raw.columns[1] if len(sales_raw.columns) > 1 else sales_raw.columns[0])
+                        name_col = next((c for c in sales_raw.columns
+                                         if any(x in c.lower() for x in ["item","name","product"]) and "unnamed" not in c.lower()),
+                                        sales_raw.columns[0])
+                        qty_col  = next((c for c in sales_raw.columns
+                                         if any(x in c.lower() for x in ["sold","qty","quantity","count","orders"])),
+                                        sales_raw.columns[1] if len(sales_raw.columns) > 1 else sales_raw.columns[0])
 
-                    st.markdown(f"Detected: **item column** = `{name_col}`, **quantity column** = `{qty_col}`")
-                    st.dataframe(sales_raw[[name_col, qty_col]].head(10), hide_index=True)
-
-                    if st.button("▶ Run Auto-Deduction", type="primary"):
-                        sales_list = [
-                            {"item_name": str(row[name_col]), "units_sold": int(row[qty_col])}
-                            for _, row in sales_raw.iterrows()
-                            if pd.notna(row[qty_col]) and int(row[qty_col]) > 0
-                        ]
-                        result = eng.deduct_from_sales(sales_list,
-                                                       deduct_date.strftime("%Y-%m-%d"))
-
-                        st.success(f"✅ Processed {result['items_processed']} items. "
-                                   f"Total COGS: £{result['total_cogs']:,.2f}")
-
-                        if result["items_skipped"]:
-                            st.warning(f"Skipped {len(result['items_skipped'])} items "
-                                       f"(no recipe card or not in menu): "
-                                       f"{', '.join(result['items_skipped'][:5])}")
-
-                        st.markdown("**Stock levels have been updated. Check Stock Levels tab.**")
-                        st.rerun()
-
-                except Exception as e:
-                    st.error(f"Could not parse CSV: {e}")
-
+                        st.markdown(f"Detected: **item column** = `{name_col}`, **quantity column** = `{qty_col}`")
+                        
+                        if st.button("▶ Run Sales Deduction", type="primary"):
+                            sales_list = []
+                            for _, row in sales_raw.iterrows():
+                                try:
+                                    q = int(float(str(row[qty_col]).replace(",","")))
+                                    if q > 0:
+                                        sales_list.append({"item_name": str(row[name_col]), "units_sold": q})
+                                except: continue
+                                
+                            result = eng.deduct_from_sales(sales_list, deduct_date.strftime("%Y-%m-%d"))
+                            st.success(f"✅ Processed {result['items_processed']} items. COGS: £{result['total_cogs']:,.2f}")
+                            st.rerun()
+                    except Exception as e:
+                        st.error(f"Could not parse CSV: {e}")
+            
             else:
-                st.markdown('<div class="insight-box">💡 <b>How this works:</b> Flipdish exports a "Menu Items" report showing items sold per item. This engine maps each item name to your recipe card, multiplies by units sold, and deducts every ingredient from current stock automatically.</div>', unsafe_allow_html=True)
+                st.markdown("**2. Deduct Logged Kitchen Wastage**")
+                
+                # --- QUICK LOG FORM ---
+                with st.expander("➕ Log New Waste Item"):
+                    with st.form("waste_form"):
+                        w_ing = st.selectbox("Ingredient", [i['name'] for i in eng.get_ingredients()])
+                        w_qty = st.number_input("Quantity", min_value=0.1, step=0.1)
+                        w_rsn = st.text_input("Reason", placeholder="Dropped, Expired, etc.")
+                        if st.form_submit_button("Log Waste"):
+                            new_row = pd.DataFrame([{"date": datetime.now().strftime("%Y-%m-%d"), 
+                                                     "ingredient_name": w_ing, 
+                                                     "quantity": w_qty, 
+                                                     "reason": w_rsn}])
+                            new_row.to_csv(waste_path, mode='a', header=not os.path.exists(waste_path), index=False)
+                            st.success(f"Logged {w_qty} of {w_ing}")
+                            st.rerun()
+
+                waste_path = "daily_waste_log.csv"
+                if os.path.exists(waste_path):
+                    df_w = pd.read_csv(waste_path)
+                    if not df_w.empty:
+                        st.write("Below are the items recorded as waste. Click to deduct them from live inventory:")
+                        st.dataframe(df_w, use_container_width=True, hide_index=True)
+                        
+                        if st.button("🗑️ Deduct & Clear Waste Log", type="primary"):
+                            count = 0
+                            for _, row in df_w.iterrows():
+                                eng.update_stock(row['ingredient_name'], -float(row['quantity']), "WASTE")
+                                count += 1
+                            # Clear log
+                            pd.DataFrame(columns=df_w.columns).to_csv(waste_path, index=False)
+                            st.success(f"✅ Deducted {count} items from stock levels.")
+                            st.rerun()
+                    else:
+                        st.success("🎉 No pending wastage! All stock is accounted for.")
+                else:
+                    st.info("No wastage log found. Kitchen staff can record waste in 'daily_waste_log.csv'.")
 
         # ── Tab: Purchase Orders ──────────────────────────────────────────────
         with inv_tabs[4]:

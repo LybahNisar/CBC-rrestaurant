@@ -261,10 +261,10 @@ class RecipeEngine:
                     gp_pct = round(gp / price * 100, 1)
                     fc_pct = round(cost / price * 100, 1)
                     
-                    # SAFETY FILTER: CAP EXTREME OUTLIERS
-                    if cost > price * 10:
-                        gp_pct = -100.0
-                        fc_pct = 0.0
+                    # SAFETY FILTER: CAP EXTREME OUTLIERS (e.g. 12 bottles of sauce)
+                    if fc_pct > 80.0:
+                        fc_pct = 80.0 # Cap for average calculation
+                        gp_pct = 20.0
                 
                 result.append({
                     "menu_item":       item["display_name"],
@@ -349,13 +349,20 @@ class RecipeEngine:
 
         with self._conn() as conn:
             for sale in sales_data:
-                item_name  = str(sale.get("item_name", "")).strip()
+                # Handle the case where the first column is an index (empty or 'Unnamed')
+                item_name = str(sale.get("Item", sale.get("item_name", ""))).strip()
+                if not item_name or item_name.isdigit():
+                    # If it's a number, it's likely the index column. Try to get the next key.
+                    keys = list(sale.keys())
+                    if len(keys) > 1:
+                        item_name = str(sale.get(keys[1], "")).strip()
+
                 try:
-                    units_sold = int(float(sale.get("units_sold", 0)))
+                    units_sold = int(float(str(sale.get("Items sold", sale.get("items_sold", 0))).replace(',', '')))
                 except (ValueError, TypeError):
                     units_sold = 0
 
-                if not item_name or units_sold <= 0:
+                if not item_name or units_sold <= 0 or item_name.isdigit():
                     continue
 
                 # Look up menu item (exact then fuzzy)
@@ -480,10 +487,17 @@ class RecipeEngine:
         items   = self.calc_item_profitability()
 
         items_with_recipe  = [i for i in items if i["has_recipe"]]
-        avg_food_cost      = (
-            sum(i["food_cost_pct"] for i in items_with_recipe) /
-            len(items_with_recipe)
-            if items_with_recipe else 0.0
+        # FILTER OUTLIERS: Only average items between 5% and 80% food cost 
+        # (Anything over 80% is likely a bulk/unit error like the 12 bottles of sauce)
+        realistic_items = [i for i in items_with_recipe if 5.0 < i["food_cost_pct"] < 80.0]
+        
+        avg_food_cost = (
+            sum(i["food_cost_pct"] for i in realistic_items) /
+            len(realistic_items)
+            if realistic_items else (
+                sum(i["food_cost_pct"] for i in items_with_recipe) / len(items_with_recipe)
+                if items_with_recipe else 0.0
+            )
         )
 
         with self._conn() as conn:

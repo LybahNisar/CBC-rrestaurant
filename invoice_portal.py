@@ -201,6 +201,15 @@ def mark_synced():
         for id in ids: conn.execute("UPDATE portal_uploads SET synced_to_main = 1 WHERE id = ?", (id,))
     return jsonify({"success": True})
 
+@app.route("/api/all")
+def all_invoices():
+    auth = request.headers.get("Authorization", "")
+    if auth.replace("Bearer ", "") != PORTAL_SECRET: return jsonify([]), 401
+    with sqlite3.connect(DB_PATH) as conn:
+        rows = conn.execute("SELECT id, upload_date, staff_name, supplier, invoice_date, total_amount, category, invoice_number, notes, image_filename FROM portal_uploads").fetchall()
+    cols = ["id","upload_date","staff_name","supplier","invoice_date","total_amount","category","invoice_number","notes","image_filename"]
+    return jsonify([dict(zip(cols, r)) for r in rows])
+
 if __name__ == "__main__":
     from waitress import serve
     print("🚀 INVOICE PORTAL LIVE ON PORT 5050")
